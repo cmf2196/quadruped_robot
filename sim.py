@@ -291,6 +291,7 @@ if __name__ == '__main__':
     s = Simulator(urdf, start_pos, start_orientation)  # initialize Simulator object
     s.go_to_start()
     s.pass_time(300)
+
     # let the robot settle
     #s.jump()
     # s.pass_time(200)
