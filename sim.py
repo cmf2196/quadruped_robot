@@ -3,6 +3,8 @@ import pybullet as p
 import time
 import pybullet_data
 import numpy as np
+import matplotlib.pyplot as plt
+import statistics
 
 # _________________ Init environment
 
@@ -60,7 +62,7 @@ class Simulator():
             p.stepSimulation()
             time.sleep(1. / 240.)  # This is to make it more realistic - shouldn't use when training (I think)
         cube_pos, cube_orn = p.getBasePositionAndOrientation(self.r_id)
-        print(cube_pos, cube_orn)
+        #print(cube_pos, cube_orn)
 
     def move_joints(self, joint_locs, num_seconds):
         """
@@ -168,6 +170,9 @@ class Simulator():
             This runs a simulation of a sine wave
         """
 
+        # Array to record walking joint information
+        walk_data = []
+
         # array of sinusoid constants in form A*sin(wt+B)+C. Array is [[A1, B1, C1], [A2, B2, C2], ... ,[An, Bn, Cn]]
         parameters = []
 
@@ -193,22 +198,25 @@ class Simulator():
             parameters[x][0] = A_1
         for x in range(1, 12, 3):  # modifying every third motor of type 2
             parameters[x][0] = A_2
-            #if x == 1 or x == 4:
+            # if x == 1 or x == 4:
             #    parameters[x][1] = np.pi
         for x in range(2, 12, 3):  # modifying every third motor of type 3
             parameters[x][0] = A_3
 
         # showing parameters for debugging purposes
-        print(parameters)
+        #print(parameters)
 
         # initialize variables: A * sin(omega * t + phi)
 
         A = np.pi / 4.0  # amplitude
-        omega = 0.03  #.0628  # Angular Frequency: Consistent for all limbs ?
+        omega = 0.03  # .0628  # Angular Frequency: Consistent for all limbs ?
         phi = 0  # Phase: This is going to need to be adjusted for each motor
         phi1 = 3 * np.pi / 4.0
 
-        for t in range(5000):
+        # record velocity to find average velocity
+        base_velocity = []
+
+        for t in range(1000):
 
             for x in range(1, 12, 3):
                 p.setJointMotorControl2(bodyIndex=self.r_id, jointIndex=x, controlMode=p.POSITION_CONTROL,
@@ -233,23 +241,64 @@ class Simulator():
             p.setJointMotorControl2(bodyIndex=self.r_id, jointIndex=10, controlMode=p.POSITION_CONTROL,
                                     targetPosition=target2)'''
 
+            # record joint information
+            walk_data.append(p.getJointStates(self.r_id, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))
+            base_velocity.append(p.getBaseVelocity(self.r_id)[0][1])
+
+
             p.stepSimulation()
             time.sleep(1. / 240.)  # This is to make it more realistic - shouldn't use when training (I think)
+
+        print("The average linear velocity was: " + str(statistics.mean(base_velocity))+ " m/s")
+        return walk_data
+
+    def plot_motor_data(self, motor_id, data):
+        position = []
+        velocity = []
+        torque = []
+        t = []
+
+        for i in range(0, len(data)):
+            time_step_data = data[i][motor_id]
+            position.append(time_step_data[0])
+            velocity.append(time_step_data[1])
+            torque.append(time_step_data[3])
+            t.append(i)
+
+        plt.plot(t, position)
+        plt.xlabel("Time (ms)")
+        plt.ylabel("Position (rad)")
+        plt.title("Position for Motor " + str(motor_id)+ " vs. Time")
+        plt.show()
+        plt.plot(t, velocity)
+        plt.xlabel("Time (ms)")
+        plt.ylabel("Velocity (rad/s)")
+        plt.title("Velocity for Motor " + str(motor_id)+ " vs. Time")
+        plt.show()
+        plt.plot(t, torque)
+        plt.xlabel("Time (ms)")
+        plt.ylabel("Torque (N*m)")
+        plt.title("Torque for Motor " + str(motor_id)+ " vs. Time")
+        plt.show()
 
 
 if __name__ == '__main__':
     start_pos = [0, 0, .27]  # indicate starting position and orientation
     start_orientation = p.getQuaternionFromEuler([0, 0, 0])  # " "
     current_dir = os.getcwd()
-    urdf = current_dir + "\\URDF\\Ghost\\urdf\\Ghost.urdf"
+    urdf = current_dir + os.sep + os.path.join("URDF","Ghost","urdf","Ghost.urdf")#"\\URDF\\Ghost\\urdf\\Ghost.urdf"
     path = "Ghost/urdf/Ghost.urdf"  # indicate path to robot urdf file
     s = Simulator(urdf, start_pos, start_orientation)  # initialize Simulator object
     s.go_to_start()
     s.pass_time(300)
     # let the robot settle
     #s.jump()
-    #s.pass_time(200)
-    s.walk()
+    # s.pass_time(200)
+    s.pass_time(200)
+    walk_data = s.walk()
+    s.plot_motor_data(0,walk_data)
+    #print("The joint information is:")
+    #print(p.getJointStates(s.r_id, [1, 2, 3]))
 
     # Run a simulation
     p.disconnect
