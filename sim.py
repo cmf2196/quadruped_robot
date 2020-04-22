@@ -208,11 +208,11 @@ if __name__ == '__main__':
     start_pos = [0, 0, .27]  # indicate starting position and orientation
     start_orientation = p.getQuaternionFromEuler([0, 0, 0])  # " "
     current_dir = os.getcwd()
-    urdf = current_dir + "\\URDF\\Ghost\\urdf\\Ghost.urdf"
-    path = "Ghost/urdf/Ghost.urdf"  # indicate path to robot urdf file
+    urdf = current_dir + "/URDF/Ghost/urdf/Ghost.urdf"
+    print(urdf)
     s = Simulator(urdf, start_pos, start_orientation)  # initialize Simulator object
     s.go_to_start()
-    s.pass_time(1000)
+    s.pass_time(100)
     # let the robot settle
     s.jump()
 
