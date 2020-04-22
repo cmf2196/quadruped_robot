@@ -153,6 +153,13 @@ class Simulator():
         # coast
         self.pass_time(500)
 
+    ''' This is a primitive function for computing a target position for a joint based on the parameters for a sine
+    wave. Input is A,B,C,W,t, and output is a floating point number.
+    '''
+
+    def compute_target(self, A, B, C, W, t):
+        return A * np.sin(t * W + B) + C
+
     def walk(self):
         """
         Args:
@@ -161,44 +168,70 @@ class Simulator():
             This runs a simulation of a sine wave
         """
 
+        # array of sinusoid constants in form A*sin(wt+B)+C. Array is [[A1, B1, C1], [A2, B2, C2], ... ,[An, Bn, Cn]]
+        parameters = []
+
+        # Parameters for now are filled in by hand. Begin by creating array of 0's
+        for x in range(0, 12):
+            parameters.append([0, 0, 0])  # [A,B,C]
+
+        # Next I will adjust A for each group. I assume that all motors of same type have same amplitude. Therefore,
+        # there are three amplitudes:
+
+        A_1 = 0
+        A_2 = np.pi / 4.0  # just a guess, 90 deg is not a bad place to start
+        A_3 = 0  # np.pi / 4.0
+
+        # Next we need B values. I assume half will be 0 and half will be ~pi.
+
+        # Finally we need C values. For now I will assume these are all 0.
+
+        # So now let's modify the paramater list:
+
+        # Amplitudes:
+        for x in range(0, 12, 3):  # modifying every third motor of type 1
+            parameters[x][0] = A_1
+        for x in range(1, 12, 3):  # modifying every third motor of type 2
+            parameters[x][0] = A_2
+            #if x == 1 or x == 4:
+            #    parameters[x][1] = np.pi
+        for x in range(2, 12, 3):  # modifying every third motor of type 3
+            parameters[x][0] = A_3
+
+        # showing parameters for debugging purposes
+        print(parameters)
+
         # initialize variables: A * sin(omega * t + phi)
 
         A = np.pi / 4.0  # amplitude
-        omega = .0628  # Angular Frequency: Consistent for all limbs ?
+        omega = 0.03  #.0628  # Angular Frequency: Consistent for all limbs ?
         phi = 0  # Phase: This is going to need to be adjusted for each motor
         phi1 = 3 * np.pi / 4.0
 
-        for t in range(500):
-            target = A * np.sin(t * omega + phi)
+        for t in range(5000):
+
+            for x in range(1, 12, 3):
+                p.setJointMotorControl2(bodyIndex=self.r_id, jointIndex=x, controlMode=p.POSITION_CONTROL,
+                                        targetPosition=self.compute_target(parameters[x][0], parameters[x][1],
+                                                                           parameters[x][2], omega, t))
+
+            '''target = A * np.sin(t * omega + phi)
             target2 = -A * np.sin(t * omega + phi)
 
             target3 = A * np.sin(t * omega + phi1)
             target4 = -A * np.sin(t * omega + phi1)
 
-            p.setJointMotorControl2(bodyIndex=self.r_id,
-                                    jointIndex=4,
-                                    controlMode=p.POSITION_CONTROL,
+            p.setJointMotorControl2(bodyIndex=self.r_id, jointIndex=4, controlMode=p.POSITION_CONTROL,
                                     targetPosition=target)
 
-            # p.setJointMotorControl2(bodyIndex=self.r_id,
-            #                          jointIndex=5,
-            #                          controlMode=p.POSITION_CONTROL,
-            #                          targetPosition=target4 )
-
-            p.setJointMotorControl2(bodyIndex=self.r_id,
-                                    jointIndex=1,
-                                    controlMode=p.POSITION_CONTROL,
+            p.setJointMotorControl2(bodyIndex=self.r_id, jointIndex=1, controlMode=p.POSITION_CONTROL,
                                     targetPosition=target)
 
-            p.setJointMotorControl2(bodyIndex=self.r_id,
-                                    jointIndex=7,
-                                    controlMode=p.POSITION_CONTROL,
+            p.setJointMotorControl2(bodyIndex=self.r_id, jointIndex=7, controlMode=p.POSITION_CONTROL,
                                     targetPosition=target2)
 
-            p.setJointMotorControl2(bodyIndex=self.r_id,
-                                    jointIndex=10,
-                                    controlMode=p.POSITION_CONTROL,
-                                    targetPosition=target2)
+            p.setJointMotorControl2(bodyIndex=self.r_id, jointIndex=10, controlMode=p.POSITION_CONTROL,
+                                    targetPosition=target2)'''
 
             p.stepSimulation()
             time.sleep(1. / 240.)  # This is to make it more realistic - shouldn't use when training (I think)
@@ -212,9 +245,11 @@ if __name__ == '__main__':
     path = "Ghost/urdf/Ghost.urdf"  # indicate path to robot urdf file
     s = Simulator(urdf, start_pos, start_orientation)  # initialize Simulator object
     s.go_to_start()
-    s.pass_time(1000)
+    s.pass_time(300)
     # let the robot settle
-    s.jump()
+    #s.jump()
+    #s.pass_time(200)
+    s.walk()
 
     # Run a simulation
     p.disconnect
