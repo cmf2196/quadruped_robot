@@ -3,9 +3,7 @@ import numpy as np
 
 class evolutionary_algorithm():
 
-	def __init__(self , num_rows , num_cols , population_size  , robot):
-		self.num_rows = num_rows
-		self.num_cols = num_cols
+	def __init__(self ,  population_size  , robot):
 		self.population_size = population_size
 		self.robot = robot
 
@@ -57,8 +55,12 @@ class evolutionary_algorithm():
 			genome: a nxm numpy array
 		"""
 
-		row = np.random.randint(self.num_rows)			# get the indices for rows , columns
-		col = np.random.randint(self.num_cols)			#              "  "
+
+		num_rows = genome.shape[0]
+		num_cols = genome.shape[1]
+
+		row = np.random.randint(num_rows)			# get the indices for rows , columns
+		col = np.random.randint(num_cols)			#              "  "
 		adjustment = np.random.uniform(0.9 , 1.1)		# select random value to multiply element with
 		old_val = genome[row , col]						
 		genome[row , col] = genome[row , col] * adjustment			# perform multiplication
