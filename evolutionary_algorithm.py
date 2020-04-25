@@ -3,10 +3,11 @@ import numpy as np
 
 class evolutionary_algorithm():
 
-	def __init__(self , num_rows , num_cols , population_size):
+	def __init__(self , num_rows , num_cols , population_size ):
 		self.num_rows = num_rows
 		self.num_cols = num_cols
 		self.population_size = population_size
+
 
 
 	def partition(self , A , B , p , r):
@@ -98,11 +99,11 @@ class evolutionary_algorithm():
 
 
 
-	def run_algorithm(self):
+	def run_algorithm(self , robot ):
 		"""
 		This method will run the evolutionary algorithm itself
 		Args:
-			None
+			robot: This is the robot object to be used in the simulation - could be taken in as an arg for the class instead
 		Output:
 			This outputs two csv files. 
 			1. "ea_robot_genome.csv" represents the best performing genome
@@ -113,7 +114,7 @@ class evolutionary_algorithm():
 
 		# ______  Step1: Population generation _________
 		parent_size = self.population_size / 2
-		parents = self.make_population(parent_size)		# make the population of parents
+		parents = self.make_population(parent_size)		# make the population of parents - These are genomes
 
 		overall_fitness = np.zeros(evals + 1)		# learning curve array
 		ticker = 0									# keeps track of which robot eval we are on
@@ -135,13 +136,10 @@ class evolutionary_algorithm():
 		
 		for z in range(len(population_fitness)):				# update the population fitness array 
 			if population_fitness[z] ==0:						# only do this if there are zeros 
-				robot = population[z]														# select the robot
-				""" 
-
-								RUN SIMULATION HERE _ GET FITNESS
+				genome = population[z]														# select the robot
 				
-				"""
-				population_fitness[z] = calc_fitness(robot , sim)		# calc fitness and add to array 
+				robot.genome = genome 							# Set the robot's attribute to be the current genome
+				population_fitness[z] = robot.calc_fitness(genome , sim)    # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
 
 		for m in range(num_generations):			# perform the EA
 			print('generation: ' , m)
@@ -158,12 +156,9 @@ class evolutionary_algorithm():
 						ticker += 1												#Keep track of evaluation number
 					
 					mut_loc , old_val = self.mutate(genome)		# Mutation:  Keep track of mut location and previous vals
-					""" 
-
-									RUN SIMULATION HERE _ GET FITNESS
-
-					"""
-					fit_new = calc_fitness( genome , sim )			# get the robot's fintess
+					
+					robot.genome = genome 							# Set the robot's attribute to be the current genome
+					fit_new = robot.calc_fitness(genome , sim)      # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
 						
 					if fit_new > population_fitness[p]:				# if higher fitness then this robot's previous best : update
 						population_fitness[p]= fit_new				# 			....
@@ -179,7 +174,7 @@ class evolutionary_algorithm():
 					ticker +=1													# end of mutation, add one to robot evaluation ticker
 
 	# __________ Truncation Selection ____________
-			quick_sort( population_fitness , population )			# sort the population according to fitness rank ( sorts both population and population_fintess in tandem)
+			self.quick_sort( population_fitness , population )			# sort the population according to fitness rank ( sorts both population and population_fintess in tandem)
 
 			parents = population[: parent_size] 				# perform truncation selection (choose top half)
 			second_half = [0] * parent_size						# 	array of zeros
