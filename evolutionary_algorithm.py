@@ -3,11 +3,11 @@ import numpy as np
 
 class evolutionary_algorithm():
 
-	def __init__(self , num_rows , num_cols , population_size ):
+	def __init__(self , num_rows , num_cols , population_size  , robot):
 		self.num_rows = num_rows
 		self.num_cols = num_cols
 		self.population_size = population_size
-
+		self.robot = robot
 
 
 	def partition(self , A , B , p , r):
@@ -42,8 +42,12 @@ class evolutionary_algorithm():
 			num: The number of robot genomes in your desired population
 				+ Keeping this as an arg so we can build variable sized populations
 		"""
-		pop = [np.random.uniform(size = (self.num_rows , self.num_cols))] * num 	# list of random arrays, initialized between zero and 1
-		return pop
+
+
+		pop = []		 	# initialize an empty list
+		for i in range(num):
+			self.robot.make_genome()
+			pop += [robot.genome]
 		
 
 	def mutate(self , genome):
@@ -110,7 +114,7 @@ class evolutionary_algorithm():
 			2. "ea_learning.csv" is data for the algorithm's learning curve
 
 		"""
-
+		robot = self.robot
 
 		# ______  Step1: Population generation _________
 		parent_size = self.population_size / 2
