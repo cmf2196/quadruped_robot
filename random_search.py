@@ -29,7 +29,8 @@ class random_search():
             print('counter: ', i)
 
             robot.randomize_genome()                # build the robot's genome
-            fitness = simulator.calc_fitness()          # evaluate the robot's fitness
+            simulator.calc_fitness()                # evaluate the robot's fitness
+            fitness = robot.get_fitness()
 
             if fitness > best_fit:                  # if the fitness is better than current best
                 best_fit = fitness                  # update placeholders
