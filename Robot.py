@@ -6,11 +6,13 @@ This is a generic robot class that has a urdf, a set of parameters for control,
 and methods to change those fields
 '''
 
+import numpy as np 
 
 class Robot:
-    def __init__(self, urdf_path, parameters=()):
+    def __init__(self, urdf_path, parameters=() , genome = []):
         self.urdf_path = urdf_path
         self.parameters = parameters
+        self.genome = genome
         self.fitness = 0  # default value, determined in simulation later
 
     def get_urdf_path(self):
@@ -25,15 +27,58 @@ class Robot:
     def set_parameters(self, parameters):
         self.parameters = parameters
 
-    def mutate_parameters(self, n):
-        # Need a method to make a small change to the parameters
-        # In this case, based on some arbitrary number n
-        pass
+    def mutate_genome(self):
+        # this method makes a small random change to the genme (a list of lists)
+        # it will return the location of the mutation and the old value of the genome
+        
+        # pick location
+        index_1 = np.random.randint(len(self.genome))        
+        index_2 = np.random.randint(len(self.genome[0]))
 
-    def randomize_parameters(self):
+        # make mutation
+        old_val = self.genome[index_1][index_2]      
+        loc = [index_1 , index_2]     
+        mutation = np.random.uniform(0.9 , 1.1)
+        self.genome[index_1][index_2] = old_val * mutation          # update the genome
+
+        return loc , old_val          # important for negating a mutation
+
+
+    def randomize_genome(self):
         # Use random number generator (with some constraints) to create
         # random parameters
-        pass
+
+        # for now the starting position and joit limit are hardcoded: (This could be read in later )  
+        starting_pos = [0 , -1 * np.pi / (4.0) ,  -1 * np.pi / (2.0) , 0 , np.pi / (4.0), np.pi / (2.0), 0 ,  -1 * np.pi / (4.0),
+         -1 * np.pi / (2.0), 0 , np.pi / (4.0), np.pi / (2.0) ]
+        
+        limit_1 = (np.radians(-135) , np.radians(135) )      # Joint limits for first shoulder motor
+        limit_2 = (np.radians(-90) , np.radians(90) )        # joint limits for second shoulder motor
+        limit_3 = (np.radians(-135) , np.radians(135) )      # joint limits for the elbow motor
+
+        g = []                     
+        for i in range(12):        # build the genome
+           
+            viable = False
+            while viable == False:
+                # set the correct joint limits
+                if i % 3 == 0:
+                    lower = limit_1[0]
+                    upper = limit_1[1]
+                elif i % 3 == 1:
+                    lower = limit_2[0]
+                    upper = limit_2[1]
+                else:
+                    lower = limit_3[0]
+                    upper = limit_3[1]
+
+                c = np.random.uniform(lower , upper)  # get a c value within the joint limits
+                a = min(c - lower  , upper - c)  # get an A value according to the closets joint limit
+
+                if starting_pos[i] <= c + a and starting_pos[i] >= c - a : 
+                    g += [[a , c]]        # if the joint starting position is within the possible values
+                    viable = True       #
+        self.genome = g
 
     def get_fitness(self):
         return self.fitness
@@ -50,6 +95,13 @@ class Robot:
         self.parameters = robot.parameters
         self.fitness = robot.fitness
 
+def main():
 
+    r = Robot('path')
+    r.randomize_genome()
+    print(r.genome)
+    print(r.mutate_genome())
+    print(r.genome )
 
+main()
 
