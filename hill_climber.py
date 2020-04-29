@@ -24,7 +24,7 @@ class hill_climber():
 
 		"""
 		robot = self.robot 
-		simulator = self.robot
+		simulator = self.simulator
 		num_climb = self.num_iterations
 
 		hc_fit = np.zeros(num_climb)				# create an array to store the learning curve data
