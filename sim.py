@@ -5,13 +5,9 @@ import pybullet_data
 import numpy as np
 import matplotlib.pyplot as plt
 import statistics
+from Robot import Robot
 
-# _________________ Init environment
 
-physics_client = p.connect(p.GUI)
-p.setAdditionalSearchPath(pybullet_data.getDataPath())
-p.setGravity(0, 0, 0)
-planeID = p.loadURDF("plane.urdf")  # Floor
 
 
 # ________________ Robot Starting Location and Orientation
@@ -283,6 +279,13 @@ class Simulator():
 
 
 if __name__ == '__main__':
+    # _________________ Init environment
+
+    physics_client = p.connect(p.GUI)
+    p.setAdditionalSearchPath(pybullet_data.getDataPath())
+    p.setGravity(0, 0, 0)
+    planeID = p.loadURDF("plane.urdf")  # Floor
+
     start_pos = [0, 0, .27]  # indicate starting position and orientation
     start_orientation = p.getQuaternionFromEuler([0, 0, 0])  # " "
     current_dir = os.getcwd()

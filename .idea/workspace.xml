@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3855d399-21e2-4997-9478-e51646cf3f7a" name="Default Changelist" comment="" />
+    <list default="true" id="3855d399-21e2-4997-9478-e51646cf3f7a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Simulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulator.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +52,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Simulator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
+            <state relative-caret-position="228">
               <caret line="132" column="47" lean-forward="true" selection-start-line="132" selection-start-column="47" selection-end-line="132" selection-end-column="47" />
               <folding>
                 <element signature="e#0#98#0" expanded="true" />
@@ -290,7 +294,7 @@
       <updated>1587513278597</updated>
       <workItem from="1587513279771" duration="2410000" />
       <workItem from="1587521012996" duration="12879000" />
-      <workItem from="1587968443826" duration="28525000" />
+      <workItem from="1587968443826" duration="28124000" />
     </task>
     <task id="LOCAL-00001" summary="Added URDF folder and updated Ghost.urdf file to most recent version. Also added line that reads the current directory and locates the urdf locally so the code runs on all systems.">
       <created>1587520465076</created>
@@ -320,18 +324,11 @@
       <option name="project" value="LOCAL" />
       <updated>1588280008073</updated>
     </task>
-    <task id="LOCAL-00005" summary="Fixed random genome generation so that amplitudes were not fixed at&#10;maximum value. Parameters can now be computed from the genome. Walking &#10;now returns a fitness value. Hold mode was added to the robot.">
-      <created>1588318426207</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1588318426207</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43814000" />
+    <option name="totallyTimeSpent" value="43413000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -368,8 +365,7 @@
     <MESSAGE value="Made modifications to the gait. The robot now takes a list of 36 &#10;parameters to fully define the gait. I have also selected a hard coded &#10;set of parameters that make the robot move forward." />
     <MESSAGE value="Created a robot class that holds the urdf path, parameters, and a &#10;fitness." />
     <MESSAGE value="Updated Simulator class to work with robot class. Added reset feature to simulator, added mode attribute to robots." />
-    <MESSAGE value="Fixed random genome generation so that amplitudes were not fixed at&#10;maximum value. Parameters can now be computed from the genome. Walking &#10;now returns a fitness value. Hold mode was added to the robot." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed random genome generation so that amplitudes were not fixed at&#10;maximum value. Parameters can now be computed from the genome. Walking &#10;now returns a fitness value. Hold mode was added to the robot." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Simulator class to work with robot class. Added reset feature to simulator, added mode attribute to robots." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/quadruped_robot$Simulator.coverage" NAME="Simulator Coverage Results" MODIFIED="1588318221810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -445,7 +441,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Simulator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
+        <state relative-caret-position="228">
           <caret line="132" column="47" lean-forward="true" selection-start-line="132" selection-start-column="47" selection-end-line="132" selection-end-column="47" />
           <folding>
             <element signature="e#0#98#0" expanded="true" />
