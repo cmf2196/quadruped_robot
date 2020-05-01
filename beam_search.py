@@ -4,7 +4,6 @@ Connor Finn
 
 This Class will run the Beam Search algorithm. This is essentially // hill climber
 """
-
 import numpy as np 
 from Robot import Robot
 # TO DO - import the  simulator class
@@ -55,23 +54,23 @@ class Beam_Search():
 	        
 
 	def run_algorithm(self):
-
 		"""
 		* this function performs a parametric optimization beam search algorithm on a single robot.
 		* it will save the top performing robot, as well as learning curve 
-
 		"""
 		population_size = self.population_size
 		simulator = self.simulator
 		num_generations = self.num_generations
 
-		beam_fit = np.zeros(num_generations * self.population_size)				# create an array to store the learning curve data
-		best_genome = None 				# initialize the best array to keep track
-		best_fit = 0 					# place it as the first value in the learning curve array
+		# make placeholders
+		counter = 0		
+		best_genome = None 			
+		best_fit = 0 	
+		beam_fit = np.zeros(num_generations * self.population_size)			
+		current_population = self.make_population()		
+		current_population_fitness = [0] * self.population_size				
+				
 
-		current_population = self.make_population()
-		current_population_fitness = np.zeros(self.population_size)
-		counter = 0
 		for i in range(num_generations):		    	# perform mutations equal to num_Climb
 			population = current_population.copy()
 			population_fitness = current_population_fitness.copy()
@@ -85,15 +84,18 @@ class Beam_Search():
 
 				if fit_new > best_fit:			# update learning curve
 					best_fit = fit_new
-					best_genome = robot.genome
-				beam_fit[counter] = best_fit									# robot is rebuilt prior to fitness calculation each time
+					best_genome = robot.genome.copy()
+				beam_fit[counter] = best_fit
 				counter += 1
 			# concat the populations and population fitnesses
-
+			total_population = current_population + population
+			total_population_fitness = current_population_fitness + population_fitness
 			# sort the lists
-
+			self.quick_sort(total_population_fitness , total_population , 0 , len(total_population) - 1)
 			# keep the top half
-			
+			population = total_population[:self.population_size]
+			population_fitness = total_population_fitness[:self.population_size]
+		print(counter)
 		np.savetxt("beam_genome.csv", best_genome, delimiter=",")
 		np.savetxt("beam_learning.csv", beam_fit, delimiter=",")
 
@@ -107,7 +109,6 @@ class Simulator():
 
 if __name__ == '__main__':
     s = Simulator()
-    r = Robot('path_to_urdf' )
 
     alg = Beam_Search(100 , 10 , s)
     alg.run_algorithm()
