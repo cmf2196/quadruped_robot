@@ -8,9 +8,14 @@ and methods to change those fields
 
 import numpy as np
 import pybullet as p
+import math
 
 
 class Robot:
+    stand_position = [0, -1 * np.pi / (4.0), -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0), 0,
+                      -1 * np.pi / (4.0),
+                      -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0)]
+
     def __init__(self, urdf_path, start_pos=(0, 0, 1), start_rpy=(0, 0, 0), parameters=(), genome=(), num_joints=12):
         self.urdf_path = urdf_path
         self.start_pos = start_pos
@@ -21,7 +26,7 @@ class Robot:
         self.fitness = 0  # default value, determined in simulation later
         self.id = None  # if robot is loaded into pybullet simulation, this will be updated
         self.mode = "idle"  # possible modes: crouch, walk, jump, turn right, etc
-        self.target_position = self.start_pos  # array of n_joint floats
+        self.target_position = Robot.stand_position  # array of n_joint floats
 
         # temporary init feature, create valid parameters
         self.compute_temporary_walking_parameters()
@@ -90,6 +95,32 @@ class Robot:
         # uses genome to compute b values and inserts them into new array
         parameters = []
 
+        for i in range(0, len(self.genome)):
+            A, C = self.get_genome()[i]
+            N = Robot.stand_position[i]  # Using start position as reference position
+
+            try:
+                B1 = math.asin((N - C) / A)  # other value can be found mathamatically
+            except ValueError:
+                print("B could not be calculated")
+                print("A is: " + str(A))
+                print("C is: " + str(C))
+                print("N is: " + str(N))
+            # could pick the B randomly, but it is probably better to be deterministic...
+            if B1 > 0:
+                B2 = math.pi - B1
+            if B1 < 0:
+                B2 = 3 * math.pi - B1
+
+            if np.random.randint(0, 2):
+                B = B1
+            else:
+                B = B2
+
+            parameters.append([A, B1, C])  # choosing B1, could use random B instead
+
+        self.parameters = parameters
+
         # Equation: b = arcsin((N-C)/A)
 
         # process: loop through genome and insert b values using existing A and C values
@@ -124,11 +155,13 @@ class Robot:
         # the boolean value 'symmetric' is used to determine if we build half or all of the genome
 
         # for now the starting position and joit limit are hardcoded: (This could be read in later )  
-        starting_pos = [0, -1 * np.pi / (4.0), -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0), 0,
+        starting_pos = Robot.stand_position
+        '''[0, -1 * np.pi / (4.0), -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0), 0,
                         -1 * np.pi / (4.0),
-                        -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0)]
+                        -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0)]'''
 
-        limit_1 = (np.radians(-135), np.radians(135))  # Joint limits for first shoulder motor
+        # limit_1 = (np.radians(-135), np.radians(135))  # Joint limits for first shoulder motor
+        limit_1 = (np.radians(-10), np.radians(10))  # THIS IS A TEMPORARY LIMIT TO MAKE WALK EASIER
         limit_2 = (np.radians(-90), np.radians(90))  # joint limits for second shoulder motor
         limit_3 = (np.radians(-135), np.radians(135))  # joint limits for the elbow motor
 
@@ -150,7 +183,8 @@ class Robot:
                         upper = limit_3[1]
 
                     c = np.random.uniform(lower, upper)  # get a c value within the joint limits
-                    a = min(c - lower, upper - c)  # get an A value according to the closets joint limit
+                    a_max = min(c - lower, upper - c)  # get an A value according to the closets joint limit
+                    a = np.random.uniform(0, a_max)
 
                     if starting_pos[i] <= c + a and starting_pos[i] >= c - a:
                         g += [[a, c]]  # if the joint starting position is within the possible values
@@ -178,6 +212,7 @@ class Robot:
                     if starting_pos[i] <= c + a and starting_pos[i] >= c - a:
                         g += [[a, c]]  # if the joint starting position is within the possible values
                         viable = True
+                        g = g + g  # duplicated to copy genome to other half!!!
 
         self.genome = g
 
@@ -202,6 +237,13 @@ class Robot:
     def set_mode(self, mode):
         self.mode = mode
 
+        if mode == "hold":
+            states = p.getJointStates(self.id, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+            joint_pos = []
+            for state in states:
+                joint_pos.append(state[0])
+            self.target_position = joint_pos
+
     def get_target_position(self):
         return self.target_position
 
@@ -211,9 +253,7 @@ class Robot:
     # computes the target position for the robot based on the mode
     def compute_target_position(self, t):
         if self.get_mode() == "idle":
-            self.target_position = [0, -1 * np.pi / (4.0), -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0), 0,
-                                    -1 * np.pi / (4.0),
-                                    -1 * np.pi / (2.0), 0, np.pi / (4.0), np.pi / (2.0)]
+            self.target_position = Robot.stand_position
         elif self.get_mode() == "walk":
             # calculation based on parameters and time
             target = []
@@ -221,10 +261,13 @@ class Robot:
                 A = motor_params[0]
                 B = motor_params[1]
                 C = motor_params[2]
-                W = 0.03 # hard coded, will become a parameter later
-                motor_target = A* np.sin(t * W + B) + C
+                W = 0.01  # hard coded, will become a parameter later
+                motor_target = A * np.sin(t * W + B) + C
                 target.append(motor_target)
             self.target_position = target
+
+        elif self.get_mode() == "hold":
+            pass  # if hold, do not change the target position!
 
         else:
             print("Mode not recognized")
@@ -245,6 +288,6 @@ def main():
     print(r.genome)
     print(r.mutate_genome())
     print(r.genome)
+    print(r.compute_parameters_from_genome())
 
-
-main()
+# main()
