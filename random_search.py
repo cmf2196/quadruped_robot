@@ -33,7 +33,7 @@ class Random_Search():
         best_genome = None  # top performing genome place holder
 
         for i in range(num_search):  # do the random search
-            print('counter: ', i)
+ #           print('counter: ', i)
             robot.randomize_genome()  # build the robot's genome
             simulator.load_robot_parameters(robot.parameters, 0)
             robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness
@@ -45,10 +45,14 @@ class Random_Search():
 
             rs_fit[i] = best_fit  # add the best fit to the learning curve
 
-        print("Genome: " + str(best_genome))
-        print(best_fit)
-        np.savetxt("rs_genome.csv", best_genome, delimiter=",")
-        np.savetxt("rs_learning.csv", rs_fit, delimiter=",")
+ #       print("Genome: " + str(best_genome))
+ #       print(best_fit)
+        
+        if not os.path.exists('./data'):
+            os.mkdir('./data')
+
+        np.savetxt("data/rs_genome.csv", best_genome, delimiter=",")
+        np.savetxt("data/rs_learning.csv", rs_fit, delimiter=",")
 
 
 '''class Simulator():

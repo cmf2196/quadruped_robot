@@ -1,5 +1,14 @@
-import numpy as np 
+"""
+Connor Finn, Joshua Katz
+4/28/2020
+
+This Class will run the EA algorithm. 
+"""
+
+import numpy as np
 from Robot import Robot
+import os
+import Simulator
 
 class evolutionary_algorithm():
 
@@ -16,7 +25,7 @@ class evolutionary_algorithm():
 	    x = A[r]
 	    i = p - 1
 	    for j in range(p , r): 
-	        if A[j] <= x:
+	        if A[j] >= x:
 	            i += 1
 	            A[i] , A[j] = A[j] , A[i]
 	            B[i] , B[j] = B[j] , B[i]
@@ -34,14 +43,16 @@ class evolutionary_algorithm():
 	        self.quick_sort(A, B , q + 1, r)
 	        
 
-	def make_population(self , size):
+	def make_population(self , size ):
 		# this method makes a population of robots
 		# TO DO update the arguments for the robot object
 
 		num = size
 		pop = []
+		current_dir = os.getcwd()
+		urdf = current_dir + os.sep + os.path.join("URDF", "Ghost", "urdf", "Ghost.urdf")
 		for i in range(num):
-			r = Robot("path_to_urdf")
+			r = Robot(urdf, (0, 0, 0.4))
 			r.randomize_genome()
 			pop += [r]
 		return pop
@@ -101,7 +112,10 @@ class evolutionary_algorithm():
 		overall_fitness = np.zeros(evals )		# learning curve array
 		ticker = 0									# keeps track of which robot eval we are on
 		population_fitness = [0] * population_size 		# list used to keep track of the fitness of each robot in the population
-		
+		current_dir = os.getcwd()
+		urdf = current_dir + os.sep + os.path.join("URDF", "Ghost", "urdf", "Ghost.urdf")
+		simulated_robot = Robot(urdf, (0, 0, 0.4))
+		simulated_robot.set_id(sim.load_new_robot_urdf(simulated_robot))
 		# ______  Step2: Crossover _________
 
 		population = parents.copy() 							# make a shallow copy of the parents array
@@ -119,9 +133,9 @@ class evolutionary_algorithm():
 		
 		for j in range(parent_size):				# update the population fitness array 
 			robot = population[j]														# select the robot
-			sim.calc_fitness(robot)    # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
+			sim.load_robot_parameters(robot.parameters, 0)
+			robot.set_fitness(sim.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness			
 			population_fitness[j] = robot.get_fitness()
-			
 			overall_fitness[ticker] = population_fitness[j]			
 
 			if overall_fitness[ticker - 1] < population_fitness[j]:		# if the best overall robot thus far
@@ -134,8 +148,9 @@ class evolutionary_algorithm():
 #			print("fitness at start of generation " , population_fitness)
 			for z in range(parent_size , parent_size * 2):				# update the population fitness array 
 				robot = population[z]														# select the robot
-				sim.calc_fitness(robot)    # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
-				population_fitness[z] = robot.get_fitness()
+				sim.load_robot_parameters(robot.parameters, 0)
+				robot.set_fitness(sim.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness			
+				population_fitness[j] = robot.get_fitness()
 
 				if overall_fitness[ticker - 1] < population_fitness[z]:		# if the best overall robot thus far
 					overall_fitness[ticker] = population_fitness[z]			# add this as next value for the learning curve
@@ -146,17 +161,18 @@ class evolutionary_algorithm():
 
 	#		print(overall_fitness)
 	#		print("fitness pre mutation " , population_fitness)
-			print('generation: ' , m)
+	#		print('generation: ' , m)
 			# ______  Step3: Mutation _________
 
 			for j in range(num_mutations):
-				print('mut' , j)
+	#			print('mut' , j)
 				for p in range(population_size):					# mutate each robot in the population
 					robot = population[p]							#			....
 					
 					mut_loc , old_val = robot.mutate_genome()	# Mutation:  Keep track of mut location and previous vals
-					sim.calc_fitness(robot)				# get the fitness of the first robot
-					fit_new = robot.get_fitness()	
+					sim.load_robot_parameters(robot.parameters, 0)
+					robot.set_fitness(sim.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness
+					fit_new = robot.get_fitness()		
 							
 					if fit_new > population_fitness[p]:				# if higher fitness then this robot's previous best : update
 						population_fitness[p] = fit_new				# 			....
@@ -179,20 +195,22 @@ class evolutionary_algorithm():
 			population_fitness = population_fitness[: parent_size] + second_half		# keep first half (second half are zeros)
 
 	# __________ Complete algorithm ______________
-		a = population[0]					# extract the best performing robot
-		np.savetxt("ea_genome.csv", best_genome, delimiter=",")
-		np.savetxt("ea_learning.csv", overall_fitness, delimiter=",")
+		if not os.path.exists('./data'):
+			os.mkdir('./data')
+
+		np.savetxt("data/ea_genome.csv", best_genome, delimiter=",")
+		np.savetxt("data/ea_learning.csv", overall_fitness, delimiter=",")
 
 
-class Simulator():
-    # Place holder class: it returns a random fitness
-    # TO DO - import the actual simulator class
-    def calc_fitness(self, robot):
-        fit = np.random.uniform(0 , 10000)
-        robot.fitness = fit
+# class Simulator():
+#     # Place holder class: it returns a random fitness
+#     # TO DO - import the actual simulator class
+#     def calc_fitness(self, robot):
+#         fit = np.random.uniform(0 , 10000)
+#         robot.fitness = fit
 
 if __name__ == '__main__':
-	s = Simulator()
+	s = Simulator.Simulator(False)
 	EA = evolutionary_algorithm(population_size = 4 , simulator=s)
 	EA.run_algorithm(2 , 4)
 
