@@ -215,6 +215,7 @@ class Robot:
                         g = g + g  # duplicated to copy genome to other half!!!
 
         self.genome = g
+        self.compute_parameters_from_genome()
 
     def get_fitness(self):
         return self.fitness

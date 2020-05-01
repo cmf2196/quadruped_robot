@@ -1,3 +1,11 @@
+'''
+Joshua Katz
+5/1/20
+
+Updated Simulator Class
+'''
+
+
 import os  # we could use this to get the path to the urdf files if you want to put them elsewhere
 import pybullet as p
 import time
@@ -13,7 +21,7 @@ from Robot import Robot
 
 class Simulator:
 
-    def __init__(self):
+    def __init__(self, gui = True):
         """
         args:
             path: String - This is the path to the robot URDF on your local computer
@@ -28,9 +36,13 @@ class Simulator:
         self.gravity = (0, 0, -9.8)  # default gravity value
         self.current_time = 0
         self.TIME_STEP = 1
+        self.gui = gui
 
         # Start up protocol
-        physics_client = p.connect(p.GUI)
+        if self.gui:
+            physics_client = p.connect(p.GUI)
+        else:
+            physics_client = p.connect(p.DIRECT)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(self.gravity[0], self.gravity[1], self.gravity[2])
         planeID = p.loadURDF("plane.urdf")  # Floor
@@ -69,7 +81,7 @@ class Simulator:
         self.pass_time(walk_time)
         for robot in self.robots:
             rpy = p.getEulerFromQuaternion(p.getBasePositionAndOrientation(robot.id)[1])
-            print(rpy)
+            #print(rpy)
             dpos = p.getBasePositionAndOrientation(robot.id)[0][1]*(-1)
             upright = True
 
@@ -80,7 +92,7 @@ class Simulator:
 
             if not upright:
                 dpos -= 1 # decrease fitness if it falls over
-                print("Robot fell over!")
+                #print("Robot fell over!")
             fitness.append(dpos)
             robot.set_mode("hold")
         self.pass_time(500)
@@ -105,13 +117,14 @@ class Simulator:
                     p.setJointMotorControl2(bodyIndex=robot.id, jointIndex=x, controlMode=p.POSITION_CONTROL,
                                             targetPosition=robot.target_position[x])
             p.stepSimulation()
-            time.sleep(1. / 24000.)  # This is to make it more realistic - shouldn't use when training (I think)
+            if self.gui:
+                time.sleep(1. / 240.)  # Only sleep if gui is active
             self.current_time += self.TIME_STEP
 
 
 if __name__ == "__main__":
     print("Starting Simulation")
-    my_sim = Simulator()
+    my_sim = Simulator(True)
     current_dir = os.getcwd()
     urdf = current_dir + os.sep + os.path.join("URDF", "Ghost", "urdf", "Ghost.urdf")
     my_robot = Robot(urdf, (0, 0, 0.4))
