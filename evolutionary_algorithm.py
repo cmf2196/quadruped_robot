@@ -1,11 +1,12 @@
 import numpy as np 
-
+from Robot import Robot
 
 class evolutionary_algorithm():
 
-	def __init__(self ,  population_size  , robot):
+	def __init__(self , population_size  , simulator ):
 		self.population_size = population_size
-		self.robot = robot
+		self.simulator = simulator
+
 
 
 	def partition(self , A , B , p , r):
@@ -33,42 +34,19 @@ class evolutionary_algorithm():
 	        self.quick_sort(A, B , q + 1, r)
 	        
 
-	def make_population(self , num):
-		"""
-		This method builds a population of robot genomes
-		Args:
-			num: The number of robot genomes in your desired population
-				+ Keeping this as an arg so we can build variable sized populations
-		"""
+	def make_population(self , size):
+		# this method makes a population of robots
+		# TO DO update the arguments for the robot object
 
-
-		pop = []		 	# initialize an empty list
+		num = size
+		pop = []
 		for i in range(num):
-			self.robot.make_genome()
-			pop += [robot.genome]
-		
+			r = Robot("path_to_urdf")
+			r.randomize_genome()
+			pop += [r]
+		return pop
 
-	def mutate(self , genome):
-		"""
-		This makes a mutation (very small random change) The a single robot's genome
-		Arg:
-			genome: a nxm numpy array
-		"""
-
-
-		num_rows = genome.shape[0]
-		num_cols = genome.shape[1]
-
-		row = np.random.randint(num_rows)			# get the indices for rows , columns
-		col = np.random.randint(num_cols)			#              "  "
-		adjustment = np.random.uniform(0.9 , 1.1)		# select random value to multiply element with
-		old_val = genome[row , col]						
-		genome[row , col] = genome[row , col] * adjustment			# perform multiplication
-
-		return [row , col] , old_val 					# return location of mutation and old value
-														#  (In case we need to change back)
-
-	def do_crossover(self , genome1 , genome2):
+	def do_crossover(self , robot1 , robot2):
 		"""
 		This function performs a crossover between two robot genomes It will do so in a random direction
 		and make two random cuts.
@@ -78,34 +56,28 @@ class evolutionary_algorithm():
 			a new genome, which will be used for the child robot
 		"""	
 
-		dimension = np.random.randint(2)    # do we cut over the rows or cols
+		genome1 = robot1.genome
+		genome2 = robot2.genome
+		size = len(genome1)					
+		cut1 = np.random.randint(size)				# get both cuts, make sure they are different
+		cut2 = np.random.randint(size)				#           "  "
+		while cut1 == cut2:	
+			cut1 = np.random.randint(size)
+	
+		first = min(cut1 , cut2)							# get the smaller and larget cuts
+		second = max(cut1 , cut2)
+		new_genome = genome1[ :first ] + genome2[first : second ] + genome1[ second:]	# make new genome
+		
+		# build child robot here!
+		new_robot = Robot("path_to_urdf")
+		new_robot.genome = new_genome
 
-		if dimension == 0:										# if cutting on rows
-			cut1 = np.random.randint(self.num_rows)				# get both cuts, make sure they are different
-			cut2 = np.random.randint(self.num_rows)				#           "  "
-			while cut1 == cut2:	
-				cut1 = np.random.randint(self.num_rows)
-			first = min(cut1 , cut2)							# get the smaller and larget cuts
-			second = max(cut1 , cut2)
-			new_genome = np.vstack((genome1[ :first , :] , genome2[first : second , :] , genome1[ second: , :]))	# make new genome
-			
-		else:													# if cutting on columns
-			cut1 = np.random.randint(self.num_cols)				# get both cuts, make sure they are different
-			cut2 = np.random.randint(self.num_cols)
-			while cut1 == cut2:	
-				cut1 = np.random.randint(self.num_cols)
-			
-			first = min(cut1 , cut2)							# get the smaller and larget cuts
-			second = max(cut1 , cut2)
-			new_genome = np.hstack((genome1[:, :first] , genome2[:, first : second] , genome1[: , second :]))	# make new genome
-			
-
-		return new_genome					# return the child genome
+		return new_robot					# return the child robot
 
 
 
 
-	def run_algorithm(self , robot ):
+	def run_algorithm(self , num_mutations , num_generations ):
 		"""
 		This method will run the evolutionary algorithm itself
 		Args:
@@ -116,19 +88,24 @@ class evolutionary_algorithm():
 			2. "ea_learning.csv" is data for the algorithm's learning curve
 
 		"""
-		robot = self.robot
 
 		# ______  Step1: Population generation _________
-		parent_size = self.population_size / 2
-		parents = self.make_population(parent_size)		# make the population of parents - These are genomes
 
-		overall_fitness = np.zeros(evals + 1)		# learning curve array
+
+		population_size = self.population_size
+		sim = self.simulator
+		parent_size = int(population_size / 2 ) 
+		evals = parent_size * (num_generations + 1) + population_size * num_mutations * num_generations
+		parents = self.make_population(parent_size)		# make the population of parents 
+		best_genome = None
+		overall_fitness = np.zeros(evals )		# learning curve array
 		ticker = 0									# keeps track of which robot eval we are on
 		population_fitness = [0] * population_size 		# list used to keep track of the fitness of each robot in the population
 		
 		# ______  Step2: Crossover _________
+
 		population = parents.copy() 							# make a shallow copy of the parents array
-		for k in range(parent_size):							# select 2 random parents
+		for i in range(parent_size):							# select 2 random parents
 			p1 = np.random.randint(population_size/2)			#		....
 			p2 = np.random.randint(population_size/2)			#		....
 											
@@ -137,62 +114,85 @@ class evolutionary_algorithm():
 			
 			pr1 = parents[p1]									# perform a 2 cut crossover
 			pr2 = parents[p2]									# 		....
-			c = crossover(pr1 , pr2)							# 		....
+			c = self.do_crossover(pr1 , pr2)							# 		....
 			population = population + [c]						# add the child robot genomes to the population
 		
-		for z in range(len(population_fitness)):				# update the population fitness array 
-			if population_fitness[z] ==0:						# only do this if there are zeros 
-				genome = population[z]														# select the robot
-				
-				robot.genome = genome 							# Set the robot's attribute to be the current genome
-				population_fitness[z] = robot.calc_fitness(genome , sim)    # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
+		for j in range(parent_size):				# update the population fitness array 
+			robot = population[j]														# select the robot
+			sim.calc_fitness(robot)    # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
+			population_fitness[j] = robot.get_fitness()
+			
+			overall_fitness[ticker] = population_fitness[j]			
+
+			if overall_fitness[ticker - 1] < population_fitness[j]:		# if the best overall robot thus far
+				best_genome = robot.genome.copy()					# update the best robot's genome
+
+			ticker +=1	
+
 
 		for m in range(num_generations):			# perform the EA
+#			print("fitness at start of generation " , population_fitness)
+			for z in range(parent_size , parent_size * 2):				# update the population fitness array 
+				robot = population[z]														# select the robot
+				sim.calc_fitness(robot)    # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
+				population_fitness[z] = robot.get_fitness()
+
+				if overall_fitness[ticker - 1] < population_fitness[z]:		# if the best overall robot thus far
+					overall_fitness[ticker] = population_fitness[z]			# add this as next value for the learning curve
+					best_genome = robot.genome.copy()					# update the best robot's genome
+				else:														# if lower, push the previous best score forward in learning curve
+					overall_fitness[ticker] = overall_fitness[ticker - 1]
+				ticker +=1	
+
+	#		print(overall_fitness)
+	#		print("fitness pre mutation " , population_fitness)
 			print('generation: ' , m)
 			# ______  Step3: Mutation _________
 
-			
 			for j in range(num_mutations):
 				print('mut' , j)
 				for p in range(population_size):					# mutate each robot in the population
-					genome = population[p]							#			....
-
-					if ticker == 0:									# if this is the first evaluation, add fitness as first element to learning curve array
-						overall_fitness[ticker] = population_fitness[p]			#			....
-						ticker += 1												#Keep track of evaluation number
+					robot = population[p]							#			....
 					
-					mut_loc , old_val = self.mutate(genome)		# Mutation:  Keep track of mut location and previous vals
-					
-					robot.genome = genome 							# Set the robot's attribute to be the current genome
-					fit_new = robot.calc_fitness(genome , sim)      # THIS METHOD MAY NEED TO BE CHANGED - this should run the simulation
-						
+					mut_loc , old_val = robot.mutate_genome()	# Mutation:  Keep track of mut location and previous vals
+					sim.calc_fitness(robot)				# get the fitness of the first robot
+					fit_new = robot.get_fitness()	
+							
 					if fit_new > population_fitness[p]:				# if higher fitness then this robot's previous best : update
-						population_fitness[p]= fit_new				# 			....
+						population_fitness[p] = fit_new				# 			....
 						
 					else:
-						genome[mut_loc[0] , mut_loc[1]] = old_val			# if lower, revert the genome to it's previous state
+						robot.genome[mut_loc[0]][mut_loc[1]] = old_val	# if lower, revert the genome to it's previous state
 					
 					if overall_fitness[ticker - 1] < population_fitness[p]:		# if the best overall robot thus far
 						overall_fitness[ticker] = population_fitness[p]			# add this as next value for the learning curve
-						best_array = np.copy(genome)						# update the best robot's genome
+						best_genome = robot.genome.copy()							# update the best robot's genome
 					else:														# if lower, push the previous best score forward in learning curve
 						overall_fitness[ticker] = overall_fitness[ticker - 1]
 					ticker +=1													# end of mutation, add one to robot evaluation ticker
 
 	# __________ Truncation Selection ____________
-			self.quick_sort( population_fitness , population )			# sort the population according to fitness rank ( sorts both population and population_fintess in tandem)
+			self.quick_sort( population_fitness , population  , 0 , len(population_fitness) - 1)	# sort the population according to fitness rank ( sorts both population and population_fintess in tandem)
 
 			parents = population[: parent_size] 				# perform truncation selection (choose top half)
 			second_half = [0] * parent_size						# 	array of zeros
-			population_fitness = population_fitness[: parent_size] + second_half		# 	 keep first half (second half are zeros)
+			population_fitness = population_fitness[: parent_size] + second_half		# keep first half (second half are zeros)
 
 	# __________ Complete algorithm ______________
-
 		a = population[0]					# extract the best performing robot
-		np.savetxt("ea_robot_genome.csv", a, delimiter=",")
+		np.savetxt("ea_genome.csv", best_genome, delimiter=",")
 		np.savetxt("ea_learning.csv", overall_fitness, delimiter=",")
 
 
+class Simulator():
+    # Place holder class: it returns a random fitness
+    # TO DO - import the actual simulator class
+    def calc_fitness(self, robot):
+        fit = np.random.uniform(0 , 10000)
+        robot.fitness = fit
+
 if __name__ == '__main__':
-	EA = evolutionary_algorithm(num_rows = 2 , num_cols = 2 , population_size = 100)
-	EA.run_algorithm()
+	s = Simulator()
+	EA = evolutionary_algorithm(population_size = 4 , simulator=s)
+	EA.run_algorithm(2 , 4)
+
