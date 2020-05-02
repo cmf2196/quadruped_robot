@@ -70,5 +70,5 @@ if __name__ == '__main__':
     r = Robot(urdf, (0, 0, 0.4))
     r.set_id(s.load_new_robot_urdf(r))
 
-    alg = Random_Search(100, r, s)
+    alg = Random_Search(30000, r, s)
     alg.run_algorithm()
