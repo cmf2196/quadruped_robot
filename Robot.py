@@ -147,7 +147,7 @@ class Robot:
         loc = [index_1, index_2]
         mutation = np.random.uniform(0.9, 1.1)
         self.genome[index_1][index_2] = old_val * mutation  # update the genome
-
+        self.compute_parameters_from_genome()
         return loc, old_val  # important for negating a mutation
 
     def randomize_genome(self, symmetric=False):

@@ -101,7 +101,7 @@ class evolutionary_algorithm():
 		# build child robot here!
 		new_robot = Robot("path_to_urdf")
 		new_robot.genome = new_genome
-
+		new_robot.compute_parameters_from_genome()
 		return new_robot					# return the child robot
 
 
@@ -228,8 +228,8 @@ class evolutionary_algorithm():
 			np.savetxt(csv_name, best_genome, delimiter=",")
 	# __________ Complete algorithm ______________
 
-		np.savetxt("test.csv", best_genome, delimiter=",")
-		np.savetxt("test_learning.csv", overall_fitness, delimiter=",")
+		np.savetxt("ea_2_genome.csv", best_genome, delimiter=",")
+		np.savetxt("ea_2_learning.csv", overall_fitness, delimiter=",")
 
 
 # class Simulator():

@@ -85,7 +85,7 @@ class evolutionary_algorithm():
 		# build child robot here!
 		new_robot = Robot("path_to_urdf")
 		new_robot.genome = new_genome
-
+		new_robot.compute_parameters_from_genome()
 		return new_robot					# return the child robot
 
 
@@ -229,6 +229,6 @@ if __name__ == '__main__':
 	# EA = evolutionary_algorithm(population_size = 60 , simulator=s)
 	# EA.run_algorithm(num_mutations = 55 , num_generations = 9)
 	EA = evolutionary_algorithm(population_size = 80 , simulator=s)
-	EA.run_algorithm(num_mutations = 178 , num_generations = 7)
+	EA.run_algorithm(num_mutations = 59 , num_generations = 21)
 
 
