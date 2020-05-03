@@ -3,8 +3,6 @@ Connor Finn, Joshua Katz
 4/28/2020
 
 This Class will run the EA algorithm. 
-Bread and butter ea. Take a population, do crossover, mutate all robots a number of times, use truncation
-selection.
 """
 
 import numpy as np
@@ -45,6 +43,24 @@ class evolutionary_algorithm():
 	        self.quick_sort(A, B , q + 1, r)
 	        
 
+	def rank_preportional_selection(self , size):
+		"""
+		This will take in an array of Ranked robots, (in order from 1 best to n worst)
+		it will select on where the higher ranked robots are more likely to be chosen
+		"""
+		sums = [1]
+		num_parents = size
+		
+		for i in range(2, num_parents):
+			sums += [sums[i-2] + i]
+
+		selection = np.random.randint(sums[-1])
+
+    	# need to find the value just greater than the one given
+		for j in range(num_parents):
+			if sums[j] > selection:
+				return (num_parents - j -1 )		# return the index of note the pop is sorted
+													# in assending order
 
 	def make_population(self , size ):
 		# this method makes a population of robots
@@ -125,11 +141,11 @@ class evolutionary_algorithm():
 
 		population = parents.copy() 							# make a shallow copy of the parents array
 		for i in range(parent_size):							# select 2 random parents
-			p1 = np.random.randint(population_size/2)			#		....
-			p2 = np.random.randint(population_size/2)			#		....
+			p1 = self.rank_preportional_selection(parent_size)			#		....
+			p2 = self.rank_preportional_selection(parent_size)				#		....
 											
 			while p2 == p1:										# make sure they are not the same robot					
-				p2 = np.random.randint(population_size/2)		# note: if pop size = 2; stuck here forever
+				p2 = self.rank_preportional_selection(parent_size)		# note: if pop size = 2; stuck here forever
 			
 			pr1 = parents[p1]									# perform a 2 cut crossover
 			pr2 = parents[p2]									# 		....
@@ -144,7 +160,7 @@ class evolutionary_algorithm():
 
 			if ticker == 0:
 				overall_fitness[ticker] = population_fitness[j]	
-			else;	
+			else:	
 		
 				if overall_fitness[ticker - 1] < population_fitness[j]:		# if the best overall robot thus far
 					best_genome = robot.genome.copy()					# update the best robot's genome
@@ -212,9 +228,8 @@ class evolutionary_algorithm():
 			np.savetxt(csv_name, best_genome, delimiter=",")
 	# __________ Complete algorithm ______________
 
-
-		np.savetxt("data/ea_genome.csv", best_genome, delimiter=",")
-		np.savetxt("data/ea_learning.csv", overall_fitness, delimiter=",")
+		np.savetxt("test.csv", best_genome, delimiter=",")
+		np.savetxt("test_learning.csv", overall_fitness, delimiter=",")
 
 
 # class Simulator():
@@ -229,6 +244,6 @@ if __name__ == '__main__':
 	# EA = evolutionary_algorithm(population_size = 60 , simulator=s)
 	# EA.run_algorithm(num_mutations = 55 , num_generations = 9)
 	EA = evolutionary_algorithm(population_size = 80 , simulator=s)
-	EA.run_algorithm(num_mutations = 178 , num_generations = 7)
+	EA.run_algorithm(num_mutations = 59 , num_generations = 21)
 
 

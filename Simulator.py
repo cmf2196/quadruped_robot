@@ -64,16 +64,27 @@ class Simulator:
     def reset_robots(self):
         for robot in self.robots:
             p.resetBasePositionAndOrientation(robot.get_id(), robot.get_start_pos(), robot.get_start_or())
+           # self.go_to_start()
+
+
 
     # compute fitness of all robots in simulator (probably just one)
     # assumes new parameters are loaded
     def compute_walk_fitness(self, walk_time):
         fitness = []
+        self.reset_robots()
+        p.setGravity(0, 0 , 0)        
         for robot in self.robots:
             robot.set_mode("idle")
-        self.pass_time(100)
-        self.reset_robots()
-
+        self.pass_time(75)
+        p.resetBasePositionAndOrientation(robot.get_id(), (0 , 0 , .21), robot.get_start_or())
+        self.pass_time(3)
+        p.setGravity(self.gravity[0], self.gravity[1], self.gravity[2])
+        self.pass_time(5)
+      #  p.resetBasePositionAndOrientation(robot.get_id(), (0 , 0 , .23), robot.get_start_or())
+      #  self.pass_time(100)
+        # self.reset_robots()
+       # print("start " , p.getBasePositionAndOrientation(robot.id)[0])
         for robot in self.robots:
             robot.set_mode("walk")
         self.pass_time(3)
@@ -96,7 +107,8 @@ class Simulator:
                 #print("Robot fell over!")
             fitness.append(dpos)
             robot.set_mode("hold")
-        self.pass_time(500)
+        # self.pass_time(500)
+       # print( fitness)
         return fitness
 
     # moves all robots in simulation to their starting positions
@@ -108,7 +120,7 @@ class Simulator:
         Output:
             This runs a simulation with no motion - hello world example
         """
-
+        self.current_time = 0
         for i in range(num_steps):
             # iterate through robots, make joints go to desired target position
             for robot in self.robots:
@@ -143,10 +155,10 @@ if __name__ == "__main__":
     my_robot = Robot(urdf, (0, 0, 0.4))
     # my_robot_2 = Robot(urdf, (1, 0, 0.27))
     my_robot.set_id(my_sim.load_new_robot_urdf(my_robot))
-    my_sim.pass_time(200)  # Let robot settle in idle mode
-    my_sim.reset_robots()
+   # my_sim.pass_time(200)  # Let robot settle in idle mode
+   # my_sim.reset_robots()
     # my_robot_2.set_id(my_sim.load_new_robot_urdf(my_robot_2))
-    my_sim.pass_time(200)  # let robot settle in idle once more
+   # my_sim.pass_time(200)  # let robot settle in idle once more
     # my_sim.reset_robots()
     # time.sleep(1)
     # my_sim.robots[0].set_mode("walk")
@@ -169,6 +181,9 @@ if __name__ == "__main__":
         my_sim.pass_time(int(round(2*np.pi/0.01-1)))
         time.sleep(2)'''
     print("loading csv")
-    my_sim.load_genome_from_file("data\\beam_genome_gen299_pop100.csv")
+    my_sim.load_genome_from_file("test.csv")
+    print(my_sim.robots[0].genome)
+    my_sim.load_robot_parameters(my_sim.robots[0].parameters, 0)
+    print("running sim now")
     print(my_sim.compute_walk_fitness(1000))
 

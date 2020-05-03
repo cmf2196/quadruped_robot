@@ -34,25 +34,61 @@ class Random_Search():
 
         for i in range(num_search):  # do the random search
  #           print('counter: ', i)
+         #   print("next robot")
             robot.randomize_genome()  # build the robot's genome
             simulator.load_robot_parameters(robot.parameters, 0)
-            robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness
+            robot.set_fitness(simulator.compute_walk_fitness(100)[0])  # evaluate the robot's fitness
             fitness = robot.get_fitness()
 
             if fitness > best_fit:  # if the fitness is better than current best
                 best_fit = fitness  # update placeholders
                 best_genome = robot.genome.copy()  # ....
 
+           # print(" the current robot fitness is  " , fitness )
+            # print(robot.genome)
+            # print("...")
+          #  print("the best fitness  is " , best_fit)
+            # print(best_genome)
+            # print("...")
+            # print("Next gen")
+            # print("...")
+
+
+
             rs_fit[i] = best_fit  # add the best fit to the learning curve
 
  #       print("Genome: " + str(best_genome))
  #       print(best_fit)
         
+#
+      #  print("running sim on best genome below ")
+     #   print(best_genome)
+     #   print("...")
+    #    print("...")      
+
+     #   print( " sim 1 ")
+     #   print("...") 
+        robot.set_genome( best_genome)
+        simulator.load_robot_parameters(robot.parameters, 0)
+        robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness           
+     #   print(robot.get_fitness())
+
+
+     #   print("...")
+     #   print("...") 
+     #   print( " sim 2 ")
+     #   print("...") 
+        robot.set_genome( best_genome)
+        simulator.load_robot_parameters(robot.parameters, 0)
+        robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness           
+    #    print(robot.get_fitness())
+
+
         if not os.path.exists('./data'):
             os.mkdir('./data')
 
-        np.savetxt("data/rs_genome.csv", best_genome, delimiter=",")
-        np.savetxt("data/rs_learning.csv", rs_fit, delimiter=",")
+        np.savetxt("test.csv", best_genome, delimiter=",")
+        np.savetxt("test_curve.csv", rs_fit, delimiter=",")
 
 
 '''class Simulator():
@@ -70,5 +106,5 @@ if __name__ == '__main__':
     r = Robot(urdf, (0, 0, 0.4))
     r.set_id(s.load_new_robot_urdf(r))
 
-    alg = Random_Search(30000, r, s)
+    alg = Random_Search(100000, r, s)
     alg.run_algorithm()
