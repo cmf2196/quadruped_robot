@@ -103,9 +103,9 @@ class Robot:
                 B1 = math.asin((N - C) / A)  # other value can be found mathamatically
             except ValueError:
                 print("B could not be calculated")
-                print("A is: " + str(A))
-                print("C is: " + str(C))
-                print("N is: " + str(N))
+                #print("A is: " + str(A))
+                #print("C is: " + str(C))
+                #print("N is: " + str(N))
                 return False
             # could pick the B randomly, but it is probably better to be deterministic...
             if B1 > 0:
@@ -146,7 +146,7 @@ class Robot:
         # make mutation
         old_val = self.genome[index_1][index_2]
         loc = [index_1, index_2]
-        mutation = np.random.uniform(0.95, 1.05)
+        mutation = np.random.uniform(0.97, 1.03)
         self.genome[index_1][index_2] = old_val * mutation  # update the genome
         allowable = self.compute_parameters_from_genome()
         while allowable == False:
