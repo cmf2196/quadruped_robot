@@ -74,6 +74,6 @@ if __name__ == '__main__':
 	r = Robot(urdf, (0, 0, 0.4))
 	r.set_id(s.load_new_robot_urdf(r))
 
-	alg = Hill_Climber(100000 , r , s)
+	alg = Hill_Climber(1000 , r , s)
 	alg.run_algorithm()
 

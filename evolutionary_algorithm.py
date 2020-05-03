@@ -86,6 +86,7 @@ class evolutionary_algorithm():
 		new_robot = Robot("path_to_urdf")
 		new_robot.genome = new_genome
 		new_robot.compute_parameters_from_genome()
+
 		return new_robot					# return the child robot
 
 
@@ -144,7 +145,7 @@ class evolutionary_algorithm():
 
 			if ticker == 0:
 				overall_fitness[ticker] = population_fitness[j]	
-			else;	
+			else:
 		
 				if overall_fitness[ticker - 1] < population_fitness[j]:		# if the best overall robot thus far
 					best_genome = robot.genome.copy()					# update the best robot's genome
@@ -228,7 +229,7 @@ if __name__ == '__main__':
 	s = Simulator.Simulator(False)
 	# EA = evolutionary_algorithm(population_size = 60 , simulator=s)
 	# EA.run_algorithm(num_mutations = 55 , num_generations = 9)
-	EA = evolutionary_algorithm(population_size = 80 , simulator=s)
-	EA.run_algorithm(num_mutations = 59 , num_generations = 21)
+	EA = evolutionary_algorithm(population_size = 10 , simulator=s)
+	EA.run_algorithm(num_mutations = 4 , num_generations = 3)
 
 

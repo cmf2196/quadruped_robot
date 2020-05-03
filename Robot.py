@@ -106,6 +106,7 @@ class Robot:
                 print("A is: " + str(A))
                 print("C is: " + str(C))
                 print("N is: " + str(N))
+                return False
             # could pick the B randomly, but it is probably better to be deterministic...
             if B1 > 0:
                 B2 = math.pi - B1
@@ -145,9 +146,14 @@ class Robot:
         # make mutation
         old_val = self.genome[index_1][index_2]
         loc = [index_1, index_2]
-        mutation = np.random.uniform(0.9, 1.1)
+        mutation = np.random.uniform(0.95, 1.05)
         self.genome[index_1][index_2] = old_val * mutation  # update the genome
-        self.compute_parameters_from_genome()
+        allowable = self.compute_parameters_from_genome()
+        while allowable == False:
+            mutation = np.random.uniform(0.97, 1.03)
+            self.genome[index_1][index_2] = old_val * mutation  # update the genome
+            allowable = self.compute_parameters_from_genome()
+            print("try again")
         return loc, old_val  # important for negating a mutation
 
     def randomize_genome(self, symmetric=False):

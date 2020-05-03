@@ -181,7 +181,7 @@ if __name__ == "__main__":
         my_sim.pass_time(int(round(2*np.pi/0.01-1)))
         time.sleep(2)'''
     print("loading csv")
-    my_sim.load_genome_from_file("ea_2_genome.csv")
+    my_sim.load_genome_from_file("test.csv")
     print(my_sim.robots[0].genome)
     my_sim.load_robot_parameters(my_sim.robots[0].parameters, 0)
     print("running sim now")
