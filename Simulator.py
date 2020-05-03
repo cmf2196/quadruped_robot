@@ -7,6 +7,7 @@ Updated Simulator Class
 
 
 import os  # we could use this to get the path to the urdf files if you want to put them elsewhere
+import csv
 import pybullet as p
 import time
 import pybullet_data
@@ -121,6 +122,18 @@ class Simulator:
                 time.sleep(1. / 240.)  # Only sleep if gui is active
             self.current_time += self.TIME_STEP
 
+    def load_genome_from_file(self, path):
+        with open(path, newline='') as f:
+            reader = csv.reader(f)
+            data = list(reader)
+            g = []
+            for row in data:
+                row_array = []
+                for entry in row:
+                    row_array.append(float(eval(entry)))  # convert string to float
+                g.append(row_array)
+            self.robots[0].set_genome(g)
+
 
 if __name__ == "__main__":
     print("Starting Simulation")
@@ -139,7 +152,7 @@ if __name__ == "__main__":
     # my_sim.robots[0].set_mode("walk")
     # my_sim.pass_time(500)
 
-    for x in range(0, 10):
+    for x in range(0, 0):
         my_sim.robots[0].randomize_genome(symmetric=False)
         my_sim.robots[0].compute_parameters_from_genome()
         fitness = my_sim.compute_walk_fitness(1000)
@@ -155,3 +168,7 @@ if __name__ == "__main__":
         time.sleep(2)
         my_sim.pass_time(int(round(2*np.pi/0.01-1)))
         time.sleep(2)'''
+    print("loading csv")
+    my_sim.load_genome_from_file("data\\beam_genome_gen299_pop100.csv")
+    print(my_sim.compute_walk_fitness(1000))
+

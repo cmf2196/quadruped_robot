@@ -132,6 +132,7 @@ class Robot:
 
     def set_genome(self, g):
         self.genome = g
+        self.compute_parameters_from_genome()
 
     def mutate_genome(self):
         # this method makes a small random change to the genme (a list of lists)
