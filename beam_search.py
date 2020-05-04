@@ -152,5 +152,5 @@ class Beam_Search():
 if __name__ == '__main__':
     s = Simulator.Simulator(False)
 
-    alg = Beam_Search(num_generations=10, population_size=20, simulator=s)
+    alg = Beam_Search(num_generations=999, population_size=100, simulator=s)
     alg.run_algorithm()

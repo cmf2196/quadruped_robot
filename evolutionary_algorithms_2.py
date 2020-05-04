@@ -137,23 +137,11 @@ class evolutionary_algorithm():
 		urdf = current_dir + os.sep + os.path.join("URDF", "Ghost", "urdf", "Ghost.urdf")
 		simulated_robot = Robot(urdf, (0, 0, 0.4))
 		simulated_robot.set_id(sim.load_new_robot_urdf(simulated_robot))
-		# ______  Step2: Crossover _________
 
-		population = parents.copy() 							# make a shallow copy of the parents array
-		for i in range(parent_size):							# select 2 random parents
-			p1 = self.rank_preportional_selection(parent_size)			#		....
-			p2 = self.rank_preportional_selection(parent_size)				#		....
-											
-			while p2 == p1:										# make sure they are not the same robot					
-				p2 = self.rank_preportional_selection(parent_size)		# note: if pop size = 2; stuck here forever
-			
-			pr1 = parents[p1]									# perform a 2 cut crossover
-			pr2 = parents[p2]									# 		....
-			c = self.do_crossover(pr1 , pr2)							# 		....
-			population = population + [c]						# add the child robot genomes to the population
-		
+		# Get fitness for initial set of parents
+
 		for j in range(parent_size):				# update the population fitness array 
-			robot = population[j]														# select the robot
+			robot = parents[j]														# select the robot
 			sim.load_robot_parameters(robot.parameters, 0)
 			robot.set_fitness(sim.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness			
 			population_fitness[j] = robot.get_fitness()		
@@ -161,20 +149,35 @@ class evolutionary_algorithm():
 			if ticker == 0:
 				overall_fitness[ticker] = population_fitness[j]	
 			else:	
-		
+			
 				if overall_fitness[ticker - 1] < population_fitness[j]:		# if the best overall robot thus far
 					best_genome = robot.genome.copy()					# update the best robot's genome
 					overall_fitness[ticker] = population_fitness[j]	
 				else:
 					overall_fitness[ticker] = overall_fitness[ticker - 1]
-
-
 			ticker +=1	
 
+		# start ea loop 
 
 		for m in range(num_generations):			# perform the EA
-#			print("fitness at start of generation " , population_fitness)
+		# ______  Crossover _________
+			print("gen " , m)
+			population = parents.copy() 							# make a shallow copy of the parents array
+			for i in range(parent_size):							# select 2 random parents
+				p1 = self.rank_preportional_selection(parent_size)			#		....
+				p2 = self.rank_preportional_selection(parent_size)				#		....
+												
+				while p2 == p1:										# make sure they are not the same robot					
+					p2 = self.rank_preportional_selection(parent_size)		# note: if pop size = 2; stuck here forever
+				
+				pr1 = parents[p1]									# perform a 2 cut crossover
+				pr2 = parents[p2]									# 		....
+				c = self.do_crossover(pr1 , pr2)							# 		....
+				population = population + [c]						# add the child robot genomes to the population
+			
+		# get fitness for the cross over
 			for z in range(parent_size , parent_size * 2):				# update the population fitness array 
+				#print("eval crossover " , z)
 				robot = population[z]														# select the robot
 				sim.load_robot_parameters(robot.parameters, 0)
 				robot.set_fitness(sim.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness			
@@ -193,7 +196,7 @@ class evolutionary_algorithm():
 			# ______  Step3: Mutation _________
 
 			for k in range(num_mutations):
-	#			print('mut' , j)
+				print('mut' , k)
 				for p in range(population_size):					# mutate each robot in the population
 					robot = population[p]							#			....
 					
