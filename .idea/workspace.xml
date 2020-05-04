@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3855d399-21e2-4997-9478-e51646cf3f7a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data_plotting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Robot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Simulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/beam_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/beam_search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hill_climber.py" beforeDir="false" afterPath="$PROJECT_DIR$/hill_climber.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/random_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/random_search.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,11 +51,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Simulator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="184" column="48" selection-start-line="184" selection-start-column="48" selection-end-line="184" selection-end-column="48" />
+            <state relative-caret-position="409">
+              <caret line="188" column="45" lean-forward="true" selection-start-line="188" selection-start-column="45" selection-end-line="188" selection-end-column="45" />
               <folding>
                 <element signature="e#54#152#0" expanded="true" />
               </folding>
@@ -89,7 +84,7 @@
         <entry file="file://$PROJECT_DIR$/beam_search.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="307">
-              <caret line="155" column="23" lean-forward="true" selection-start-line="155" selection-start-column="23" selection-end-line="155" selection-end-column="23" />
+              <caret line="155" column="23" selection-start-line="155" selection-start-column="23" selection-end-line="155" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -98,16 +93,16 @@
         <entry file="file://$PROJECT_DIR$/data/generations/ea_genome_gen_21">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_plotting.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="407">
-              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
               <folding>
                 <element signature="e#99#109#0" expanded="true" />
               </folding>
@@ -204,6 +199,11 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\joshk\PycharmProjects\quadruped_robot" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -354,7 +354,7 @@
       <workItem from="1588319156162" duration="4340000" />
       <workItem from="1588402214296" duration="6953000" />
       <workItem from="1588474052764" duration="2296000" />
-      <workItem from="1588531600179" duration="10984000" />
+      <workItem from="1588531600179" duration="11595000" />
     </task>
     <task id="LOCAL-00001" summary="Added URDF folder and updated Ghost.urdf file to most recent version. Also added line that reads the current directory and locates the urdf locally so the code runs on all systems.">
       <created>1587520465076</created>
@@ -391,11 +391,18 @@
       <option name="project" value="LOCAL" />
       <updated>1588460095662</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Created data plotting script and added videos of robot moving.">
+      <created>1588569944614</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1588569944614</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67986000" />
+    <option name="totallyTimeSpent" value="68597000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -443,10 +450,11 @@
     <MESSAGE value="Created a robot class that holds the urdf path, parameters, and a &#10;fitness." />
     <MESSAGE value="Updated Simulator class to work with robot class. Added reset feature to simulator, added mode attribute to robots." />
     <MESSAGE value="Ran simulation for random and beam search. File names updated." />
-    <option name="LAST_COMMIT_MESSAGE" value="Ran simulation for random and beam search. File names updated." />
+    <MESSAGE value="Created data plotting script and added videos of robot moving." />
+    <option name="LAST_COMMIT_MESSAGE" value="Created data plotting script and added videos of robot moving." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/quadruped_robot$Simulator.coverage" NAME="Simulator Coverage Results" MODIFIED="1588569736756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/quadruped_robot$Simulator.coverage" NAME="Simulator Coverage Results" MODIFIED="1588570490102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$Robot.coverage" NAME="Robot Coverage Results" MODIFIED="1588310208400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$random_search.coverage" NAME="random_search Coverage Results" MODIFIED="1588534585467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$data_plotting.coverage" NAME="data_plotting Coverage Results" MODIFIED="1588568775404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -586,14 +594,14 @@
     <entry file="file://$PROJECT_DIR$/data/generations/ea_genome_gen_21">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/beam_search.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="307">
-          <caret line="155" column="23" lean-forward="true" selection-start-line="155" selection-start-column="23" selection-end-line="155" selection-end-column="23" />
+          <caret line="155" column="23" selection-start-line="155" selection-start-column="23" selection-end-line="155" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -614,25 +622,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data_plotting.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="e#99#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/ea_2__100k_genome.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Simulator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="184" column="48" selection-start-line="184" selection-start-column="48" selection-end-line="184" selection-end-column="48" />
+        <state relative-caret-position="409">
+          <caret line="188" column="45" lean-forward="true" selection-start-line="188" selection-start-column="45" selection-end-line="188" selection-end-column="45" />
           <folding>
             <element signature="e#54#152#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_plotting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#99#109#0" expanded="true" />
           </folding>
         </state>
       </provider>

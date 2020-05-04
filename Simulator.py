@@ -182,9 +182,8 @@ if __name__ == "__main__":
         my_sim.pass_time(int(round(2*np.pi/0.01-1)))
         time.sleep(2)'''
     print("loading csv")
-    my_sim.load_genome_from_file("random_30k.csv")
+    my_sim.load_genome_from_file("data\\hc_1k_genome.csv")
     print(my_sim.robots[0].genome)
     my_sim.load_robot_parameters(my_sim.robots[0].parameters, 0)
     print("running sim now")
     print(my_sim.compute_walk_fitness(10000))
-
