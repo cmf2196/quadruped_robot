@@ -138,8 +138,8 @@ class Beam_Search():
         if not os.path.exists('./data'):
             os.mkdir('./data')
 
-        np.savetxt("test_beam_genome.csv", best_genome, delimiter=",")
-        np.savetxt("test_beam_learning.csv", beam_fit, delimiter=",")
+        np.savetxt("beam_genome_gen_999_pop_100.csv", best_genome, delimiter=",")
+        np.savetxt("beam_learning_gen_999_pop_100.csv", beam_fit, delimiter=",")
 
 
 # class Simulator():

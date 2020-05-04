@@ -56,8 +56,8 @@ class Hill_Climber():
 		if not os.path.exists('./data'):
 			os.mkdir('./data')
 
-		np.savetxt("test.csv", best_genome, delimiter=",")
-		np.savetxt("test_learning.csv", hc_fit, delimiter=",")
+		np.savetxt("hill_climber_100k.csv", best_genome, delimiter=",")
+		np.savetxt("hill_climber_100k.csv", hc_fit, delimiter=",")
 
 
 # class Simulator():
@@ -74,6 +74,6 @@ if __name__ == '__main__':
 	r = Robot(urdf, (0, 0, 0.4))
 	r.set_id(s.load_new_robot_urdf(r))
 
-	alg = Hill_Climber(1000 , r , s)
+	alg = Hill_Climber(100000 , r , s)
 	alg.run_algorithm()
 

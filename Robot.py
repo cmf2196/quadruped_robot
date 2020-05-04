@@ -174,54 +174,54 @@ class Robot:
 
         g = []
 
-        if symmetric == False:
-            for i in range(self.num_joints):  # build the genome
-                viable = False
-                while viable == False:
-                    # set the correct joint limits
-                    if i % 3 == 0:
-                        lower = limit_1[0]
-                        upper = limit_1[1]
-                    elif i % 3 == 1:
-                        lower = limit_2[0]
-                        upper = limit_2[1]
-                    else:
-                        lower = limit_3[0]
-                        upper = limit_3[1]
+        n_genomes = self.num_joints
+        if symmetric:
+            n_genomes = int(n_genomes/2)
 
-                    c = np.random.uniform(lower, upper)  # get a c value within the joint limits
-                    a_max = min(c - lower, upper - c)  # get an A value according to the closets joint limit
-                    a = np.random.uniform(0, a_max)
+        for i in range(n_genomes):  # build the genome
+            viable = False
+            while viable == False:
+                # set the correct joint limits
+                if i % 3 == 0:
+                    lower = limit_1[0]
+                    upper = limit_1[1]
+                elif i % 3 == 1:
+                    lower = limit_2[0]
+                    upper = limit_2[1]
+                else:
+                    lower = limit_3[0]
+                    upper = limit_3[1]
 
-                    if starting_pos[i] <= c + a and starting_pos[i] >= c - a:
-                        g += [[a, c]]  # if the joint starting position is within the possible values
-                        viable = True
+                c = np.random.uniform(lower, upper)  # get a c value within the joint limits
+                a_max = min(c - lower, upper - c)  # get an A value according to the closets joint limit
+                a = np.random.uniform(0, a_max)
 
-        else:
-            half = int(self.num_joints / 2)  # assuming symmetry
-            for i in range(half):  # build the genome
-                viable = False
-                while viable == False:
-                    # set the correct joint limits
-                    if i % 3 == 0:
-                        lower = limit_1[0]
-                        upper = limit_1[1]
-                    elif i % 3 == 1:
-                        lower = limit_2[0]
-                        upper = limit_2[1]
-                    else:
-                        lower = limit_3[0]
-                        upper = limit_3[1]
+                if starting_pos[i] <= c + a and starting_pos[i] >= c - a:
+                    g += [[a, c]]  # if the joint starting position is within the possible values
+                    viable = True
 
-                    c = np.random.uniform(lower, upper)  # get a c value within the joint limits
-                    a = min(c - lower, upper - c)  # get an A value according to the closets joint limit
 
-                    if starting_pos[i] <= c + a and starting_pos[i] >= c - a:
-                        g += [[a, c]]  # if the joint starting position is within the possible values
-                        viable = True
-                        g = g + g  # duplicated to copy genome to other half!!!
+        if symmetric:
+            # copy genome to second set of legs
+            g_2 = g.copy()
+            print(g_2)
+
+            # Multiply A values by -1
+            # for x in range(0, len(g_2)):
+            #    g_2[x][0] *= -1
+
+            # split in half and reverse order to swap back legs
+            half_1 = g_2[:len(g_2) // 2]
+            half_2 = g_2[len(g_2) // 2:]
+            print("Half 1: " + str(half_1))
+            print("Half 2: " + str(half_2))
+
+            # concatenate sections
+            g_2 = half_2 + half_1
+            g = g + g_2
 
         self.genome = g
+        print(len(g))
         self.compute_parameters_from_genome()
 
     def get_fitness(self):

@@ -132,7 +132,7 @@ class Simulator:
             p.stepSimulation()
             if self.gui:
                 #time.sleep(1. / 240.)  # Only sleep if gui is active
-                time.sleep(1. / 5000)
+                time.sleep(1. / 240.)
             self.current_time += self.TIME_STEP
 
     def load_genome_from_file(self, path):
@@ -182,7 +182,7 @@ if __name__ == "__main__":
         my_sim.pass_time(int(round(2*np.pi/0.01-1)))
         time.sleep(2)'''
     print("loading csv")
-    my_sim.load_genome_from_file("/Users/connorfinn/repos/quadruped_robot/hc_1k_genome.csv")
+    my_sim.load_genome_from_file("random_30k.csv")
     print(my_sim.robots[0].genome)
     my_sim.load_robot_parameters(my_sim.robots[0].parameters, 0)
     print("running sim now")

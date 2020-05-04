@@ -33,11 +33,11 @@ class Random_Search():
         best_genome = None  # top performing genome place holder
 
         for i in range(num_search):  # do the random search
- #           print('counter: ', i)
+            print('counter: ', i)
          #   print("next robot")
             robot.randomize_genome()  # build the robot's genome
             simulator.load_robot_parameters(robot.parameters, 0)
-            robot.set_fitness(simulator.compute_walk_fitness(100)[0])  # evaluate the robot's fitness
+            robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness
             fitness = robot.get_fitness()
 
             if fitness > best_fit:  # if the fitness is better than current best
@@ -70,7 +70,7 @@ class Random_Search():
      #   print("...") 
         robot.set_genome( best_genome)
         simulator.load_robot_parameters(robot.parameters, 0)
-        robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness           
+        robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness
      #   print(robot.get_fitness())
 
 
@@ -78,17 +78,17 @@ class Random_Search():
      #   print("...") 
      #   print( " sim 2 ")
      #   print("...") 
-        robot.set_genome( best_genome)
-        simulator.load_robot_parameters(robot.parameters, 0)
-        robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness           
+        #robot.set_genome( best_genome)
+        #simulator.load_robot_parameters(robot.parameters, 0)
+        #robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness
     #    print(robot.get_fitness())
 
 
         if not os.path.exists('./data'):
             os.mkdir('./data')
 
-        np.savetxt("test.csv", best_genome, delimiter=",")
-        np.savetxt("test_curve.csv", rs_fit, delimiter=",")
+        np.savetxt("random_100k.csv", best_genome, delimiter=",")
+        np.savetxt("random_100k_curve.csv", rs_fit, delimiter=",")
 
 
 '''class Simulator():
