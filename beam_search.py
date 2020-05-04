@@ -84,7 +84,20 @@ class Beam_Search():
             robot.set_fitness(simulator.compute_walk_fitness(1000)[0])  # evaluate the robot's fitness
             fitness = robot.get_fitness()
             current_population_fitness[k] = fitness
-            counter += 1
+    
+            if counter == 0:
+                beam_fit[counter] = current_population_fitness[k] 
+            else:
+        
+                if beam_fit[counter - 1] < current_population_fitness[k]:     # if the best overall robot thus far
+                    best_genome = robot.genome.copy()                   # update the best robot's genome
+                    beam_fit[counter] = current_population_fitness[k] 
+                else:
+                    beam_fit[counter] = beam_fit[counter - 1]
+            best_fit = beam_fit[counter]
+
+            counter +=1  
+
 
         #	print("origional robots evaluated, their fitness is  " , )
         for i in range(num_generations):  # perform mutations equal to num_Climb
@@ -125,8 +138,8 @@ class Beam_Search():
         if not os.path.exists('./data'):
             os.mkdir('./data')
 
-        np.savetxt("data/beam_genome.csv", best_genome, delimiter=",")
-        np.savetxt("data/beam_learning.csv", beam_fit, delimiter=",")
+        np.savetxt("test_beam_genome.csv", best_genome, delimiter=",")
+        np.savetxt("test_beam_learning.csv", beam_fit, delimiter=",")
 
 
 # class Simulator():
@@ -139,5 +152,5 @@ class Beam_Search():
 if __name__ == '__main__':
     s = Simulator.Simulator(False)
 
-    alg = Beam_Search(num_generations=299, population_size=100, simulator=s)
+    alg = Beam_Search(num_generations=999, population_size=100, simulator=s)
     alg.run_algorithm()
