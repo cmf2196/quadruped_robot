@@ -15,7 +15,6 @@ count = 0
 TO DO: Change from for loops to a map function
 '''
 for motor in motor_ids:
-	print(motor)
 	servos += [LX16A(motor)]
 	count +=1
 

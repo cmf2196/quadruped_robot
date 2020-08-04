@@ -12,3 +12,6 @@ motor_ids = [11 , 12 , 13 , 21 , 22 , 23 , 31 , 32 , 33 , 41 , 42 , 43]
 
 stand_pos = [120 , 180 , 120 , 120 , 60 , 120 ] * 2 
 rest_pos = []
+
+# our camera is rotated by 90 degrees
+camera_rotation = -90
