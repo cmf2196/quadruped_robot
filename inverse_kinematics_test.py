@@ -9,7 +9,9 @@ import math
 
 current_dir = os.getcwd()
 # urdf = current_dir + "\\URDF\\Ghost\\urdf\\Ghost.urdf"
-urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
+#urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
+urdf = current_dir + "/Phantom/urdf/Phantom.urdf"
+
 print(urdf)
 
 physics_client = p.connect(p.GUI)
@@ -75,7 +77,7 @@ for i in range(1000000):
     # p.setJointMotorControl2(bodyIndex=box_ID, jointIndex=2, controlMode=p.POSITION_CONTROL, targetPosition=command[2])
 
     p.stepSimulation()
-    time.sleep(1. / 240.)  # This is to make it more realistic - shouldn't use when training (I think)
+    #time.sleep(1. / 240.)  # This is to make it more realistic - shouldn't use when training (I think)
 cube_pos, cube_orn = p.getBasePositionAndOrientation(Phantom_IK)
 print(cube_pos, cube_orn)
 p.disconnect()  # good practice
