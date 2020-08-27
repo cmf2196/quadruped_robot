@@ -25,6 +25,7 @@ for i in range(1,5):
         servos.append(LX16A(code))
 
 # Turn on servos
+
 for servo in servos:
     servo.loadOrUnloadWrite(1)
 
