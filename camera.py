@@ -1,3 +1,5 @@
+
+
 '''
 Author: Connor Finn
 Date: August, 3rd, 2020
@@ -10,7 +12,7 @@ from picamera import PiCamera
 from config import camera_rotation
 
 # initialize camera global (once and only once)
-camera = PiCamera()
+#camera = PiCamera()
 
 
 class Camera():
@@ -19,16 +21,12 @@ class Camera():
 		self.cam = camera
 		self.cam.rotation = camera_rotation     # The camera is not oriented at 0 degrees
 
-	def show(self, num_seconds):
-		# This needs to be changed to show the scene until the end_show() method is called
-
-		from time import sleep
+	def show(self):
+		print('here')
 		self.cam.start_preview()
-		sleep(num_seconds)
-		self.cam.stop_preview()
 
 	def end_show(self):
-		pass
+		self.cam.stop_preview()
 
 	def take_picture(self):
 		pass
@@ -36,7 +34,14 @@ class Camera():
 	def take_video(self ):
 		pass
 
-while __name__ == "__main__":
-	c = Camera(camera)
-	c.show(num_seconds = 5)
-
+if __name__ == "__main__":
+#	c = Camera(camera)
+#	c.show()
+	from time import sleep
+#	sleep(2)
+#	c.end_show()
+#	print('finished')
+	camera = PiCamera()
+	camera.start_preview()
+	sleep(2)
+	camera.stop_preview()
