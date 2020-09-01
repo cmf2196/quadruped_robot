@@ -30,10 +30,10 @@ for pos in pre_loc_pos:
 #LX16A.moveTimeWriteList(servos , locs)
 
 locs2 = []
-time = 3000
+time = 600
 for pos in stand_pos:
         locs2 +=[(pos , time)]
 
-LX16A.moveTimeWriteList(servos , locs2)
+LX16A.moveTimeWriteList(servos , locs)
 
 

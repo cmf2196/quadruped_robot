@@ -31,7 +31,7 @@ class Camera():
 	def take_video(self ):
 		pass
 
-while __name__ == "__main__":
+if __name__ == "__main__":
 	c = Camera(camera)
-	c.show_scene(num_seconds = 5)
+	c.show_scene(num_seconds = 30)
 
