@@ -8,15 +8,15 @@ from lx16a import *
 
 # initialize the servo
 LX16A.initialize("/dev/ttyUSB0")
-servos = []
-count = 0
 
-'''
-TO DO: Change from for loops to a map function
-'''
-for motor in motor_ids:
-	servos += [LX16A(motor)]
-	count +=1
+# Get the Servo Objects
+servos = [LX16A(motor) for motor in motor_ids]
+
+# Turn on the servos
+for servo in servos:
+    servo.loadOrUnloadWrite(1)
+
+
 
 
 
