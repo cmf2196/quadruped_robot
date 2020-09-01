@@ -5,6 +5,10 @@ Description:
 	This file will be an exploratory use of the camera. Eventually,
 I would like to make this hold a camera class that we can import into 
 our project.
+
+
+We need to switch to this https://elinux.org/RPi-Cam-Web-Interface
+
 '''
 from picamera import PiCamera
 from config import camera_rotation
