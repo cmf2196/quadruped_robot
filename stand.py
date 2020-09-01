@@ -20,6 +20,10 @@ for servo in servos:
 
 
 
+
+
+
+
 pre_loc_pos = [120, 235 , 70 , 120  , 5 ,170] *2
 
 locs = []

@@ -17,13 +17,18 @@ class Camera():
 
 	def __init__(self , camera):
 		self.cam = camera
-		self.cam.rotation = camera_rotation
+		self.cam.rotation = camera_rotation     # The camera is not oriented at 0 degrees
 
-	def show_scene(self, num_seconds):
+	def show(self, num_seconds):
+		# This needs to be changed to show the scene until the end_show() method is called
+
 		from time import sleep
 		self.cam.start_preview()
 		sleep(num_seconds)
 		self.cam.stop_preview()
+
+	def end_show(self):
+		pass
 
 	def take_picture(self):
 		pass
@@ -33,5 +38,5 @@ class Camera():
 
 while __name__ == "__main__":
 	c = Camera(camera)
-	c.show_scene(num_seconds = 5)
+	c.show(num_seconds = 5)
 
