@@ -1,0 +1,23 @@
+Connor Finn
+September 1, 2020
+Raspberry Pi Camera Set up
+
+ 
+    To view the camera remotely, it is necessary to install the
+RPI-Cam-Web-Interface. This is a low latency platform that will 
+allow the viewing and recording of the pi camera. Instructions for set up
+can be found here:  https://elinux.org/RPi-Cam-Web-Interface, and a 
+quick review can be found here: https://www.youtube.com/watch?v=VTZMOHE8v-Q. 
+
+    Once installed. the camera can be viewed at http://<ipaddress>. Settings 
+for resolution, rotation ect will be availible. We need to rotate our camera
+270 degrees for an upright view.
+
+    Initially, I wanted to use the raspberry Pi camera module; however,
+viewing the camera over a VNC viewer was not possible. This is a fast and
+effective method for viewing the robot's camera.  If we would like to use any
+of the camera's data for computer vision, we will need to use the pi's
+camera module. This should be fairly straightforward to impliment later.
+
+
+
