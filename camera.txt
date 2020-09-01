@@ -9,7 +9,7 @@ allow the viewing and recording of the pi camera. Instructions for set up
 can be found here:  https://elinux.org/RPi-Cam-Web-Interface, and a 
 quick review can be found here: https://www.youtube.com/watch?v=VTZMOHE8v-Q. 
 
-    Once installed. the camera can be viewed at http://<ipaddress>. Settings 
+    Once installed. the camera can be viewed at http://<ipaddress>/html. Settings 
 for resolution, rotation ect will be availible. We need to rotate our camera
 270 degrees for an upright view.
 
