@@ -158,7 +158,7 @@ class MyController(Controller):
 
     def on_L3_down(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_backwards_speed 
+       speed = self.get_speed( abs(value) )  * max_backward_speed 
 
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
