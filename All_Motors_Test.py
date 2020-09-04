@@ -6,7 +6,7 @@ import time
 # This will be different for different computers
 # On Windows, try the ports COM1, COM2, COM3, etc...
 # On Raspbian, try each port in /dev/
-LX16A.initialize("COM3")  # /dev/ttyUSB0
+LX16A.initialize("/dev/ttyUSB0")
 
 print("Successfully initialized")
 
