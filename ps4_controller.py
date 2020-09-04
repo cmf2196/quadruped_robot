@@ -77,7 +77,7 @@ class MyController(Controller):
           self.joystick_state[1] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
        
-       if self.joystick_state[0] == max_sideways_speed * speed_percentages[1] :
+       if abs( self.joystick_state[0] ) == max_sideways_speed * speed_percentages[1] :
           self.joystick_state[0] = self.joystick_state[0] * speed_percentages[2] / speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
