@@ -1,31 +1,49 @@
 
 '''
-This file will enable use for the ps4 controller. 
-to connect the controller to the pi, follow this tutorial
-https://pimylifeup.com/raspberry-pi-bluetooth/ 
+Author: Connor Finn
+Date: September 4, 2020
 
-This script uses the module given here https://pypi.org/project/pyPS4Controller/.
-I have edited this module to allow for better control of the joysticks
+Details:
+   This file controlls the ps4 controller. It uses a module, which was downloaded and slightly edited for 
+   our use case. The origional documentation is here, https://pypi.org/project/pyPS4Controller/
+
+   To set up the ps4 controller, first connect it to your raspberry pi using the GUI. Instructions are 
+   provided clearly here https://pimylifeup.com/raspberry-pi-bluetooth/ 
+
+   The current motion settings are listed below:
+      Left Joystick - forward and sideways motion
+      Right Joystick - Rotation (only turning at the moment, no up and down)
+      Up arrow - Stand up
+      Down arrow - lay down
+      R1 - Turbo
 
 
-the values for the joysticks are -32767 to + 32767
-
+    Speed Determination
+       Currently speed is given by discrete values. There are predefined maximum speeds for each direciton.
+       Then, depending on where the joystick is positioned relative to the predefined thresholds, a percentage of 
+       the maximum speed is set to the  joystick_state, defined as [horizontal  motion, vertical motion,  rotation ].
+       Forward and sideways motion have three speeds, the top speed being achieved using the Turbo button
+       Rotation has two speeds, low and medium (need to consider this  when defining the top rotational speed) because
+       the turbo button has no impact on rotational speed.
+       
+       At the end of each method, we will encorperate the actual  call to our robot. 
 '''
-
 
 from pyPS4Controller_edit.controller2 import Controller, Event
 
 
+# Speed variables to be optimized
+
 max_sideways_speed = 6.0    # m/s
-max_forward_speed = 10.0   # m/s
+max_forward_speeed = 10.0   # m/s
 max_backward_speed = -4.0    # m/s
 max_rotation_speed = 2      # rad/s
 
 speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the First two!
 
-# Cutoffs to define when a gait threshoold has been crossed (note turbo button gets from trot to run)
-max_threshold = 25000     # equal or greater to trot
-min_threshold = 10000      # equal or greater to walk
+# Thresholds
+max_threshold = 25000     # equal or greater for med / high speed
+min_threshold = 10000      # equal or greater for low speed
 
 class MyController(Controller):
 
@@ -36,6 +54,8 @@ class MyController(Controller):
 
 
     def get_speed(self , val):
+       # Method which indicates the speed percentage to use
+
        if val >= min_threshold and val < max_threshold:    # low speed
           return speed_percentages[0]     
 
@@ -45,41 +65,44 @@ class MyController(Controller):
        elif val >= max_threshold and self.turbo == True:  # meax speed
           return speed_percentages[2]
 
-       else:          # signal too small
-          # this does NOT mean at rest, it means do not change current state
+       else:          # signal too small 
           return 0   
 
     def on_R1_press(self):
-       self.turbo = True    # release turbo
+       # Turbo Button is on
+       
+       self.turbo = True    # set turbo
 
-       if self.joystick_state[1] in [max_forward_speed * speed_percentages[1]  , max_backward_speed * speed_percentages[1] ]:
+       if self.joystick_state[1] not in [max_forward_speeed , max_backward_speed]:
           self.joystick_state[1] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
 
-       if abs(self.joystick_state[0]) == max_sideways_speed * speed_percentages[1]:
-          self.joystick_state[0] = self.joystick_state[0] * speed_percentages[2] / speed_percentages[1]
+       elif self.joystick_state[0] != max_sideways_speed:
+          self.joystick_state[0] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
     def on_R1_release(self):
-       self.turbo = False    # release turbo
+       # Turbo button is off
+
+       self.turbo = True    # release turbo
        
-       if self.joystick_state[1] in [max_forward_speed , max_backward_speed]:
+       if self.joystick_state[1] in [max_forward_speeed , max_backward_speed]:
           self.joystick_state[1] = self.joystick_state[1] / speed_percentages[2] * speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
 
-       if abs(self.joystick_state[0]) == max_sideways_speed:
-          self.joystick_state[0] = self.joystick_state[0] / speed_percentages[2] * speed_percentages[1]
+       elif self.joystick_state[0] == max_sideways_speed:
+          self.joystick_state[0] = self.joystick_state[1] / speed_percentages[2] * speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
     # Right Trigger ______________________________________
 
-    
     def on_R3_at_rest(self, button_id):
-       if button_id == 3 and self.joystick_state[2] != 0:
-          self.joystick_state[2]=  0
-          # trigger new speed!
-          print(' rotation set to zero ')
+       # This is when the Right Joystick registers a value of zero
+       # button id is used to determine which axis has crossed the zero plane
 
+       if button_id == 0 and self.joystick_state[2] != 0:         # here we are only considering sideways rotation
+          self.joystick_state[0]=  0
+          print(' Rotation set to zero')
 
     def on_R3_up(self, value):
        # Perhaps we do an upwards rotation here
@@ -91,27 +114,22 @@ class MyController(Controller):
        pass
 
     def on_R3_left(self, value):
-       speed = self.get_speed( abs(value) )  * max_rotation_speed * -1
-       
-#       if speed == 0:
-          # reading was below minimum threshold, do nothing
-#          return
+       # Joystick is pressed left
 
-       if self.joystick_state[2] != speed:
-          self.joystick_state[2] = speed
+       speed = self.get_speed( abs(value) )  * max_rotation_speeed * -1
+      
+
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
           print(' rotation speed set to '  , speed)
   
   
     def on_R3_right(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_rotation_speed 
-       
-#       if speed == 0:
-          # reading was below minimum threshold, do nothing
-#          return
+       speed = self.get_speed( abs(value) )  * max_rotation_speeed 
 
-       if self.joystick_state[2] != speed:
-          self.joystick_state[2] = speed
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
           print(' rotation speed set to '  , speed)
 
 
@@ -131,12 +149,7 @@ class MyController(Controller):
     
     def on_L3_up(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_forward_speed
-       
-#       if speed == 0:
-          # reading was below minimum threshold, do nothing
-#          return
-
+       speed = self.get_speed( abs(value) )  * max_forward_speeed
 
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
@@ -146,12 +159,7 @@ class MyController(Controller):
 
     def on_L3_down(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_backward_speed 
-       
-#       if speed == 0:
-          # reading was below minimum threshold, do nothing
-#          return
-
+       speed = self.get_speed( abs(value) )  * max_backwards_speeed 
 
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
@@ -159,27 +167,19 @@ class MyController(Controller):
 
 
     def on_L3_left(self, value):
-       speed = self.get_speed( abs(value) )  * max_sideways_speed * -1
-       
-#       if speed == 0:
-          # reading was below minimum threshold, do nothing
-#          return
+       speed = self.get_speed( abs(value) )  * max_sideways_speeed * -1
 
-       if self.joystick_state[0] != speed:
-          self.joystick_state[0] = speed
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
           print(' horizontal speed set to '  , speed)
 
  
   
     def on_L3_right(self, value):
-       speed = self.get_speed( abs(value) )  * max_sideways_speed 
-       
-#       if speed == 0:
-          # reading was below minimum threshold, do nothing
-#          return
+       speed = self.get_speed( abs(value) )  * max_sideways_speeed 
 
-       if self.joystick_state[0] != speed:
-          self.joystick_state[0] = speed
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
           print(' horizontal speed set to '  , speed)
    
 
@@ -199,7 +199,7 @@ class MyController(Controller):
     # unused buttons set to pass ________
 
     def on_x_press(self):
-       print('state is ' , self.joystick_state)
+       pass
 
     def on_x_release(self):
        pass
@@ -228,13 +228,13 @@ class MyController(Controller):
     def on_L1_release(self):
        pass
 
-    def on_L2_press(self , value):
+    def on_L2_press(self):
        pass 
 
     def on_L2_release(self):
        pass 
 
-    def on_R2_press(self , value):
+    def on_R2_press(self):
        pass
 
     def on_R2_release(self):
