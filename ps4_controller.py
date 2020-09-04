@@ -54,20 +54,26 @@ class MyController(Controller):
 
        if self.joystick_state[1] not in [max_forward_speeed , max_backward_speed]:
           self.joystick_state[1] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
+          print('vertical speed set to ' , self.joystick_state[1])
 
-       if self.joystick_state[0] != max_sideways_speed:
+       elif self.joystick_state[0] != max_sideways_speed:
           self.joystick_state[0] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
+          print('horizontal speed set to ' , self.joystick_state[0])
 
-   
     def on_R1_release(self):
-       self.turbo = False    # release turbo
-       if self.joystick_state[1] == gait_speed[2]:
-          self.joystick_state[1] = gait_speed[1]
-          # Trigger new speed
-          print('vertical speed set to trot')
+       self.turbo = True    # release turbo
+       
+       if self.joystick_state[1] in [max_forward_speeed , max_backward_speed]:
+          self.joystick_state[1] = self.joystick_state[1] / speed_percentages[2] * speed_percentages[1]
+          print('vertical speed set to ' , self.joystick_state[1])
+
+       elif self.joystick_state[0] = max_sideways_speed:
+          self.joystick_state[0] = self.joystick_state[1] / speed_percentages[2] * speed_percentages[1]
+          print('horizontal speed set to ' , self.joystick_state[0])
 
     # Right Trigger ______________________________________
 
+    
     def on_R3_at_rest(self, button_id):
        if button_id == 0 and self.joystick_state[2] != 0:
           self.joystick_state[0]=  0
@@ -119,8 +125,9 @@ class MyController(Controller):
        elif button_id ==1 and self.joystick_state[1] != 0:
           self.joystick_state[1] = 0
           # trigger new speed
-          print('vertical motion set to zero')
+          print('vertical  motion set to zero')
 
+    
     def on_L3_up(self, value):
        
        speed = self.get_speed( abs(value) )  * max_forward_speeed
@@ -135,6 +142,7 @@ class MyController(Controller):
           print(' vertical speed set to '  , speed)
 
 
+
     def on_L3_down(self, value):
        
        speed = self.get_speed( abs(value) )  * max_backwards_speeed 
@@ -147,7 +155,6 @@ class MyController(Controller):
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
           print(' vertical speed set to '  , speed)
-
 
 
     def on_L3_left(self, value):
@@ -174,6 +181,7 @@ class MyController(Controller):
           self.joystick_state[1] = speed
           print(' horizontal speed set to '  , speed)
    
+
     # stand ______________
 
     def on_up_arrow_press(self):
