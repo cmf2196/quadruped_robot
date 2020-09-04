@@ -10,19 +10,18 @@ I have edited this module to allow for better control of the joysticks
 
 the values for the joysticks are -32767 to + 32767
 
-
 '''
 
 
 from pyPS4Controller_edit.controller2 import Controller, Event
 
-# Discrete speeds - one for each of the three gaits.
-# two rotary speeds
-# one sideways speed. 
-# we could make a function here to generate a continuous speed determination, based on the joystick gradient
-gait_speed = [1 , 2 , 3]  
-rotation_speed = [1 , 2 ]
-sideways_speed = 1
+
+max_sideways_speed = 6.0    # m/s
+max_forward_speeed = 10.0   # m/s
+max_backward_speed = -4.0    # m/s
+max_rotation_speed = 2      # rad/s
+
+speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the First two!
 
 # Cutoffs to define when a gait threshoold has been crossed (note turbo button gets from trot to run)
 max_threshold = 20000     # equal or greater to trot
@@ -36,12 +35,29 @@ class MyController(Controller):
         self.turbo = False                    # This will be R1 -> used to get run speed
 
 
+    def get_speed(self , val):
+       if val >= min_threshold and val < max_threshold:    # low speed
+          return speed_percentages[0]     
+
+       elif val >= max_threshold and self.turbo == False:  # medium speed
+          return speed_percentages[1]
+
+       elif val >= max_threshold and self.turbo == True:  # meax speed
+          return speed_percentages[2]
+
+       else:          # signal too small
+          # this does NOT mean at rest, it means do not change current state
+          return 0   
+
     def on_R1_press(self):
        self.turbo = True    # release turbo
-       if self.joystick_state[1] == gait_speed[1]:
-          self.joystick_state[1] = gait_speed[2]
-          # Trigger new speed
-          print('vertical speed set to run')
+
+       if self.joystick_state[1] not in [max_forward_speeed , max_backward_speed]:
+          self.joystick_state[1] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
+
+       if self.joystick_state[0] != max_sideways_speed:
+          self.joystick_state[0] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
+
    
     def on_R1_release(self):
        self.turbo = False    # release turbo
@@ -68,27 +84,28 @@ class MyController(Controller):
        pass
 
     def on_R3_left(self, value):
-       if abs(value)  >= max_threshold and self.joystick_state[2] != -1 * rotation_speed[1]:   #rotate quickly
-          self.joystick_state[2] != rotation_speed[1]
-          # Trigger new rotation speed
-          print(' rotation set to fast')
+       speed = self.get_speed( abs(value) )  * max_rotation_speeed * -1
+       
+       if speed == 0:
+          # reading was below minimum threshold, do nothing
+          break
+
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
+          print(' rotation speed set to '  , speed)
   
-       elif abs(value)  >= max_threshold and self.joystick_state[2] != -1 * rotation_speed[0]:   #rotate slowly
-          self.joystick_state[2] != rotation_speed[0]
-          # Trigger new rotation speed
-          print(' rotation set to slow')
   
     def on_R3_right(self, value):
        
-       if abs(value)  >= max_threshold and self.joystick_state[2] != rotation_speed[1]:   #rotate quickly
-          self.joystick_state[2] != rotation_speed[1]
-          # Trigger new rotation speed
-          print(' rotation set to fast')
-  
-       elif abs(value)  >= max_threshold and self.joystick_state[2] != rotation_speed[0]:   #rotate slowly
-          self.joystick_state[2] != rotation_speed[0]
-          # Trigger new rotation speed
-          print(' rotation set to slow')
+       speed = self.get_speed( abs(value) )  * max_rotation_speeed 
+       
+       if speed == 0:
+          # reading was below minimum threshold, do nothing
+          break
+
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
+          print(' rotation speed set to '  , speed)
 
 
     # Left Trigger ______________________________________
@@ -105,47 +122,58 @@ class MyController(Controller):
           print('vertical motion set to zero')
 
     def on_L3_up(self, value):
-  
-       if abs(value)  >= max_threshold and self.turbo == True and self.joystick_state[1] != gait_speed[2]:    # run
-          self.joystick_state[1] = gait_speed[2]
-          # Trigger new speed
-          print(' vertical speed set to run')
-  
-       elif  abs(value) < max_threshold and abs(value) >= min_threshold and self.joystick_state[1] != gait_speed[0]:    # walk 
-          self.joystick_state[1] = gait_speed[0]
-          # Trigger new speed
-          print(' vertical speed set to walk')
+       
+       speed = self.get_speed( abs(value) )  * max_forward_speeed
+       
+       if speed == 0:
+          # reading was below minimum threshold, do nothing
+          break
 
-       elif abs(value) >= max_threshold and self.turbo == False and self.joystick_state[1] != gait_speed[1]:  # trot
-          self.joystick_state[1] = gait_speed[1]
-          # Trigger new Speed
-          print(' vertical speed set to trot')
+
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
+          print(' vertical speed set to '  , speed)
+
 
     def on_L3_down(self, value):
+       
+       speed = self.get_speed( abs(value) )  * max_backwards_speeed 
+       
+       if speed == 0:
+          # reading was below minimum threshold, do nothing
+          break
 
-       if abs(value)  >= max_threshold and self.turbo == True and self.joystick_state[1] != -1 * gait_speed[2]:    # run
-          self.joystick_state[1] = -1* gait_speed[2]
-          # Trigger new speed
-          print(' vertical speed set to run')
-  
-       elif  abs(value) < max_threshold and abs(value) >= min_threshold and self.joystick_state[1] != -1 * gait_speed[0]:    # walk 
-          self.joystick_state[1] = -1 *gait_speed[0]
-          # Trigger new speed
-          print(' vertical speed set to walk')
 
-       elif abs(value) >= max_threshold and self.turbo == False and self.joystick_state[1] != -1 * gait_speed[1]:  # trot
-          self.joystick_state[1] = gait_speed[1]
-          # Trigger new Speed
-          print(' vertical speed set to trot')
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
+          print(' vertical speed set to '  , speed)
+
+
 
     def on_L3_left(self, value):
-       if abs(value) >= min_threshold and self.joystick_state[0] != -1 * sideways_speed:
-          self.joystick_state[0] = sideways_speed   
+       speed = self.get_speed( abs(value) )  * max_sideways_speeed * -1
+       
+       if speed == 0:
+          # reading was below minimum threshold, do nothing
+          break
+
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
+          print(' horizontal speed set to '  , speed)
+
+ 
   
     def on_L3_right(self, value):
-       if abs(value) >= min_threshold and self.joystick_state[0] != sideways_speed:
-          self.joystick_state[0] = sideways_speed 
+       speed = self.get_speed( abs(value) )  * max_sideways_speeed 
+       
+       if speed == 0:
+          # reading was below minimum threshold, do nothing
+          break
 
+       if self.joystick_state[1] != speed:
+          self.joystick_state[1] = speed
+          print(' horizontal speed set to '  , speed)
+   
     # stand ______________
 
     def on_up_arrow_press(self):
