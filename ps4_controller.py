@@ -16,6 +16,7 @@ Details:
       Up arrow - Stand up
       Down arrow - lay down
       R1 - Turbo
+      x - currently prints state (this is for debugging)
 
 
     Speed Determination
@@ -30,6 +31,9 @@ Details:
          The turbo button always increases speed by one, this is to prevent a jump from walk to run
              walk + turbo = trot
              trot + turbo = run
+
+          A skip from walk to trot DOES OCCUR
+          A skip from trot to still DOES OCUR
        
      At the end of each method, we will encorperate the actual  call to our robot. 
 '''
