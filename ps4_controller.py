@@ -24,9 +24,14 @@ Details:
        the maximum speed is set to the  joystick_state, defined as [horizontal  motion, vertical motion,  rotation ].
        Forward and sideways motion have three speeds, the top speed being achieved using the Turbo button
        Rotation has two speeds, low and medium (need to consider this  when defining the top rotational speed) because
-       the turbo button has no impact on rotational speed.
        
-       At the end of each method, we will encorperate the actual  call to our robot. 
+     Turbo Button
+         the turbo button has no impact on rotational speed.
+         The turbo button always increases speed by one, this is to prevent a jump from walk to run
+             walk + turbo = trot
+             trot + turbo = run
+       
+     At the end of each method, we will encorperate the actual  call to our robot. 
 '''
 
 from pyPS4Controller_edit.controller2 import Controller, Event
@@ -73,6 +78,7 @@ class MyController(Controller):
        
        self.turbo = True    # set turbo
 
+       # trot to run
        if self.joystick_state[1] in [max_forward_speed * speed_percentages[1] , max_backward_speed * speed_percentages[1]]:
           self.joystick_state[1] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
@@ -81,17 +87,39 @@ class MyController(Controller):
           self.joystick_state[0] = self.joystick_state[0] * speed_percentages[2] / speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
+       # walk to trot
+       if self.joystick_state[1] in [max_forward_speed * speed_percentages[0] , max_backward_speed * speed_percentages[0]]:
+          self.joystick_state[1] = self.joystick_state[1] * speed_percentages[1] / speed_percentages[0]
+          print('vertical speed set to ' , self.joystick_state[1])
+       
+       if abs( self.joystick_state[0] ) == max_sideways_speed * speed_percentages[0] :
+          self.joystick_state[0] = self.joystick_state[0] * speed_percentages[1] / speed_percentages[0]
+          print('horizontal speed set to ' , self.joystick_state[0])
+
+
+
+
     def on_R1_release(self):
        # Turbo button is off
 
        self.turbo = False    # release turbo
        
+       # run to trot       
        if self.joystick_state[1] in [max_forward_speed , max_backward_speed]:
           self.joystick_state[1] = self.joystick_state[1] / speed_percentages[2] * speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
 
        if abs(self.joystick_state[0]) == max_sideways_speed:
           self.joystick_state[0] = self.joystick_state[0] / speed_percentages[2] * speed_percentages[1]
+          print('horizontal speed set to ' , self.joystick_state[0])
+
+       # trot to walk
+       if self.joystick_state[1] in [max_forward_speed * speed_percentages[1] , max_backward_speed * speed_percentages[1]]:
+          self.joystick_state[1] = self.joystick_state[1] / speed_percentages[1] * speed_percentages[0]
+          print('vertical speed set to ' , self.joystick_state[1])
+
+       if abs(self.joystick_state[0]) == max_sideways_speed * speed_percentages[1]:
+          self.joystick_state[0] = self.joystick_state[0] / speed_percentages[1] * speed_percentages[0]
           print('horizontal speed set to ' , self.joystick_state[0])
 
     # Right Trigger ______________________________________
