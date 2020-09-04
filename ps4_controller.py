@@ -42,7 +42,7 @@ max_rotation_speed = 2      # rad/s
 speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the First two!
 
 # Thresholds
-max_threshold = 25000     # equal or greater for med / high speed
+max_threshold = 21000     # equal or greater for med / high speed
 min_threshold = 10000      # equal or greater for low speed
 
 class MyController(Controller):
@@ -330,6 +330,6 @@ class MyEventDefinition(Event):
 
 
 controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False, event_definition=MyEventDefinition)
-controller.debug = True  # you will see raw data stream for any button press, even if that button is not mapped
+#controller.debug = True  # you will see raw data stream for any button press, even if that button is not mapped
 # you can start listening before controller is paired, as long as you pair it within the timeout window
 controller.listen(timeout=60)
