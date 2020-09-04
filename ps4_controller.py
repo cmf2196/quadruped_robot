@@ -61,8 +61,11 @@ class MyController(Controller):
     def get_speed(self , val):
        # Method which indicates the speed percentage to use
 
-       if val >= min_threshold and val < max_threshold:    # low speed
-          return speed_percentages[0]     
+       if val >= min_threshold and val < max_threshold and self.turbo == False:    # low speed
+          return speed_percentages[0]    
+
+       if val >= min_threshold and val < max_threshold and self.turbo == True:    # low speed
+          return speed_percentages[1]     
 
        elif val >= max_threshold and self.turbo == False:  # medium speed
           return speed_percentages[1]
