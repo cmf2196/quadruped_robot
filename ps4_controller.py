@@ -76,20 +76,21 @@ class MyController(Controller):
        if self.joystick_state[1] in [max_forward_speed * speed_percentages[1] , max_backward_speed * speed_percentages[1]]:
           self.joystick_state[1] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
-
-          self.joystick_state[0] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
+       
+       if self.joystick_state[0] == max_sideways_speed * speed_percentages[1] :
+          self.joystick_state[0] = self.joystick_state[0] * speed_percentages[2] / speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
     def on_R1_release(self):
        # Turbo button is off
 
-       self.turbo = True    # release turbo
+       self.turbo = False    # release turbo
        
        if self.joystick_state[1] in [max_forward_speed , max_backward_speed]:
           self.joystick_state[1] = self.joystick_state[1] / speed_percentages[2] * speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
 
-       elif self.joystick_state[0] == max_sideways_speed:
+       if self.joystick_state[0] == max_sideways_speed:
           self.joystick_state[0] = self.joystick_state[0] / speed_percentages[2] * speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
