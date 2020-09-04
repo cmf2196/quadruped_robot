@@ -42,7 +42,12 @@ class MyController(Controller):
           self.joystick_state[1] = gait_speed[2]
           # Trigger new speed
           print('vertical speed set to run')
-   
+       
+       elif self.joystick_state[1] == gait_speed[1]:
+          self.joystick_state[1] = gait_speed[2]
+          # Trigger new speed
+          print('vertical speed set to run')
+
     def on_R1_release(self):
        self.turbo = False    # release turbo
        if self.joystick_state[1] == gait_speed[2]:
@@ -102,14 +107,14 @@ class MyController(Controller):
        elif button_id ==1 and self.joystick_state[1] != 0:
           self.joystick_state[1] = 0
           # trigger new speed
-          print('vertical motion set to zero')
+          print('vertical  motion set to zero')
 
     def on_L3_up(self, value):
   
        if abs(value)  >= max_threshold and self.turbo == True and self.joystick_state[1] != gait_speed[2]:    # run
           self.joystick_state[1] = gait_speed[2]
           # Trigger new speed
-          print(' vertical speed set to run')
+          print(' vertical  speed set to run')
   
        elif  abs(value) < max_threshold and abs(value) >= min_threshold and self.joystick_state[1] != gait_speed[0]:    # walk 
           self.joystick_state[1] = gait_speed[0]
@@ -134,18 +139,19 @@ class MyController(Controller):
           print(' vertical speed set to walk')
 
        elif abs(value) >= max_threshold and self.turbo == False and self.joystick_state[1] != -1 * gait_speed[1]:  # trot
-          self.joystick_state[1] = gait_speed[1]
+          self.joystick_state[1] = -1 * gait_speed[1]
           # Trigger new Speed
           print(' vertical speed set to trot')
 
     def on_L3_left(self, value):
        if abs(value) >= min_threshold and self.joystick_state[0] != -1 * sideways_speed:
-          self.joystick_state[0] = sideways_speed   
-  
+          self.joystick_state[0] = -1 * sideways_speed   
+          print('sideways speed set to left')
+
     def on_L3_right(self, value):
        if abs(value) >= min_threshold and self.joystick_state[0] != sideways_speed:
           self.joystick_state[0] = sideways_speed 
-
+          print('sideways speed set to right')
     # stand ______________
 
     def on_up_arrow_press(self):
