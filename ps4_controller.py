@@ -42,7 +42,7 @@ max_rotation_speed = 2      # rad/s
 speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the First two!
 
 # Thresholds
-max_threshold = 21000     # equal or greater for med / high speed
+max_threshold = 20000     # equal or greater for med / high speed
 min_threshold = 10000      # equal or greater for low speed
 
 class MyController(Controller):
@@ -199,7 +199,7 @@ class MyController(Controller):
     # unused buttons set to pass ________
 
     def on_x_press(self):
-       pass
+       print('state ' , self.joystick_state)
 
     def on_x_release(self):
        pass
