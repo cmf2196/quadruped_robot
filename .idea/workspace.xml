@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3855d399-21e2-4997-9478-e51646cf3f7a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/LegTrajectoryGenerator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Simulator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TrajectoryExecutor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/config/joint_names_Phantom.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/config/joint_names_Phantom.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/launch/display.launch" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/launch/display.launch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/launch/gazebo.launch" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/launch/gazebo.launch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/package.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/package.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/urdf/Phantom.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/urdf/Phantom.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/urdf/Phantom.urdf" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/urdf/Phantom.urdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/urdf/Phantom_connor_edits.urdf" beforeDir="false" afterPath="$PROJECT_DIR$/Phantom/urdf/Phantom_connor_edits.urdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phantom/urdf/Phantom_old.urdf" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,107 +39,72 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Simulator.py">
+        <entry file="file://$PROJECT_DIR$/bno055_simpletest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="136" selection-start-line="136" selection-end-line="136" />
+            <state>
               <folding>
-                <element signature="e#54#152#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/URDF/Ghost/urdf/Ghost.urdf">
+        <entry file="file://$PROJECT_DIR$/camera.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-527">
-              <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
+            <state relative-caret-position="-254" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/camera.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/robot.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sim.py">
+        <entry file="file://$PROJECT_DIR$/ps4_controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="305" selection-start-line="305" selection-end-line="305" />
-              <folding>
-                <element signature="e#0#98#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Robot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="274" column="41" selection-start-line="274" selection-start-column="41" selection-end-line="274" selection-end-column="41" />
-              <folding>
-                <element signature="e#147#165#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/random_search.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1598">
-              <caret line="97" column="41" selection-start-line="97" selection-start-column="41" selection-end-line="97" selection-end-column="41" />
-              <folding>
-                <element signature="e#139#157#0" expanded="true" />
-              </folding>
-            </state>
+            <state relative-caret-position="-765" />
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/data_plotting.py">
+        <entry file="file://$PROJECT_DIR$/TrajectoryExecutor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="29" selection-start-line="29" selection-end-line="29" />
-              <folding>
-                <element signature="e#99#109#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="296">
+              <caret line="497" column="27" lean-forward="true" selection-start-line="497" selection-start-column="27" selection-end-line="497" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/plot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/All_Motors_Test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Ghost.urdf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="63" column="11" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/random_30k.csv">
+        <entry file="file://$PROJECT_DIR$/Phantom/urdf/Phantom.csv">
           <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Simulator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="313">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stand.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-390" />
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -165,7 +142,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="Robot_Pi_Control" />
       </map>
     </option>
   </component>
@@ -181,15 +158,17 @@
         <option value="$PROJECT_DIR$/random_search.py" />
         <option value="$PROJECT_DIR$/data_plotting.py" />
         <option value="$PROJECT_DIR$/plot.py" />
+        <option value="$PROJECT_DIR$/inverse_kinematics_test.py" />
+        <option value="$PROJECT_DIR$/TrajectoryExecutor.py" />
         <option value="$PROJECT_DIR$/Simulator.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="240" />
+    <option name="y" value="128" />
+    <option name="width" value="1440" />
+    <option name="height" value="773" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -202,6 +181,11 @@
             <path>
               <item name="quadruped_robot" type="b2602c69:ProjectViewProjectNode" />
               <item name="quadruped_robot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="quadruped_robot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="quadruped_robot" type="462c0819:PsiDirectoryNode" />
+              <item name="Phantom" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -216,16 +200,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\joshk\PycharmProjects\quadruped_robot" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\joshk\PycharmProjects\quadruped_robot" />
       <recent name="C:\Users\joshk\PycharmProjects\quadruped_robot\Pi" />
       <recent name="C:\Users\joshk\PycharmProjects\quadruped_robot\data" />
-      <recent name="C:\Users\joshk\PycharmProjects\quadruped_robot" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -240,7 +224,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.plot">
+  <component name="RunManager" selected="Python.TrajectoryExecutor">
     <configuration name="Simulator" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="quadruped_robot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -263,7 +247,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="beam_search" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="TrajectoryExecutor" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="quadruped_robot" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -276,7 +260,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/beam_search.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TrajectoryExecutor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -353,11 +337,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.TrajectoryExecutor" />
         <item itemvalue="Python.plot" />
         <item itemvalue="Python.Simulator" />
         <item itemvalue="Python.data_plotting" />
         <item itemvalue="Python.random_search" />
-        <item itemvalue="Python.beam_search" />
       </list>
     </recent_temporary>
   </component>
@@ -382,7 +366,11 @@
       <workItem from="1591774243202" duration="243000" />
       <workItem from="1592505919544" duration="599000" />
       <workItem from="1592554337502" duration="613000" />
-      <workItem from="1597863458857" duration="3676000" />
+      <workItem from="1597863458857" duration="13676000" />
+      <workItem from="1598499236970" duration="2256000" />
+      <workItem from="1598639399335" duration="3123000" />
+      <workItem from="1598723841750" duration="599000" />
+      <workItem from="1598992394544" duration="3473000" />
     </task>
     <task id="LOCAL-00001" summary="Added URDF folder and updated Ghost.urdf file to most recent version. Also added line that reads the current directory and locates the urdf locally so the code runs on all systems.">
       <created>1587520465076</created>
@@ -447,11 +435,18 @@
       <option name="project" value="LOCAL" />
       <updated>1591774475748</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added inverse kinematics test file">
+      <created>1598042661583</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1598042661583</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75226000" />
+    <option name="totallyTimeSpent" value="94677000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -463,14 +458,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22386059" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23659517" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.121640734" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.417256" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -485,7 +482,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.230563" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.230563" />
       <window_info anchor="right" id="Database" order="4" weight="0.028820375" />
     </layout>
   </component>
@@ -502,7 +499,8 @@
     <MESSAGE value="Added hill climber video" />
     <MESSAGE value="Added title, labels, and legend to learning curve plot." />
     <MESSAGE value="Added code to control motors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added code to control motors" />
+    <MESSAGE value="Added inverse kinematics test file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added inverse kinematics test file" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/quadruped_robot$Simulator.coverage" NAME="Simulator Coverage Results" MODIFIED="1588570932161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -513,6 +511,7 @@
     <SUITE FILE_PATH="coverage/quadruped_robot$beam_search.coverage" NAME="beam_search Coverage Results" MODIFIED="1588534290586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$hill_climber.coverage" NAME="hill_climber Coverage Results" MODIFIED="1588534079294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$sim.coverage" NAME="sim Coverage Results" MODIFIED="1588235901317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/quadruped_robot$TrajectoryExecutor.coverage" NAME="TrajectoryExecutor Coverage Results" MODIFIED="1599242528252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/../Quadruped Robot/hello_world.py">
@@ -595,9 +594,6 @@
     <entry file="file://$PROJECT_DIR$/hill_climber_100k.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/random_100k_curve.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/lx16a.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -630,6 +626,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data_plotting.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="e#99#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inverse_kinematics_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/plot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -637,13 +650,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/random_30k.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/All_Motors_Test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="1139">
+          <caret line="69" column="37" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -652,24 +662,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Ghost.urdf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
+        <state relative-caret-position="1071">
           <caret line="63" column="11" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Robot.py">
+    <entry file="file://$PROJECT_DIR$/URDF/Ghost/urdf/Ghost.urdf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="274" column="41" selection-start-line="274" selection-start-column="41" selection-end-line="274" selection-end-column="41" />
-          <folding>
-            <element signature="e#147#165#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="648">
+          <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/random_30k.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/sim.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
+        <state relative-caret-position="625">
           <caret line="305" selection-start-line="305" selection-end-line="305" />
           <folding>
             <element signature="e#0#98#0" expanded="true" />
@@ -677,30 +687,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/random_100k_curve.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bno055_simpletest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/camera.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-254" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/camera.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stand.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-390" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/robot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/random_30k.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pi/Phantom/urdf/Phantom.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Phantom/urdf/Phantom.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ps4_controller.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-765" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Simulator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="136" selection-start-line="136" selection-end-line="136" />
-          <folding>
-            <element signature="e#54#152#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="313">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/URDF/Ghost/urdf/Ghost.urdf">
+    <entry file="file://$PROJECT_DIR$/TrajectoryExecutor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-527">
-          <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_plotting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#99#109#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="296">
+          <caret line="497" column="27" lean-forward="true" selection-start-line="497" selection-start-column="27" selection-end-line="497" selection-end-column="27" />
         </state>
       </provider>
     </entry>

@@ -2,14 +2,8 @@
 <!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
      Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
-
-<!-- _________________ Begin Robot ___________________ -->
-
 <robot
   name="Phantom">
-  
-<!-- ___________ Base_Link (Link)  -->
-
   <link
     name="base_link">
     <inertial>
@@ -50,9 +44,6 @@
       </geometry>
     </collision>
   </link>
- 
-<!-- ___________ FL_Motor_2 (Link)  -->
-
   <link
     name="FL_Motor_2">
     <inertial>
@@ -93,9 +84,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ FL_Motor_1 (joint)  -->
-
   <joint
     name="FL_Motor_1"
     type="revolute">
@@ -109,11 +97,11 @@
     <axis
       xyz="0 1 0" />
     <limit
-      effort = "1.67" lower=" -2" upper="2" velocity= "6.28"  />  <!-- 1.67 Nm , -115 degrees to +115 degrees , 6.28 rad /s -->
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
-
-<!-- ___________ FL_Upper_leg (Link)  -->
-
   <link
     name="FL_Upper_Leg">
     <inertial>
@@ -154,9 +142,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ FL_Motor_2 (Joint)  -->
-
   <joint
     name="FL_Motor_2"
     type="revolute">
@@ -169,12 +154,12 @@
       link="FL_Upper_Leg" />
     <axis
       xyz="0.78674 0.24074 0.5684" />
-  <limit
-      effort = "1.67" lower=" -1.57" upper="1.57" velocity= "6.28"  />  <!-- 1.67 Nm , -90 degrees to +90 degrees , 6.28 rad /s -->
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
- 
-<!-- ___________ FL_Lower_Leg (Link)  -->
-
   <link
     name="FL_Lower_Leg">
     <inertial>
@@ -215,9 +200,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ FL_Motor_3 (Joint)  -->
-
   <joint
     name="FL_Motor_3"
     type="revolute">
@@ -231,11 +213,11 @@
     <axis
       xyz="0.9974 0.072007 0" />
     <limit
-      effort = "1.67" lower=" -1" upper="1" velocity= "6.28"  />  <!-- 1.67 Nm , -60 degrees to 60 degrees , 6.28 rad /s -->
+      lower="-1"
+      upper="1"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
-  
-<!-- ___________ FR_foot (Link)  -->
-
   <link
     name="FL_Foot">
     <inertial>
@@ -276,9 +258,6 @@
       </geometry>
     </collision>
   </link>
- 
-<!-- ___________ FL_Foot_Joint (joint)  -->
-
   <joint
     name="FL_Foot_Joint"
     type="fixed">
@@ -292,9 +271,6 @@
     <axis
       xyz="0 0 0" />
   </joint>
-  
-<!-- ___________ FR_Motor_2 (Link)  -->
-
   <link
     name="FR_Motor_2">
     <inertial>
@@ -335,9 +311,6 @@
       </geometry>
     </collision>
   </link>
- 
-<!-- ___________ FR_Motor_1 (joint)  -->
-
   <joint
     name="FR_Motor_1"
     type="revolute">
@@ -351,11 +324,11 @@
     <axis
       xyz="0 1 0" />
     <limit
-      effort = "1.67" lower=" -2" upper="2" velocity= "6.28"  />  <!-- 1.67 Nm , -115 degrees to +115 degrees , 6.28 rad /s -->
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
-  
-<!-- ___________ FR_Upper_Leg (Link)  -->
-
   <link
     name="FR_Upper_Leg">
     <inertial>
@@ -396,9 +369,6 @@
       </geometry>
     </collision>
   </link>
- 
-<!-- ___________ FR_Motor_2 (joint)  -->
-
   <joint
     name="FR_Motor_2"
     type="revolute">
@@ -411,12 +381,12 @@
       link="FR_Upper_Leg" />
     <axis
       xyz="0.78674 0.24074 0.5684" />
-  <limit
-      effort = "1.67" lower=" -1.57" upper="1.57" velocity= "6.28"  />  <!-- 1.67 Nm , -90 degrees to +90 degrees , 6.28 rad /s -->
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
- 
-<!-- ___________ FR_Lower_Leg (Link)  -->
-
   <link
     name="FR_Lower_Leg">
     <inertial>
@@ -457,9 +427,6 @@
       </geometry>
     </collision>
   </link>
- 
-<!-- ___________ FR_Motor_3 (joint)  -->
-
   <joint
     name="FR_Motor_3"
     type="revolute">
@@ -473,11 +440,11 @@
     <axis
       xyz="0.9974 0.072007 0" />
     <limit
-      effort = "1.67" lower=" -1" upper="1" velocity= "6.28"  />  <!-- 1.67 Nm , -60 degrees to 60 degrees , 6.28 rad /s -->
+      lower="-1"
+      upper="1"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
- 
-<!-- ___________ FR_Foot (Link)  -->
-
   <link
     name="FR_Foot">
     <inertial>
@@ -518,9 +485,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ FR_Foot_Joint (Joint)  -->
-
   <joint
     name="FR_Foot_Joint"
     type="fixed">
@@ -534,9 +498,6 @@
     <axis
       xyz="0 0 0" />
   </joint>
-  
-<!-- ___________ BL_Motor_2 (Link)  -->
-
   <link
     name="BL_Motor_2">
     <inertial>
@@ -577,9 +538,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ BL_Motor_1 (Joint)  -->
-
   <joint
     name="BL_Motor_1"
     type="revolute">
@@ -593,11 +551,11 @@
     <axis
       xyz="0 1 0" />
     <limit
-      effort = "1.67" lower=" -2" upper="2" velocity= "6.28"  />  <!-- 1.67 Nm , -115 degrees to +115 degrees , 6.28 rad /s -->
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
- 
-<!-- ___________ BL_Upper_leg (Link)  -->
-
   <link
     name="BL_Upper_Leg">
     <inertial>
@@ -638,9 +596,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ BL_Motor_2 (joint)  -->
-
   <joint
     name="BL_Motor_2"
     type="revolute">
@@ -653,12 +608,12 @@
       link="BL_Upper_Leg" />
     <axis
       xyz="0.78674 0.24074 0.5684" />
-  <limit
-      effort = "1.67" lower=" -1.57" upper="1.57" velocity= "6.28"  />  <!-- 1.67 Nm , -90 degrees to +90 degrees , 6.28 rad /s -->
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
-  
-<!-- ___________ BL_Lower_Leg (Link)  -->
-
   <link
     name="BL_Lower_Leg">
     <inertial>
@@ -699,9 +654,6 @@
       </geometry>
     </collision>
   </link>
- 
-<!-- ___________ BL_Motor_3 (joint)  -->
-
   <joint
     name="BL_Motor_3"
     type="revolute">
@@ -715,11 +667,11 @@
     <axis
       xyz="0.9974 0.072007 0" />
     <limit
-      effort = "1.67" lower=" -1" upper="1" velocity= "6.28"  />  <!-- 1.67 Nm , -60 degrees to 60 degrees , 6.28 rad /s -->
+      lower="-1"
+      upper="1"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
-  
-<!-- ___________ BL_Foot (Link)  -->
-
   <link
     name="BL_Foot">
     <inertial>
@@ -760,9 +712,6 @@
       </geometry>
     </collision>
   </link>
- 
-<!-- ___________ BL_Foot_Joint (Joint)  -->
-
   <joint
     name="BL_Foot_Joint"
     type="fixed">
@@ -776,9 +725,6 @@
     <axis
       xyz="0 1 0" />
   </joint>
- 
-<!-- ___________ BR_Motor_2 (Link)  -->
-
   <link
     name="BR_Motor_2">
     <inertial>
@@ -819,9 +765,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ BR_Motor_1 (Joint)  -->
-
   <joint
     name="BR_Motor_1"
     type="revolute">
@@ -835,11 +778,11 @@
     <axis
       xyz="0 1 0" />
     <limit
-      effort = "1.67" lower=" -2" upper="2" velocity= "6.28"  />  <!-- 1.67 Nm , -115 degrees to +115 degrees , 6.28 rad /s -->
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
- 
-<!-- ___________ BR_Upper_Leg (Link)  -->
-
   <link
     name="BR_Upper_Leg">
     <inertial>
@@ -880,9 +823,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ BR_Motor_2 (joint)  -->
-
   <joint
     name="BR_Motor_2"
     type="revolute">
@@ -895,12 +835,12 @@
       link="BR_Upper_Leg" />
     <axis
       xyz="0.78674 0.24074 0.5684" />
-  <limit
-      effort = "1.67" lower=" -1.57" upper="1.57" velocity= "6.28"  />  <!-- 1.67 Nm , -90 degrees to +90 degrees , 6.28 rad /s -->
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
-  
-<!-- ___________ BR_Lower_Leg (Link)  -->
-
   <link
     name="BR_Lower_Leg">
     <inertial>
@@ -941,9 +881,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ BR_Motor_3 (joint)  -->
-
   <joint
     name="BR_Motor_3"
     type="revolute">
@@ -957,11 +894,11 @@
     <axis
       xyz="0.9974 0.072007 0" />
     <limit
-      effort = "1.67" lower=" -1" upper="1" velocity= "6.28"  />  <!-- 1.67 Nm , -60 degrees to 60 degrees , 6.28 rad /s -->
+      lower="-1"
+      upper="1"
+      effort="1.6"
+      velocity="6.55" />
   </joint>
- 
-<!-- ___________ BR_Foot (Link)  -->
-
   <link
     name="BR_Foot">
     <inertial>
@@ -1002,9 +939,6 @@
       </geometry>
     </collision>
   </link>
-  
-<!-- ___________ BR_Foot_Joint (Joint)  -->
-
   <joint
     name="BR_Foot_Joint"
     type="fixed">
@@ -1018,7 +952,4 @@
     <axis
       xyz="0 1 0" />
   </joint>
-
-<!-- ___________ End Robot  -->
-
 </robot>
