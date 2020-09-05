@@ -22,13 +22,14 @@ class Simulator:
             self.gui_sim.setAdditionalSearchPath(pybullet_data.getDataPath())
             self.gui_plane = self.gui_sim.loadURDF("plane.urdf")
             self.gui_sim.setGravity(0, 0, -9.8)
+            self.gui_sim.setTimeStep(1 / 100)  # change to variable
         else:
             self.gui_sim = None
             self.gui_plane = None
 
         self.kinematics_sim = bc.BulletClient(connection_mode=pybullet.DIRECT)
         self.kinematics_sim.setAdditionalSearchPath(pybullet_data.getDataPath())
-        #self.kinematics_sim.setGravity(0, 0, -9.8)
+        # self.kinematics_sim.setGravity(0, 0, -9.8)
 
         self.kinematics_robot = None
         self.gui_robot = None
@@ -84,8 +85,9 @@ class Simulator:
         # potentially faster
         moving_joints = [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]
         for i in range(0, len(moving_joints)):
-            self.kinematics_sim.resetJointState(self.kinematics_robot, moving_joints[i],
-                                        ik[i], 0)
+            self.kinematics_sim.resetJointState(self.kinematics_robot,
+                                                moving_joints[i],
+                                                ik[i], 0)
 
         # it = iter(ik)
         # ik = list(zip(it, it, it))

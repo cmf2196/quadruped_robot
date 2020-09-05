@@ -327,9 +327,6 @@ class LegTrajectoryGenerator:
             y_data_leg += list(
                 np.linspace(y_indices[i], y_indices[i + 1], n_points + 2)[1:])
 
-        print(len(x_data_leg))
-        print(len(y_data_leg))
-
         return [x_data_leg, y_data_leg]
 
     def compute_leg_aerial_trajectory(self, start_coord, end_coord, init_height,

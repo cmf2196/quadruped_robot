@@ -12,17 +12,15 @@ from lx16a import *
 
 class Robot():
 
+    def __init__(self):
+        from config import motor_ids
+        self.servos = [LX16A(motor) for motor in motor_ids]
 
-	def __init__(self):
-		from config import motor_ids
-		servos = [LX16A(motor) for motor in motor_ids]
+    def turn_motors_on(self):
+        for servo in self.servos:
+            servo.loadOrUnloadWrite(1)
 
+    def stand(self, time):
+        from config import stand_pos
 
-	def turn_motors_on(self):
-		for servo in servos:
-    		servo.loadOrUnloadWrite(1)
-
-    def stand(self , time):
-    	from config import stand_pos
-
-    	vals = [(pos , time) for pos in stand_pos]
+        vals = [(pos, time) for pos in stand_pos]
