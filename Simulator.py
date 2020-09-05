@@ -22,6 +22,7 @@ class Simulator:
             self.gui_sim.setAdditionalSearchPath(pybullet_data.getDataPath())
             self.gui_plane = self.gui_sim.loadURDF("plane.urdf")
             self.gui_sim.setGravity(0, 0, -9.8)
+            self.gui_sim.setTimeStep(1/100) # change to variable
         else:
             self.gui_sim = None
             self.gui_plane = None

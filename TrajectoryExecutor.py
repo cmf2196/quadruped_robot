@@ -29,6 +29,7 @@ class TrajectoryExecutor:
         self.current_position = None
         self.leg_trajectory_generator = LegTrajectoryGenerator(
             self.default_pose)
+        self.current_velocity = (0, 0, 0)
 
     def choose_gait(self, x_vel, y_vel, ang_vel):
 
@@ -80,6 +81,14 @@ class TrajectoryExecutor:
 
     def change_movement_speed(self, x_vel, y_vel, ang_vel, leg_positions):
 
+        if self.current_velocity[0] ==  x_vel \
+                and self.current_velocity[1] == y_vel \
+                and self.current_velocity[2] == ang_vel:
+            #print("velocity has not changed")
+            return
+
+
+
         # get current robot position if possible
         if self.current_position is not None:
             leg_positions = self.current_position
@@ -106,10 +115,14 @@ class TrajectoryExecutor:
                 leg, self.low, self.high, self.ground_prop, True)
             self.cycles.append(list(zip(traj[0], traj[1], traj[2])))
 
-
-
+        print("")
         print("Cycle trajectory time: " + str(time.time() - start_time))
         start_time = time.time()
+
+
+
+
+
 
         # FOR NOW, PRINT COORDINATES IN LEG CYCLE AND END
 
@@ -129,7 +142,8 @@ class TrajectoryExecutor:
             min_dist = self.distance_between_coords(self.cycles[i][0],
                                                     leg_positions[i])
             min_idx = 0
-            for j in range(0, len(self.cycles[i])):
+            for j in range(0, len(self.cycles[
+                                      i])):  # every other approx to improve performance?
                 dist = self.distance_between_coords(self.cycles[i][j],
                                                     leg_positions[i])
                 if dist < min_dist:
@@ -140,7 +154,8 @@ class TrajectoryExecutor:
 
         # print("Ideal leg indexes", min_idxs)
         # print(min_dists)
-        print("Distance index calculation time: " + str(time.time() - start_time))
+        print(
+            "Distance index calculation time: " + str(time.time() - start_time))
         start_time = time.time()
 
         # Using the phases and ground proportion, find the clock index that
@@ -176,18 +191,40 @@ class TrajectoryExecutor:
 
         print("mag: " + str(min_mag))
 
-        self.clock_index = min_time
+
+
+        # new idea. If the command is very similar to the previous command,
+        # just keep the last clock index and continue in cycle mode...
+
+        # dot product of unit vectors!
+
+        new_vel = np.array([x_vel, y_vel, ang_vel])
+        new_vel = new_vel/np.linalg.norm(new_vel)
+
+        old_vel = np.array(self.current_velocity)
+        old_vel = old_vel/np.linalg.norm(old_vel)
+
+        dot = np.dot(new_vel, old_vel)
+
+        # command is similar, keep relative cycle position
+        if dot >= 0.95:
+            self.clock_index = round(self.clock_index/self.clock_max*(len(self.cycles[0])-1))
+
+        # command is not similar, use optimization
+        else:
+            self.clock_index = min_time
+
         self.clock_max = len(self.cycles[0]) - 1
 
-        print("Cycle Optimization time: "+ str(time.time() - start_time))
+        print("Cycle Optimization time: " + str(time.time() - start_time))
         start_time = time.time()
 
         # new cycles are sufficiently close to original cycles
-        if min_mag < 10:
+        if min_mag < 3:
             self.modes = ["cycle", "cycle", "cycle", "cycle"]
             print("Continuing in cycle mode")
+            self.current_velocity = (x_vel, y_vel, ang_vel)
             return
-
 
         # print("Best index fit: " + str(idx_fit))
         # print("Corresponding clock index: " + str(self.clock_index))
@@ -204,10 +241,12 @@ class TrajectoryExecutor:
         # compute leg transition trajectories
         self.transitions = []
         for leg in leg_positions:
-            traj = self.leg_trajectory_generator.compute_leg_ground_trajectory_approx([
-                leg[0], leg[1]], True)
+            traj = self.leg_trajectory_generator.compute_leg_ground_trajectory_approx(
+                [
+                    leg[0], leg[1]], True)
             z = list(np.full(len(traj[0]), self.low))
-            self.transitions.append(list(zip(traj[0], traj[1], z))) # get rid of first point in list
+            self.transitions.append(list(
+                zip(traj[0], traj[1], z)))  # get rid of first point in list
 
         print("Transition calculation time: " + str(time.time() - start_time))
 
@@ -248,14 +287,16 @@ class TrajectoryExecutor:
             else:
                 self.modes.append("ground_transition")
 
-
+        self.current_velocity = (x_vel, y_vel, ang_vel)
+        print(self.modes)
+        print(self.clock_index)
 
         # calculate aerial trajectories? or maybe do this elsewhere?
         # print(self.modes)
 
         # test to eliminate transition
-        #self.modes = ["cycle", "cycle", "cycle", "cycle"]
-        #self.clock_index = 0
+        # self.modes = ["cycle", "cycle", "cycle", "cycle"]
+        # self.clock_index = 0
 
     def aerial_to_cycle_trajectory(self, phase_idxs, i):
         # compute aerial trajectory
@@ -270,16 +311,18 @@ class TrajectoryExecutor:
         # AND if there is enough time
 
         n_points = len(self.cycles[i]) - phase_idxs[i]
-        if round(self.cycles[i][phase_idxs[i]][2]) > self.low and \
-                n_points > round(0.1 * len(self.cycles[i])):
+        distance = self.distance_between_coords(self.current_position[i], self.cycles[0])
+        speed = distance/(n_points*0.01) # speed to get to goal
+        if round(self.cycles[i][phase_idxs[i]][2]) > self.low and speed < 0.5:
+                #n_points > round(0.1 * len(self.cycles[i])):
 
             # set interception point at beginning of cycle
             target = self.cycles[i][0]
 
-        # if there isn't enough time, meet on ground instead
+        # if there isn't enough time, meet on ground or in mid air instead
         else:
             # time gap is 0.1, so points is -2
-            n_points = round(0.1 * len(self.cycles[i]))
+            n_points = round(0.1 * len(self.cycles[i])) # not so bad
             target_index = (phase_idxs[i] + n_points + 1) % len(self.cycles[i])
             target = self.cycles[i][target_index]
 
@@ -391,10 +434,10 @@ class TrajectoryExecutor:
             print(self.current_position[0])
             print(self.modes)
 
-            #time.sleep(10)
+            time.sleep(10)
 
         self.current_position = commands
-        # print(commands[0])
+        #print(commands[0])
         # print(self.modes[0])
 
         return commands
@@ -428,10 +471,10 @@ if __name__ == "__main__":
     #                                       (-0.135, -0.24200000000000016, -0.2),
     #                                       (0.135, -0.11800000000000005, -0.2)])
 
-    exec.change_movement_speed(0.0, 0.2, 0, [(-0.135, 0.15, -0.2),
-                                           (0.135, 0.15, -0.2),
-                                           (-0.135, -0.15, -0.2),
-                                           (0.135, -0.15, -0.2)])
+    exec.change_movement_speed(0.2, 0.0, 0, [(-0.135, 0.15, -0.2),
+                                             (0.135, 0.15, -0.2),
+                                             (-0.135, -0.15, -0.2),
+                                             (0.135, -0.15, -0.2)])
 
     # print(len(exec.cycles[0]))
     # for x in range(0,150):
@@ -451,6 +494,7 @@ if __name__ == "__main__":
     #    time.sleep(1/240)
 
     for x in range(0, 10000000):
+        start_time = time.time()
 
         # if x == 500:
         #    exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
@@ -461,15 +505,15 @@ if __name__ == "__main__":
         # if x == 2000:
         #   exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
 
-        if x%2 == 0:
-            if keyboard.is_pressed("w"):
+        if x % 10 == 0:
+            if keyboard.is_pressed("up"):
                 exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
-                print("set command")
-            elif keyboard.is_pressed("a"):
+                #print("set command")
+            elif keyboard.is_pressed("left"):
                 exec.change_movement_speed(-0.2, 0, 0, default_3d_legs)
-            elif keyboard.is_pressed("s"):
+            elif keyboard.is_pressed("down"):
                 exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
-            elif keyboard.is_pressed("d"):
+            elif keyboard.is_pressed("right"):
                 exec.change_movement_speed(0.2, 0, 0, default_3d_legs)
             elif keyboard.is_pressed("q"):
                 exec.change_movement_speed(0, 0, 1, default_3d_legs)
@@ -478,6 +522,10 @@ if __name__ == "__main__":
             else:
                 # could stop movement here
                 pass
+
+        #if x > 2000 and x % 10 == 0:
+        #    exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
+        #    pass
 
         command = exec.get_next_command()
 
@@ -495,4 +543,10 @@ if __name__ == "__main__":
 
         sim.step_gui_sim()
 
-        time.sleep(1 / 240)
+        end_time = time.time() - start_time
+        if end_time < 0.01:
+            time.sleep(1 / 240)
+        else:
+
+            print("CLOCK SKIPPED!")
+            print(end_time)
