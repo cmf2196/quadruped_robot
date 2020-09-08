@@ -84,6 +84,19 @@ class TrajectoryExecutor:
 
     def change_movement_speed(self, x_vel, y_vel, ang_vel, leg_positions):
 
+        # get current robot position if possible
+        if self.current_position is not None:
+            leg_positions = self.current_position
+            # print("changed to current position")
+        else:
+            self.current_position = leg_positions
+
+        if self.current_velocity[0] == x_vel \
+                and self.current_velocity[1] == y_vel \
+                and self.current_velocity[2] == ang_vel:
+            # print("velocity has not changed")
+            return
+
         # if speed is 0, stop moving the legs
         if x_vel == 0 and y_vel == 0 and ang_vel == 0:
 
@@ -99,23 +112,10 @@ class TrajectoryExecutor:
                 else:
                     self.modes.append("idle")
 
-            #self.modes = ["idle", "idle", "idle", "idle"]
+            # self.modes = ["idle", "idle", "idle", "idle"]
             self.current_velocity = (x_vel, y_vel, ang_vel)
             self.transition_index = 0
             return
-
-        if self.current_velocity[0] == x_vel \
-                and self.current_velocity[1] == y_vel \
-                and self.current_velocity[2] == ang_vel:
-            # print("velocity has not changed")
-            return
-
-        # get current robot position if possible
-        if self.current_position is not None:
-            leg_positions = self.current_position
-            print("changed to current position")
-        else:
-            self.current_position = leg_positions
 
         # print(leg_positions)
 
@@ -354,7 +354,7 @@ class TrajectoryExecutor:
         return aerial_coords
 
     def max_range_trajectory(self, phase_idxs, i):
-        print(str(i)+ " is out of range")
+        print(str(i) + " is out of range")
 
         # choose a time in the future to intersect
         n_points = round(0.1 * len(self.cycles[i]))
@@ -365,7 +365,8 @@ class TrajectoryExecutor:
             aerial = self.leg_trajectory_generator.compute_leg_linear_trajectory(
                 self.current_position[i], target, n_points)
         else:
-            start_coord = (self.current_position[i][0], self.current_position[i][1])
+            start_coord = (
+            self.current_position[i][0], self.current_position[i][1])
             end_coord = (target[0], target[1])
             aerial = self.leg_trajectory_generator.compute_leg_aerial_trajectory(
                 start_coord, end_coord, self.low, self.high, n_points)
@@ -394,13 +395,16 @@ class TrajectoryExecutor:
             elif self.modes[i] == "stabilize_transition":
                 if len(self.transitions[i]) == 0:
                     start_coord = self.current_position[i]
-                    end_coord = [self.current_position[i][0], self.current_position[i][1], self.low]
+                    end_coord = [self.current_position[i][0],
+                                 self.current_position[i][1], self.low]
                     n_points = round(0.1 * len(self.cycles[i]))
-                    aerial = self.leg_trajectory_generator.\
-                        compute_leg_linear_trajectory(start_coord, end_coord, n_points)
-                    self.transitions[i] = list(zip(aerial[0], aerial[1], aerial[2]))
-                    self.transitions[i].append(end_coord) # include final point
-                    #print(self.transitions[i])
+                    aerial = self.leg_trajectory_generator. \
+                        compute_leg_linear_trajectory(start_coord, end_coord,
+                                                      n_points)
+                    self.transitions[i] = list(
+                        zip(aerial[0], aerial[1], aerial[2]))
+                    self.transitions[i].append(end_coord)  # include final point
+                    # print(self.transitions[i])
 
                 # pass on transition trajectory as normal
                 commands.append(self.transitions[i][self.transition_index])
@@ -422,7 +426,8 @@ class TrajectoryExecutor:
 
                 # current position 2D used later ...
                 try:
-                    coord = (self.current_position[i][0], self.current_position[i][1])
+                    coord = (
+                    self.current_position[i][0], self.current_position[i][1])
                 except:
                     coord = 0
                 if round(self.cycles[i][phase_idxs[i]][2], 4) > self.low:
@@ -490,7 +495,7 @@ class TrajectoryExecutor:
                 exit()
 
         # update clocks
-        #if self.modes[0] != "idle":
+        # if self.modes[0] != "idle":
         self.transition_index += 1
         self.clock_index = (self.clock_index + 1) % (self.clock_max + 1)
 
@@ -504,7 +509,7 @@ class TrajectoryExecutor:
             print(self.current_position[0])
             print(self.modes)
 
-            #time.sleep(10)
+            # time.sleep(10)
 
         self.current_position = commands
         # print(commands[0])
@@ -580,22 +585,22 @@ if __name__ == "__main__":
         a = 0
         if X % 10 == 0:
             if keyboard.is_pressed("up"):
-                #exec.change_movement_speed(0, 0.3, 0, default_3d_legs)
+                # exec.change_movement_speed(0, 0.3, 0, default_3d_legs)
                 y = 0.3
             if keyboard.is_pressed("left"):
-                #exec.change_movement_speed(-0.2, 0, 0, default_3d_legs)
+                # exec.change_movement_speed(-0.2, 0, 0, default_3d_legs)
                 X = -0.3
             if keyboard.is_pressed("down"):
-                #exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
+                # exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
                 y = -0.3
             if keyboard.is_pressed("right"):
-                #exec.change_movement_speed(0.2, 0, 0, default_3d_legs)
+                # exec.change_movement_speed(0.2, 0, 0, default_3d_legs)
                 X = 0.3
             if keyboard.is_pressed("q"):
-                #exec.change_movement_speed(0, 0, 1, default_3d_legs)
+                # exec.change_movement_speed(0, 0, 1, default_3d_legs)
                 a = 1
             if keyboard.is_pressed("e"):
-                #exec.change_movement_speed(0, 0, -1, default_3d_legs)
+                # exec.change_movement_speed(0, 0, -1, default_3d_legs)
                 a = -1
 
             exec.change_movement_speed(X, y, a, default_3d_legs)
