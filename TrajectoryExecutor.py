@@ -46,7 +46,10 @@ class TrajectoryExecutor:
             self.ground_prop = 0.8  # subject to change
             if abs(y_vel) > abs(x_vel):
                 if y_vel > 0:
-                    self.phases = [0, 0.5, 0.25, 0.75]
+                    if y_vel > 0.3:
+                        self.phases = [0, 0.5, 0.5, 0]
+                    else:
+                        self.phases = [0, 0.5, 0.25, 0.75]
                 else:
                     self.phases = [0, 0.5, 0.75, 0.25]
             else:
@@ -81,6 +84,26 @@ class TrajectoryExecutor:
 
     def change_movement_speed(self, x_vel, y_vel, ang_vel, leg_positions):
 
+        # if speed is 0, stop moving the legs
+        if x_vel == 0 and y_vel == 0 and ang_vel == 0:
+
+            # set modes based on findings
+            self.modes = []  # set all legs to transition
+
+            # check if legs are in air
+            for i in range(0, len(self.current_position)):
+                height = round(self.current_position[i][2], 4)
+                if height > self.low:
+                    self.modes.append("stabilize_transition")
+                    self.transitions[i] = []
+                else:
+                    self.modes.append("idle")
+
+            #self.modes = ["idle", "idle", "idle", "idle"]
+            self.current_velocity = (x_vel, y_vel, ang_vel)
+            self.transition_index = 0
+            return
+
         if self.current_velocity[0] == x_vel \
                 and self.current_velocity[1] == y_vel \
                 and self.current_velocity[2] == ang_vel:
@@ -98,7 +121,7 @@ class TrajectoryExecutor:
 
         # decide heights of aerial trajectories
         self.low = -0.2
-        self.high = -0.18
+        self.high = -0.15
 
         # decide gait phases and ground proportion, stored in object
         self.choose_gait(x_vel, y_vel, ang_vel)
@@ -195,7 +218,9 @@ class TrajectoryExecutor:
         new_vel = new_vel / np.linalg.norm(new_vel)
 
         old_vel = np.array(self.current_velocity)
-        old_vel = old_vel / np.linalg.norm(old_vel)
+
+        if np.linalg.norm(old_vel) != 0:
+            old_vel = old_vel / np.linalg.norm(old_vel)
 
         dot = np.dot(new_vel, old_vel)
 
@@ -244,7 +269,7 @@ class TrajectoryExecutor:
 
         print("Transition calculation time: " + str(time.time() - start_time))
 
-        max_idxs = []
+        '''max_idxs = []
         for i in range(0, len(self.transitions)):
             if round(self.transitions[i][0][2],
                      4) > self.low:  # leg is in air, range is irr
@@ -258,7 +283,7 @@ class TrajectoryExecutor:
                     max_idxs.append(j)
                     break
             if len(max_idxs) < i + 1:
-                max_idxs.append(len(self.transitions[i]) - 1)
+                max_idxs.append(len(self.transitions[i]) - 1)'''
 
         # print("maximum steps for each transition before out of range: "
         #     + str(max_idxs))
@@ -363,8 +388,30 @@ class TrajectoryExecutor:
 
         for i in range(0, len(self.modes)):
 
+            if self.modes[i] == "idle":
+                commands.append(self.current_position[i])
+
+            elif self.modes[i] == "stabilize_transition":
+                if len(self.transitions[i]) == 0:
+                    start_coord = self.current_position[i]
+                    end_coord = [self.current_position[i][0], self.current_position[i][1], self.low]
+                    n_points = round(0.1 * len(self.cycles[i]))
+                    aerial = self.leg_trajectory_generator.\
+                        compute_leg_linear_trajectory(start_coord, end_coord, n_points)
+                    self.transitions[i] = list(zip(aerial[0], aerial[1], aerial[2]))
+                    self.transitions[i].append(end_coord) # include final point
+                    #print(self.transitions[i])
+
+                # pass on transition trajectory as normal
+                commands.append(self.transitions[i][self.transition_index])
+
+                # end of stabilizing transition complete, transfer to idle
+                if self.transition_index == len(self.transitions[i]) - 1:
+                    self.modes[i] = "idle"
+
+
             # if leg is in cycle mode, just return its cycle coordinate
-            if self.modes[i] == "cycle":
+            elif self.modes[i] == "cycle":
                 commands.append(self.cycles[i][phase_idxs[i]])
 
             # if leg is in ground transition mode:
@@ -442,20 +489,12 @@ class TrajectoryExecutor:
                 print("Mode not recognized")
                 exit()
 
-                # if leg is going out of range, switch to aerial
-
-                # ...
-
-                # for now, i am going to ignore this and see what happens.
-                # This will cause for there to sometimes be commands that are
-                # out of the "bounds" that I have in the trajectory generator.
-                # This may cause the robot to stall temporarily
-
         # update clocks
+        #if self.modes[0] != "idle":
         self.transition_index += 1
         self.clock_index = (self.clock_index + 1) % (self.clock_max + 1)
 
-        # self.recent_command???
+        # self.recent_command
         distance = self.distance_between_coords(commands[0],
                                                 self.current_position[0])
         # print(distance)
@@ -465,7 +504,7 @@ class TrajectoryExecutor:
             print(self.current_position[0])
             print(self.modes)
 
-            time.sleep(10)
+            #time.sleep(10)
 
         self.current_position = commands
         # print(commands[0])
@@ -524,7 +563,7 @@ if __name__ == "__main__":
     #   sim.step_gui_sim()
     #    time.sleep(1/240)
 
-    for x in range(0, 10000000):
+    for X in range(0, 10000000):
         start_time = time.time()
 
         # if x == 500:
@@ -536,23 +575,30 @@ if __name__ == "__main__":
         # if x == 2000:
         #   exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
 
-        if x % 10 == 0:
+        y = 0
+        X = 0
+        a = 0
+        if X % 10 == 0:
             if keyboard.is_pressed("up"):
-                exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
-                # print("set command")
-            elif keyboard.is_pressed("left"):
-                exec.change_movement_speed(-0.2, 0, 0, default_3d_legs)
-            elif keyboard.is_pressed("down"):
-                exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
-            elif keyboard.is_pressed("right"):
-                exec.change_movement_speed(0.2, 0, 0, default_3d_legs)
-            elif keyboard.is_pressed("q"):
-                exec.change_movement_speed(0, 0, 1, default_3d_legs)
-            elif keyboard.is_pressed("e"):
-                exec.change_movement_speed(0, 0, -1, default_3d_legs)
-            else:
-                # could stop movement here
-                pass
+                #exec.change_movement_speed(0, 0.3, 0, default_3d_legs)
+                y = 0.3
+            if keyboard.is_pressed("left"):
+                #exec.change_movement_speed(-0.2, 0, 0, default_3d_legs)
+                X = -0.3
+            if keyboard.is_pressed("down"):
+                #exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
+                y = -0.3
+            if keyboard.is_pressed("right"):
+                #exec.change_movement_speed(0.2, 0, 0, default_3d_legs)
+                X = 0.3
+            if keyboard.is_pressed("q"):
+                #exec.change_movement_speed(0, 0, 1, default_3d_legs)
+                a = 1
+            if keyboard.is_pressed("e"):
+                #exec.change_movement_speed(0, 0, -1, default_3d_legs)
+                a = -1
+
+            exec.change_movement_speed(X, y, a, default_3d_legs)
 
         # if x > 2000 and x % 10 == 0:
         #    exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
