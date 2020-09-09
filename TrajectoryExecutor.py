@@ -624,9 +624,7 @@ if __name__ == "__main__":
 
         sim.step_gui_sim()
 
-<<<<<<< HEAD
-#        time.sleep(1 / 240)
-=======
+
         end_time = time.time() - start_time
         if end_time < 0.01:
             time.sleep(1 / 240)
@@ -634,4 +632,4 @@ if __name__ == "__main__":
 
             print("CLOCK SKIPPED!")
             print(end_time)
->>>>>>> 14b6e5ea97e7b2c9b29c7eee7162e78b9fdb9002
+
