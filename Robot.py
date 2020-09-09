@@ -37,7 +37,7 @@ class Robot:
         self.trajectory_executor = TrajectoryExecutor()
 
         # initialize controller connection
-        ###self.controller = MyController()
+        self.controller = MyController()
 
         # execute orient and stand up sequence
         # function???
@@ -66,6 +66,12 @@ class Robot:
 
         return x, y, a
 
+
+
+    def get_controller_command(self):
+
+        return self.controller.get_state()
+
     def sleep_until_next_cycle(self, start_time, end_time, time_step):
         difference = end_time - start_time
         if end_time - start_time < time_step:
@@ -74,17 +80,24 @@ class Robot:
             print("Overtime!")
 
     def main_loop(self):
+        
+        # Have controller start listening
+        self.controller.listen(timeout=60)
+
         while (1):
             # record start time
             start_time = time.time()
 
             # check controller
-            velocity = self.get_keyboard_command()
+            #velocity = self.get_keyboard_command()
+            velocity = self.get_controller_command()
 
+            print(velocity)
             # check orientation
 
             # update and check state
 
+            
             # calculate/ look up new joint positions
             self.trajectory_executor.change_movement_speed(velocity[0],
                                                            velocity[1],
@@ -122,4 +135,5 @@ if __name__ == "__main__":
         gui = True
 
     robot = Robot(urdf, gui)
+
     robot.main_loop()

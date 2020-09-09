@@ -43,12 +43,13 @@ from pyPS4Controller_edit.controller2 import Controller, Event
 
 # Speed variables to be optimized
 
-max_sideways_speed = 6.0    # m/s
-max_forward_speed = 10.0   # m/s
-max_backward_speed = -4.0    # m/s
-max_rotation_speed = 2      # rad/s
+max_sideways_speed = 0.5    # m/s
+max_forward_speed = 0.5   # m/s
+max_backward_speed = -0.5    # m/s
+max_rotation_speed = 1      # rad/s
 
-speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the First two!
+speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the second two!
+
 
 # Thresholds
 max_threshold = 20000     # equal or greater for med / high speed
@@ -61,6 +62,11 @@ class MyController(Controller):
         self.joystick_state = [0 , 0 , 0]     # (sideways , forward , rotation)   
         self.turbo = False                    # This will be R1 -> used to get run speed
 
+
+
+
+    def get_state(self):
+      return self.joystick_state
 
     def get_speed(self , val):
        # Method which indicates the speed percentage to use
@@ -75,6 +81,21 @@ class MyController(Controller):
           return speed_percentages[1]
 
        elif val >= max_threshold and self.turbo == True:  # meax speed
+          return speed_percentages[2]
+
+       else:          # signal too small 
+          return 0   
+
+
+
+    def get_no_turbo_speed(self , val):
+       # Method which indicates the speed percentage to use
+
+
+       elif val <= max_threshold:  # medium speed
+          return speed_percentages[1]
+
+       elif val >= max_threshold:  # meax speed
           return speed_percentages[2]
 
        else:          # signal too small 
@@ -151,7 +172,7 @@ class MyController(Controller):
     def on_R3_left(self, value):
        # Joystick is pressed left
 
-       speed = self.get_speed( abs(value) )  * max_rotation_speed * -1
+       speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed * -1
       
 
        if self.joystick_state[1] != speed:
@@ -161,7 +182,7 @@ class MyController(Controller):
   
     def on_R3_right(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_rotation_speed 
+       speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed 
 
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
