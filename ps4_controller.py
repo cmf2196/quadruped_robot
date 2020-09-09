@@ -48,7 +48,7 @@ max_forward_speed = 0.5   # m/s
 max_backward_speed = -0.5    # m/s
 max_rotation_speed = 1      # rad/s
 
-speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the First two!
+speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the second two!
 
 
 # Thresholds
@@ -81,6 +81,21 @@ class MyController(Controller):
           return speed_percentages[1]
 
        elif val >= max_threshold and self.turbo == True:  # meax speed
+          return speed_percentages[2]
+
+       else:          # signal too small 
+          return 0   
+
+
+
+    def get_no_turbo_speed(self , val):
+       # Method which indicates the speed percentage to use
+
+
+       elif val <= max_threshold:  # medium speed
+          return speed_percentages[1]
+
+       elif val >= max_threshold:  # meax speed
           return speed_percentages[2]
 
        else:          # signal too small 
@@ -157,7 +172,7 @@ class MyController(Controller):
     def on_R3_left(self, value):
        # Joystick is pressed left
 
-       speed = self.get_speed( abs(value) )  * max_rotation_speed * -1
+       speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed * -1
       
 
        if self.joystick_state[1] != speed:
@@ -167,7 +182,7 @@ class MyController(Controller):
   
     def on_R3_right(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_rotation_speed 
+       speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed 
 
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
