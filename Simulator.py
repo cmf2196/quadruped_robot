@@ -95,7 +95,7 @@ class Simulator:
         return ik
 
     def compute_multi_fk(self, leg_ids):
-        states = self.kinematics_sim.getLinkStates(self.kinematics_robot, [3,7,11,15])
+        states = self.kinematics_sim.getLinkStates(self.kinematics_robot, leg_ids)
         return states
 
     def set_robot_pos(self, joints, command):

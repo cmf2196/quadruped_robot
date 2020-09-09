@@ -21,7 +21,7 @@ class Robot:
         self.frequency = 100  # Hz
         self.period = 1 / self.frequency
 
-        # from urdf, determine moving joints (at some point possibly
+        # from urdf, determine moving joints (at some point possibly)
         self.moving_joints = [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]
         self.feet = [3, 7, 11, 15]
 

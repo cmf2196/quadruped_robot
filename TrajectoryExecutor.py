@@ -120,8 +120,8 @@ class TrajectoryExecutor:
         # print(leg_positions)
 
         # decide heights of aerial trajectories
-        self.low = -0.2
-        self.high = -0.15
+        #self.low = -0.2
+        #self.high = -0.15
 
         # decide gait phases and ground proportion, stored in object
         self.choose_gait(x_vel, y_vel, ang_vel)
@@ -262,7 +262,7 @@ class TrajectoryExecutor:
         for leg in self.current_position:
             traj = self.leg_trajectory_generator.compute_leg_ground_trajectory_approx(
                 [
-                    leg[0], leg[1]], True)
+                    leg[0], leg[1]], 3, True)
             z = list(np.full(len(traj[0]), self.low))
             self.transitions.append(list(
                 zip(traj[0], traj[1], z)))  # get rid of first point in list
