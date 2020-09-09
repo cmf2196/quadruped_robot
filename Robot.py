@@ -1,3 +1,4 @@
+
 '''
 Joshua Katz
 9/8/20
@@ -81,15 +82,15 @@ class Robot:
     def main_loop(self):
         
         # Have controller start listening
-        self.controller.listen(timeout=60)
-
+#        self.controller.listen(timeout=60)
+#        print('here')
         while (1):
             # record start time
             start_time = time.time()
 
             # check controller
-            #velocity = self.get_keyboard_command()
-            velocity = self.get_controller_command()
+            velocity = self.get_keyboard_command()
+            #velocity = self.get_controller_command()
 
             print(velocity)
             # check orientation

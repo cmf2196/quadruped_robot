@@ -92,7 +92,7 @@ class MyController(Controller):
        # Method which indicates the speed percentage to use
 
 
-       elif val <= max_threshold:  # medium speed
+       if val>= min_threshold and val < max_threshold:  # medium speed
           return speed_percentages[1]
 
        elif val >= max_threshold:  # meax speed
@@ -156,7 +156,7 @@ class MyController(Controller):
        # This is when the Right Joystick registers a value of zero
        # button id is used to determine which axis has crossed the zero plane
 
-       if button_id == 4 and self.joystick_state[2] != 0:         # here we are only considering sideways rotation
+       if button_id == 3 and self.joystick_state[2] != 0:         # here we are only considering sideways rotation
           self.joystick_state[2]=  0
           print(' Rotation set to zero')
 
@@ -284,13 +284,13 @@ class MyController(Controller):
     def on_L1_release(self):
        pass
 
-    def on_L2_press(self):
+    def on_L2_press(self , value):
        pass 
 
     def on_L2_release(self):
        pass 
 
-    def on_R2_press(self):
+    def on_R2_press(self , value):
        pass
 
     def on_R2_release(self):
