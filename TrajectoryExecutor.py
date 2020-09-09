@@ -82,14 +82,14 @@ class TrajectoryExecutor:
 
         return self.phases, self.ground_prop
 
-    def change_movement_speed(self, x_vel, y_vel, ang_vel, leg_positions):
+    def change_movement_speed(self, x_vel, y_vel, ang_vel):
 
-        # get current robot position if possible
-        if self.current_position is not None:
-            leg_positions = self.current_position
-            # print("changed to current position")
-        else:
-            self.current_position = leg_positions
+         #get current robot position if possible
+        #if self.current_position is not None:
+        #    leg_positions = self.current_position
+        #   # print("changed to current position")
+        #else:
+        #    self.current_position = leg_positions
 
         if self.current_velocity[0] == x_vel \
                 and self.current_velocity[1] == y_vel \
@@ -156,14 +156,14 @@ class TrajectoryExecutor:
         min_dists = []
         min_idxs = []
 
-        for i in range(0, len(leg_positions)):
+        for i in range(0, len(self.current_position)):
             min_dist = self.distance_between_coords(self.cycles[i][0],
-                                                    leg_positions[i])
+                                                    self.current_position[i])
             min_idx = 0
             for j in range(0, len(self.cycles[
                                       i])):  # every other approx to improve performance?
                 dist = self.distance_between_coords(self.cycles[i][j],
-                                                    leg_positions[i])
+                                                    self.current_position[i])
                 if dist < min_dist:
                     min_dist = dist
                     min_idx = j
@@ -259,7 +259,7 @@ class TrajectoryExecutor:
 
         # compute leg transition trajectories
         self.transitions = []
-        for leg in leg_positions:
+        for leg in self.current_position:
             traj = self.leg_trajectory_generator.compute_leg_ground_trajectory_approx(
                 [
                     leg[0], leg[1]], True)
@@ -366,7 +366,7 @@ class TrajectoryExecutor:
                 self.current_position[i], target, n_points)
         else:
             start_coord = (
-            self.current_position[i][0], self.current_position[i][1])
+                self.current_position[i][0], self.current_position[i][1])
             end_coord = (target[0], target[1])
             aerial = self.leg_trajectory_generator.compute_leg_aerial_trajectory(
                 start_coord, end_coord, self.low, self.high, n_points)
@@ -427,7 +427,8 @@ class TrajectoryExecutor:
                 # current position 2D used later ...
                 try:
                     coord = (
-                    self.current_position[i][0], self.current_position[i][1])
+                        self.current_position[i][0],
+                        self.current_position[i][1])
                 except:
                     coord = 0
                 if round(self.cycles[i][phase_idxs[i]][2], 4) > self.low:
@@ -534,22 +535,23 @@ if __name__ == "__main__":
     sim.load_gui_urdf(my_urdf)
 
     # get initial position from simulator
-    init_pos = [(-0.135, 0.244, -0.2),
-                (0.135, 0.11999999999999988, -0.2),
-                (-0.135, -0.24200000000000016, -0.2),
-                (0.135, -0.11800000000000005, -0.2)]
+    init_pos = []
+    fk = sim.compute_multi_fk([3, 7, 11, 15])
+    for leg in fk:
+        print(leg[0])
+        init_pos.append(leg[0])
+
+
+    #init_pos = [(-0.135, 0.244, -0.2),
+    #            (0.135, 0.11999999999999988, -0.2),
+    #            (-0.135, -0.24200000000000016, -0.2),
+    #           (0.135, -0.11800000000000005, -0.2)]
 
     exec = TrajectoryExecutor()
     exec.current_position = init_pos
-    # exec.change_movement_speed(0, 0.2, 0, [(-0.135, 0.244, -0.2),
-    #                                       (0.135, 0.11999999999999988, -0.2),
-    #                                       (-0.135, -0.24200000000000016, -0.2),
-    #                                       (0.135, -0.11800000000000005, -0.2)])
+    # exec.change_movement_speed(0, 0.2, 0)
 
-    exec.change_movement_speed(0.2, 0.0, 0, [(-0.135, 0.15, -0.2),
-                                             (0.135, 0.15, -0.2),
-                                             (-0.135, -0.15, -0.2),
-                                             (0.135, -0.15, -0.2)])
+    exec.change_movement_speed(0.2, 0.0, 0)
 
     # print(len(exec.cycles[0]))
     # for x in range(0,150):
@@ -568,17 +570,17 @@ if __name__ == "__main__":
     #   sim.step_gui_sim()
     #    time.sleep(1/240)
 
-    for X in range(0, 10000000):
+    for x in range(0, 10000000):
         start_time = time.time()
 
         # if x == 500:
-        #    exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
+        #    exec.change_movement_speed(0, -0.2, 0)
         # if x == 1000:
-        #    exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
+        #    exec.change_movement_speed(0, 0.2, 0)
         # if x == 1500:
-        #    exec.change_movement_speed(0, -0.2, 0, default_3d_legs)
+        #    exec.change_movement_speed(0, -0.2, 0)
         # if x == 2000:
-        #   exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
+        #   exec.change_movement_speed(0, 0.2, 0)
 
         y = 0
         X = 0
@@ -603,7 +605,7 @@ if __name__ == "__main__":
                 # exec.change_movement_speed(0, 0, -1, default_3d_legs)
                 a = -1
 
-            exec.change_movement_speed(X, y, a, default_3d_legs)
+            exec.change_movement_speed(X, y, a)
 
         # if x > 2000 and x % 10 == 0:
         #    exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
@@ -618,10 +620,7 @@ if __name__ == "__main__":
         moving_joints = [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]
         sim.set_robot_pos([0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14], ik)
 
-        center_pos = sim.gui_sim.getLinkState(sim.gui_robot, 0)[0]
-        width, height, viewMat, projMat, cameraUp, camForward, horizon, vertical, \
-        yaw, pitch, dist, camTarget = sim.gui_sim.getDebugVisualizerCamera()
-        sim.gui_sim.resetDebugVisualizerCamera(dist, yaw, pitch, center_pos)
+        sim.center_camera()
 
         sim.step_gui_sim()
 

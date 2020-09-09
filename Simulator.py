@@ -42,7 +42,8 @@ class Simulator:
     def load_kinematics_urdf(self, urdf):
         if self.kinematics_robot is not None:
             print("Delete robot! (NEED TO IMPLEMENT THIS)")
-        start_orientation = self.gui_sim.getQuaternionFromEuler([0, 0, 3.14159])
+        start_orientation = self.kinematics_sim.getQuaternionFromEuler(
+            [0, 0, 3.14159])
         self.kinematics_robot = self.kinematics_sim.loadURDF(urdf, (0, 0, 0),
                                                              pybullet.getQuaternionFromEuler(
                                                                  (0, 0,
@@ -93,6 +94,10 @@ class Simulator:
         # ik = list(zip(it, it, it))
         return ik
 
+    def compute_multi_fk(self, leg_ids):
+        states = self.kinematics_sim.getLinkStates(self.kinematics_robot, [3,7,11,15])
+        return states
+
     def set_robot_pos(self, joints, command):
         if not self.gui:
             print("GUI not active")
@@ -115,6 +120,20 @@ class Simulator:
                                                      (0, 0, 0),
                                                      pybullet.getQuaternionFromEuler(
                                                          (0, 0, 3.14159)))
+        return
+
+    def center_camera(self):
+
+        # find center position
+        center_pos = self.gui_sim.getLinkState(self.gui_robot, 0)[0]
+
+        # read current camera info
+        width, height, viewMat, projMat, cameraUp, camForward, horizon, vertical, \
+        yaw, pitch, dist, camTarget = self.gui_sim.getDebugVisualizerCamera()
+
+        # reset camera view
+        self.gui_sim.resetDebugVisualizerCamera(dist, yaw, pitch, center_pos)
+
         return
 
 
