@@ -140,7 +140,7 @@ class Simulator:
 if __name__ == "__main__":
     current_dir = os.getcwd()
     my_urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
-
+    my_urdf = current_dir + "/Phantom/urdf/Phantom_connor_edits.urdf"
     sim = Simulator(True)
     sim.load_gui_urdf(my_urdf)
     sim.load_kinematics_urdf(my_urdf)

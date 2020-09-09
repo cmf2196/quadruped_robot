@@ -528,8 +528,8 @@ class TrajectoryExecutor:
 if __name__ == "__main__":
     # Create and initiate simulator
     current_dir = os.getcwd()
-    my_urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
-
+   #my_urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
+    my_urdf = current_dir + "/Phantom/urdf/Phantom_connor_edits.urdf"
     sim = Simulator(True)
     sim.load_kinematics_urdf(my_urdf)
     sim.load_gui_urdf(my_urdf)
@@ -624,6 +624,7 @@ if __name__ == "__main__":
 
         sim.step_gui_sim()
 
+
         end_time = time.time() - start_time
         if end_time < 0.01:
             time.sleep(1 / 240)
@@ -631,3 +632,4 @@ if __name__ == "__main__":
 
             print("CLOCK SKIPPED!")
             print(end_time)
+
