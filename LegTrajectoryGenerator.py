@@ -52,6 +52,7 @@ class LegTrajectoryGenerator:
         self.y_velocity = 0
         self.angular_velocity = 0
         self.max_range = 0.10
+        self.frequency = 100  # Hz
 
     def compute_center_of_rotation(self, vel, ang_vel):
         """
@@ -145,7 +146,7 @@ class LegTrajectoryGenerator:
         # Time from start of motion and time interval
         start_time = -max_time / 2
         final_time = max_time / 2  # seconds
-        time_interval = 0.01  # magnitude of time step, assuming 100 Hz for now but could change
+        time_interval = 1/self.frequency  # magnitude of time step
 
         center = self.compute_center_of_rotation(vel, ang_vel)
 
@@ -262,7 +263,7 @@ class LegTrajectoryGenerator:
 
         return [x_data_leg, y_data_leg]
 
-    def compute_leg_ground_trajectory_approx(self, init_leg_coord,
+    def compute_leg_ground_trajectory_approx(self, init_leg_coord, approx_points,
                                              transition=False):
 
         if self.current_body_trajectory is None:
@@ -283,7 +284,7 @@ class LegTrajectoryGenerator:
             time_data = self.current_body_trajectory[2]
 
         # choose number of points to approximate
-        approx_points = 3  # choosing 5 for now, could be dependent on v,w
+        approx_points = 3  # choosing 3 for now, could be dependent on v,w
 
         # use total of points in body trajectory to determine indeces
         percents = np.linspace(0, 1, approx_points)
@@ -399,7 +400,7 @@ class LegTrajectoryGenerator:
 
         if approx:
             ground_traj = self.compute_leg_ground_trajectory_approx(
-                init_leg_coord)
+                init_leg_coord, 3)
         else:
             ground_traj = self.compute_leg_ground_trajectory(init_leg_coord)
 
