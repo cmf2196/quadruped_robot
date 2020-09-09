@@ -175,8 +175,8 @@ class MyController(Controller):
        speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed * -1
       
 
-       if self.joystick_state[1] != speed:
-          self.joystick_state[1] = speed
+       if self.joystick_state[2] != speed:
+          self.joystick_state[2] = speed
           print(' rotation speed set to '  , speed)
   
   
@@ -184,8 +184,8 @@ class MyController(Controller):
        
        speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed 
 
-       if self.joystick_state[1] != speed:
-          self.joystick_state[1] = speed
+       if self.joystick_state[2] != speed:
+          self.joystick_state[2] = speed
           print(' rotation speed set to '  , speed)
 
 
