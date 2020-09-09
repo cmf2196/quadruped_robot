@@ -8,6 +8,7 @@ import platform
 from lx16a import *
 import lx16a
 
+
 class MotorController:
 
     def __init__(self, motor_ids, frequency):
@@ -17,7 +18,7 @@ class MotorController:
         self.motor_ids = motor_ids
         self.servos = [LX16A(motor) for motor in motor_ids]
         self.frequency = frequency
-        self.period = 1/frequency
+        self.period = 1 / frequency
 
     @staticmethod
     def initialize_connection():
@@ -49,10 +50,12 @@ class MotorController:
     # this converts the radian positions of the robot ik output to degrees in
     # the motor's reference. Center of input is 0, center of motor is 120
     def radians_to_degrees(self, rads):
-        degs = [rad/(2*math.pi)*360 + 120 for rad in rads]
+        degs = [rad / (2 * math.pi) * 360 + 120 for rad in rads]
         return degs
 
+
 if __name__ == "__main__":
+
     ids = []
     for i in range(1, 5):
         for j in range(1, 4):
@@ -105,4 +108,3 @@ if __name__ == "__main__":
 
     motor_controller.move_all_motors(stand_data, delay)
     time.sleep(delay / 1000)
-
