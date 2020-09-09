@@ -50,7 +50,7 @@ max_rotation_speed = 1      # rad/s
 
 speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the second two!
 
-
+   
 # Thresholds
 max_threshold = 20000     # equal or greater for med / high speed
 min_threshold = 10000      # equal or greater for low speed
