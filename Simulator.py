@@ -22,13 +22,14 @@ class Simulator:
             self.gui_sim.setAdditionalSearchPath(pybullet_data.getDataPath())
             self.gui_plane = self.gui_sim.loadURDF("plane.urdf")
             self.gui_sim.setGravity(0, 0, -9.8)
+            self.gui_sim.setTimeStep(1 / 100)  # change to variable
         else:
             self.gui_sim = None
             self.gui_plane = None
 
         self.kinematics_sim = bc.BulletClient(connection_mode=pybullet.DIRECT)
         self.kinematics_sim.setAdditionalSearchPath(pybullet_data.getDataPath())
-        #self.kinematics_sim.setGravity(0, 0, -9.8)
+        # self.kinematics_sim.setGravity(0, 0, -9.8)
 
         self.kinematics_robot = None
         self.gui_robot = None
@@ -41,7 +42,8 @@ class Simulator:
     def load_kinematics_urdf(self, urdf):
         if self.kinematics_robot is not None:
             print("Delete robot! (NEED TO IMPLEMENT THIS)")
-        start_orientation = self.gui_sim.getQuaternionFromEuler([0, 0, 3.14159])
+        start_orientation = self.kinematics_sim.getQuaternionFromEuler(
+            [0, 0, 3.14159])
         self.kinematics_robot = self.kinematics_sim.loadURDF(urdf, (0, 0, 0),
                                                              pybullet.getQuaternionFromEuler(
                                                                  (0, 0,
@@ -84,12 +86,17 @@ class Simulator:
         # potentially faster
         moving_joints = [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]
         for i in range(0, len(moving_joints)):
-            self.kinematics_sim.resetJointState(self.kinematics_robot, moving_joints[i],
-                                        ik[i], 0)
+            self.kinematics_sim.resetJointState(self.kinematics_robot,
+                                                moving_joints[i],
+                                                ik[i], 0)
 
         # it = iter(ik)
         # ik = list(zip(it, it, it))
         return ik
+
+    def compute_multi_fk(self, leg_ids):
+        states = self.kinematics_sim.getLinkStates(self.kinematics_robot, leg_ids)
+        return states
 
     def set_robot_pos(self, joints, command):
         if not self.gui:
@@ -113,6 +120,20 @@ class Simulator:
                                                      (0, 0, 0),
                                                      pybullet.getQuaternionFromEuler(
                                                          (0, 0, 3.14159)))
+        return
+
+    def center_camera(self):
+
+        # find center position
+        center_pos = self.gui_sim.getLinkState(self.gui_robot, 0)[0]
+
+        # read current camera info
+        width, height, viewMat, projMat, cameraUp, camForward, horizon, vertical, \
+        yaw, pitch, dist, camTarget = self.gui_sim.getDebugVisualizerCamera()
+
+        # reset camera view
+        self.gui_sim.resetDebugVisualizerCamera(dist, yaw, pitch, center_pos)
+
         return
 
 
