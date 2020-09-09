@@ -108,8 +108,8 @@ class Robot:
 if __name__ == "__main__":
     # select urdf
     current_dir = os.getcwd()
-    urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
-
+    #urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
+    urdf = current_dir + "/Phantom/urdf/Phantom_connor_edits.urdf"
     # Create robot object and run its main loop
-    robot = Robot(urdf, True)
+    robot = Robot(urdf, False)
     robot.main_loop()
