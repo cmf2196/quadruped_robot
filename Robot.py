@@ -11,17 +11,17 @@ import platform
 from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
-
 from ps4_controller import MyController
 from ps4_controller import MyEventDefinition
 
 from PygameController import PygameController
 
+from MotorController import MotorController
 
 
 class Robot:
 
-    def __init__(self, urdf, gui=False):
+    def __init__(self, urdf, gui=False, motors = False):
         self.urdf = urdf
         self.frequency = 100  # Hz
         self.period = 1 / self.frequency
@@ -50,10 +50,7 @@ class Robot:
         else:
             self.controller = PygameController()
 
-        # execute orient and stand up sequence
-        # function???
-
-        # make velocity 0
+        # make velocity 0, place in standing position virtually
         self.trajectory_executor.current_position = [(-0.135, 0.15, -0.2),
                                                      (0.135, 0.15, -0.2),
                                                      (-0.135, -0.15, -0.2),
@@ -61,6 +58,26 @@ class Robot:
         self.trajectory_executor.change_movement_speed(0, 0.1,
                                                        0)  # makes cycles exist
         self.trajectory_executor.change_movement_speed(0, 0, 0)
+
+        # execute orient and stand up sequence
+        # For now, I will hard code a stand up sequence. This will
+        # be replaced by FSM later...
+        self.motors = motors
+        if self.motors:
+            self.motor_controller = MotorController(
+                ["11", "12", "13", "21", "22", "23", "31", "32", "33", "41", "42",
+                 "43"], self.frequency)
+            lay = [(-0.135, 0.15, -0.03),
+                   (0.135, 0.15, -0.03),
+                   (-0.135, -0.15, -0.03),
+                   (0.135, -0.15, -0.03)]
+            ik_lay = self.simulator.compute_multi_ik(self.feet, lay)
+            self.motor_controller.move_all_motors(self.motor_controller.radians_to_degrees(ik_lay),2000)
+            time.sleep(2)
+            ik_stand = self.simulator.compute_multi_ik(self.feet, self.trajectory_executor.current_position)
+            self.motor_controller.move_all_motors(
+                self.motor_controller.radians_to_degrees(ik_stand), 2000)
+            time.sleep(2)
 
     def get_keyboard_command(self):
         x, y, a = (0, 0, 0)
@@ -114,7 +131,7 @@ class Robot:
             # update and check state
 
             # calculate/ look up new joint positions
-            if x%1 == 0:
+            if x % 1 == 0:
                 self.trajectory_executor.change_movement_speed(velocity[0],
                                                                velocity[1],
                                                                velocity[2])
@@ -130,6 +147,10 @@ class Robot:
                 self.simulator.step_gui_sim()
                 self.simulator.center_camera()
 
+            if self.motors:
+                degs = self.motor_controller.radians_to_degrees(ik)
+                self.motor_controller.move_all_motors(degs, self.period)
+
             # sleep until next cycle
             end_time = time.time()
 
@@ -144,13 +165,11 @@ if __name__ == "__main__":
 
     # Create robot object and run its main loop
 
-
     # if on linux, do not show gui
     if platform.system() == "Linux":
         gui = False
     else:
         gui = True
 
-    robot = Robot(urdf, gui)
-
+    robot = Robot(urdf, gui, False)
     robot.main_loop()
