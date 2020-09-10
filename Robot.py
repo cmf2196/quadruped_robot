@@ -12,7 +12,7 @@ from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
 
-from ps4_controller import MyController
+#from ps4_controller import MyController
 
 
 class Robot:
@@ -37,7 +37,7 @@ class Robot:
         self.trajectory_executor = TrajectoryExecutor()
 
         # initialize controller connection
-        self.controller = MyController()
+        #self.controller = MyController()
 
         # execute orient and stand up sequence
         # function???
@@ -125,5 +125,5 @@ if __name__ == "__main__":
     #urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
     urdf = current_dir + "/Phantom/urdf/Phantom_connor_edits.urdf"
     # Create robot object and run its main loop
-    robot = Robot(urdf, False)
+    robot = Robot(urdf, True)
     robot.main_loop()
