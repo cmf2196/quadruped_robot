@@ -11,10 +11,12 @@ import platform
 from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
+
 from ps4_controller import MyController
 from ps4_controller import MyEventDefinition
 
 from PygameController import PygameController
+
 
 
 class Robot:
@@ -39,6 +41,7 @@ class Robot:
         self.trajectory_executor = TrajectoryExecutor()
 
         # initialize controller connection
+
         if platform.system() == "Linux":
             self.controller = MyController(interface="/dev/input/js0",
                                            connecting_using_ds4drv=False,
@@ -46,7 +49,6 @@ class Robot:
             self.controller.initialize_connection()
         else:
             self.controller = PygameController()
-
 
         # execute orient and stand up sequence
         # function???
@@ -141,6 +143,7 @@ if __name__ == "__main__":
     urdf = current_dir + sep + "Phantom" + sep + "urdf" + sep + "Phantom_connor_edits.urdf"
 
     # Create robot object and run its main loop
+
 
     # if on linux, do not show gui
     if platform.system() == "Linux":
