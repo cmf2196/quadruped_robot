@@ -43,17 +43,6 @@ from pyPS4Controller_edit.controller2 import Controller, Event
 
 # Speed variables to be optimized
 
-max_sideways_speed = 0.5    # m/s
-max_forward_speed = 0.5   # m/s
-max_backward_speed = -0.5    # m/s
-max_rotation_speed = 1      # rad/s
-
-speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the second two!
-
-
-# Thresholds
-max_threshold = 20000     # equal or greater for med / high speed
-min_threshold = 10000      # equal or greater for low speed
 
 class MyController(Controller):
 
@@ -63,7 +52,25 @@ class MyController(Controller):
         self.turbo = False                    # This will be R1 -> used to get run speed
 
 
+        self.max_sideways_speed = 0.5    # m/s
+        self.max_forward_speed = 0.5   # m/s
+        self.max_backward_speed = -0.5    # m/s
+        self.max_rotation_speed = 1      # rad/s
 
+        self.speed_percentages = [0.2 , 0.6 , 1]  # walk, trot , run  note, rotation just used the second two!
+
+
+# Thresholds
+        self.max_threshold = 20000     # equal or greater for med / high speed
+        self.min_threshold = 10000      # equal or greater for low speed
+
+
+        self.R3 = False
+
+
+        self.up_arrow = False
+        self.down_arrow = False
+        self.L1 = False
 
     def get_state(self):
       return self.joystick_state
@@ -71,17 +78,17 @@ class MyController(Controller):
     def get_speed(self , val):
        # Method which indicates the speed percentage to use
 
-       if val >= min_threshold and val < max_threshold and self.turbo == False:    # low speed
-          return speed_percentages[0]    
+       if val >= self.min_threshold and val < self.max_threshold and self.turbo == False:    # low speed
+          return self.speed_percentages[0]    
 
-       if val >= min_threshold and val < max_threshold and self.turbo == True:    # low speed
-          return speed_percentages[1]     
+       if val >= self.min_threshold and val < self.max_threshold and self.turbo == True:    # low speed
+          return self.speed_percentages[1]     
 
-       elif val >= max_threshold and self.turbo == False:  # medium speed
-          return speed_percentages[1]
+       elif val >= self.max_threshold and self.turbo == False:  # medium speed
+          return self.speed_percentages[1]
 
-       elif val >= max_threshold and self.turbo == True:  # meax speed
-          return speed_percentages[2]
+       elif val >= self.max_threshold and self.turbo == True:  # meax speed
+          return self.speed_percentages[2]
 
        else:          # signal too small 
           return 0   
@@ -92,11 +99,11 @@ class MyController(Controller):
        # Method which indicates the speed percentage to use
 
 
-       elif val <= max_threshold:  # medium speed
-          return speed_percentages[1]
+       if val>= self.min_threshold and val < self.max_threshold:  # medium speed
+          return self.speed_percentages[1]
 
-       elif val >= max_threshold:  # meax speed
-          return speed_percentages[2]
+       elif val >= self.max_threshold:  # meax speed
+          return self.speed_percentages[2]
 
        else:          # signal too small 
           return 0   
@@ -107,21 +114,21 @@ class MyController(Controller):
        self.turbo = True    # set turbo
 
        # trot to run
-       if self.joystick_state[1] in [max_forward_speed * speed_percentages[1] , max_backward_speed * speed_percentages[1]]:
-          self.joystick_state[1] = self.joystick_state[1] * speed_percentages[2] / speed_percentages[1]
+       if self.joystick_state[1] in [self.max_forward_speed * self.speed_percentages[1] , self.max_backward_speed * self.speed_percentages[1]]:
+          self.joystick_state[1] = self.joystick_state[1] * self.speed_percentages[2] / self.speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
        
-       if abs( self.joystick_state[0] ) == max_sideways_speed * speed_percentages[1] :
-          self.joystick_state[0] = self.joystick_state[0] * speed_percentages[2] / speed_percentages[1]
+       if abs( self.joystick_state[0] ) == self.max_sideways_speed * self.speed_percentages[1] :
+          self.joystick_state[0] = self.joystick_state[0] * self.speed_percentages[2] / self.speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
        # walk to trot
-       if self.joystick_state[1] in [max_forward_speed * speed_percentages[0] , max_backward_speed * speed_percentages[0]]:
-          self.joystick_state[1] = self.joystick_state[1] * speed_percentages[1] / speed_percentages[0]
+       if self.joystick_state[1] in [self.max_forward_speed * self.speed_percentages[0] , self.max_backward_speed * self.speed_percentages[0]]:
+          self.joystick_state[1] = self.joystick_state[1] * self.speed_percentages[1] / self.speed_percentages[0]
           print('vertical speed set to ' , self.joystick_state[1])
        
-       if abs( self.joystick_state[0] ) == max_sideways_speed * speed_percentages[0] :
-          self.joystick_state[0] = self.joystick_state[0] * speed_percentages[1] / speed_percentages[0]
+       if abs( self.joystick_state[0] ) == self.max_sideways_speed * self.speed_percentages[0] :
+          self.joystick_state[0] = self.joystick_state[0] * self.speed_percentages[1] / self.speed_percentages[0]
           print('horizontal speed set to ' , self.joystick_state[0])
 
 
@@ -133,21 +140,21 @@ class MyController(Controller):
        self.turbo = False    # release turbo
        
        # run to trot       
-       if self.joystick_state[1] in [max_forward_speed , max_backward_speed]:
-          self.joystick_state[1] = self.joystick_state[1] / speed_percentages[2] * speed_percentages[1]
+       if self.joystick_state[1] in [self.max_forward_speed , self.max_backward_speed]:
+          self.joystick_state[1] = self.joystick_state[1] / self.speed_percentages[2] * self.speed_percentages[1]
           print('vertical speed set to ' , self.joystick_state[1])
 
-       if abs(self.joystick_state[0]) == max_sideways_speed:
-          self.joystick_state[0] = self.joystick_state[0] / speed_percentages[2] * speed_percentages[1]
+       if abs(self.joystick_state[0]) == self.max_sideways_speed:
+          self.joystick_state[0] = self.joystick_state[0] / self.speed_percentages[2] * self.speed_percentages[1]
           print('horizontal speed set to ' , self.joystick_state[0])
 
        # trot to walk
-       if self.joystick_state[1] in [max_forward_speed * speed_percentages[1] , max_backward_speed * speed_percentages[1]]:
-          self.joystick_state[1] = self.joystick_state[1] / speed_percentages[1] * speed_percentages[0]
+       if self.joystick_state[1] in [self.max_forward_speed * self.speed_percentages[1] , self.max_backward_speed * self.speed_percentages[1]]:
+          self.joystick_state[1] = self.joystick_state[1] / self.speed_percentages[1] * self.speed_percentages[0]
           print('vertical speed set to ' , self.joystick_state[1])
 
-       if abs(self.joystick_state[0]) == max_sideways_speed * speed_percentages[1]:
-          self.joystick_state[0] = self.joystick_state[0] / speed_percentages[1] * speed_percentages[0]
+       if abs(self.joystick_state[0]) == self.max_sideways_speed * self.speed_percentages[1]:
+          self.joystick_state[0] = self.joystick_state[0] / self.speed_percentages[1] * self.speed_percentages[0]
           print('horizontal speed set to ' , self.joystick_state[0])
 
     # Right Trigger ______________________________________
@@ -156,7 +163,7 @@ class MyController(Controller):
        # This is when the Right Joystick registers a value of zero
        # button id is used to determine which axis has crossed the zero plane
 
-       if button_id == 4 and self.joystick_state[2] != 0:         # here we are only considering sideways rotation
+       if button_id == 3 and self.joystick_state[2] != 0:         # here we are only considering sideways rotation
           self.joystick_state[2]=  0
           print(' Rotation set to zero')
 
@@ -172,20 +179,20 @@ class MyController(Controller):
     def on_R3_left(self, value):
        # Joystick is pressed left
 
-       speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed * -1
+       speed = self.get_no_turbo_speed( abs(value) )  * self.max_rotation_speed * -1
       
 
-       if self.joystick_state[1] != speed:
-          self.joystick_state[1] = speed
+       if self.joystick_state[2] != speed:
+          self.joystick_state[2] = speed
           print(' rotation speed set to '  , speed)
   
   
     def on_R3_right(self, value):
        
-       speed = self.get_no_turbo_speed( abs(value) )  * max_rotation_speed 
+       speed = self.get_no_turbo_speed( abs(value) )  * self.max_rotation_speed 
 
-       if self.joystick_state[1] != speed:
-          self.joystick_state[1] = speed
+       if self.joystick_state[2] != speed:
+          self.joystick_state[2] = speed
           print(' rotation speed set to '  , speed)
 
 
@@ -205,7 +212,7 @@ class MyController(Controller):
     
     def on_L3_up(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_forward_speed
+       speed = self.get_speed( abs(value) )  * self.max_forward_speed
 
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
@@ -215,7 +222,7 @@ class MyController(Controller):
 
     def on_L3_down(self, value):
        
-       speed = self.get_speed( abs(value) )  * max_backward_speed 
+       speed = self.get_speed( abs(value) )  * self.max_backward_speed 
 
        if self.joystick_state[1] != speed:
           self.joystick_state[1] = speed
@@ -223,7 +230,7 @@ class MyController(Controller):
 
 
     def on_L3_left(self, value):
-       speed = self.get_speed( abs(value) )  * max_sideways_speed * -1
+       speed = self.get_speed( abs(value) )  * self.max_sideways_speed * -1
 
        if self.joystick_state[0] != speed:
           self.joystick_state[0] = speed
@@ -232,7 +239,7 @@ class MyController(Controller):
  
   
     def on_L3_right(self, value):
-       speed = self.get_speed( abs(value) )  * max_sideways_speed 
+       speed = self.get_speed( abs(value) )  * self.max_sideways_speed 
 
        if self.joystick_state[0] != speed:
           self.joystick_state[0] = speed
@@ -243,11 +250,11 @@ class MyController(Controller):
 
     def on_up_arrow_press(self):
         # Trigger stand up code
-        print('stand up here')
+        self.up_arrow = True
 
     def on_down_arrow_press(self):
         # Trigger lie down code
-        print('lie down here')
+        self.down_arrow = True
 
 
 
@@ -279,25 +286,26 @@ class MyController(Controller):
        pass
 
     def on_L1_press(self):
-       pass
+       self.L1 = True
 
     def on_L1_release(self):
-       pass
+       self.L1 = False
 
-    def on_L2_press(self):
+    def on_L2_press(self , value):
        pass 
 
     def on_L2_release(self):
        pass 
 
-    def on_R2_press(self):
+    def on_R2_press(self , value):
        pass
 
     def on_R2_release(self):
        pass
 
     def on_up_down_arrow_release(self):
-       pass
+       self.up_arrow = False
+       self.down_arrow = False
 
     def on_left_arrow_press(self):
        pass
@@ -315,7 +323,7 @@ class MyController(Controller):
        pass 
 
     def on_R3_press(self):
-       pass 
+       self.R3 = not self.R3
 
     def on_R3_release(self):
        pass 

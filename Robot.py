@@ -1,3 +1,4 @@
+
 '''
 Joshua Katz
 9/8/20
@@ -12,7 +13,7 @@ from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
 
-# from ps4_controller import MyController
+from ps4_controller import MyController
 
 
 class Robot:
@@ -82,15 +83,15 @@ class Robot:
     def main_loop(self):
         
         # Have controller start listening
-        self.controller.listen(timeout=60)
-
+#        self.controller.listen(timeout=60)
+#        print('here')
         while (1):
             # record start time
             start_time = time.time()
 
             # check controller
-            #velocity = self.get_keyboard_command()
-            velocity = self.get_controller_command()
+            velocity = self.get_keyboard_command()
+            #velocity = self.get_controller_command()
 
             print(velocity)
             # check orientation
@@ -135,5 +136,6 @@ if __name__ == "__main__":
         gui = True
 
     robot = Robot(urdf, gui)
+
 
     robot.main_loop()
