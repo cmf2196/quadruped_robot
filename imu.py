@@ -11,8 +11,15 @@ This sensor does not 'play well' with UART; however, the Pi's capabilities
 don't allow I2C connection due to something called clock stretching.To remedy
 this, we will catch the RuntimeError (UART read error: 7)
 
-The class has a method get_data()
 
+
+after some movement / time, the calibration overall improves and good readings
+can be had for euler
+
+I havee converted the euler readings to radians. 
+
+Currently we miss 20% of readings due to RuntimeErrors . This should be ok as 
+long as we frequently call the sensor for readings.
 '''
 
 
@@ -20,7 +27,7 @@ The class has a method get_data()
 import time
 import adafruit_bno055
 import serial
-
+from math import radians
 
 
 
@@ -51,16 +58,17 @@ class IMU():
     try:
       data += [self.get_euler_angles()]
       data += [self.get_angular_velocity()]
-      data += [self.linear_acceleration()]
-    
+      data += [self.get_linear_acceleration()]
+      return data
     except RuntimeError:
       return 0
 
   def get_euler_angles(self):
-    return self.sensor.euler
+    # DEGREES 
+    return [radians(x) for x in self.sensor.euler]
 
   def get_temperature(self):
-    return self.temperature 
+    return self.sensor.temperature 
 
   def get_angular_velocity(self):
     return self.sensor.gyro
@@ -85,15 +93,18 @@ if __name__ == "__main__":
    missed = 0
    
 
-  for i in range(runs):
-    new_data = imu.get_data()
-    if new_data != 0:            # if we get a reading
-      data = new_data
+   for i in range(runs):
+     new_data = imu.get_data()
+     if new_data != 0:            # if we get a reading
+       data = new_data
 
-    else:
-      missed += 1
-    print(data)
+     else:
+       missed += 1
+    
+   
+     print('data = ' ,data)
+     print('calibration = ' , imu.get_calibration_status())
 
-    time.sleep(1)
+     time.sleep(.5)
 
-  print('percent readings missed: ' , missed / runs )
+   print('percent readings missed: ' , missed / runs )
