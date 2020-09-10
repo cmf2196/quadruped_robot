@@ -11,7 +11,7 @@ from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
 
-# from ps4_controller import MyController
+from ps4_controller import MyController
 
 
 class Robot:
