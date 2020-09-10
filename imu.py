@@ -20,6 +20,11 @@ I havee converted the euler readings to radians.
 
 Currently we miss 20% of readings due to RuntimeErrors . This should be ok as 
 long as we frequently call the sensor for readings.
+
+We can likely create an automated motion for the robot in order to calibrate
+the gyro. calibrating the accelerometer is not going to feasible.
+
+
 '''
 
 
@@ -65,8 +70,9 @@ class IMU():
 
   def get_euler_angles(self):
     # DEGREES 
+    #(about z , about x , about y)
     return [radians(x) for x in self.sensor.euler]
-
+    #return self.sensor.euler
   def get_temperature(self):
     return self.sensor.temperature 
 
@@ -91,7 +97,9 @@ if __name__ == "__main__":
    data = []
    runs = 50
    missed = 0
-   
+   for j in range(30):
+      print('calibration: ' , imu.get_calibration_status())
+      time.sleep(1)   
 
    for i in range(runs):
      new_data = imu.get_data()
