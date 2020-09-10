@@ -1,6 +1,14 @@
 """
 Joshua Katz
 9/10/2020
+
+
+
+
+
+# You need pygame 2 python3 -m pip install pygame==2.0.0.dev6
+
+
 """
 
 import time
@@ -18,6 +26,7 @@ class PygameController:
 
         # check if controller is plugged in
         joystick_count = pygame.joystick.get_count()
+        print(joystick_count)
         if joystick_count == 0:
             # No joysticks!
             print("Error, I didn't find any joysticks.")
@@ -28,9 +37,12 @@ class PygameController:
             self.joystick = pygame.joystick.Joystick(0)
             self.joystick.init()
 
+            # Prints the joystick's name
+            JoyName = pygame.joystick.Joystick(0).get_name()
+
+
     def get_multi_axis(self):
         self.refresh_controller()
-
         # 0&1 for left stick, 2&3 for right stick
         return [self.joystick.get_axis(0),
                 -self.joystick.get_axis(1),
