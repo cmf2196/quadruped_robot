@@ -49,7 +49,8 @@ class MotorController:
 
     # this converts the radian positions of the robot ik output to degrees in
     # the motor's reference. Center of input is 0, center of motor is 120
-    def radians_to_degrees(self, rads):
+    @staticmethod
+    def radians_to_degrees(rads):
         degs = [rad / (2 * math.pi) * 360 + 120 for rad in rads]
         return degs
 
