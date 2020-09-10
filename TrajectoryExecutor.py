@@ -27,6 +27,7 @@ class TrajectoryExecutor:
         self.low = -0.2
         self.high = -0.18
         self.current_position = None
+        self.stand_position = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.2)]
         self.leg_trajectory_generator = LegTrajectoryGenerator(
             self.default_pose)
         self.current_velocity = (0, 0, 0)
@@ -518,6 +519,26 @@ class TrajectoryExecutor:
 
         return commands
 
+
+    def get_marching_command(self):
+
+        # This function will make the robot march in place. 
+        # it is to be used directly after the robot stands up.
+
+        commands = []
+
+        # Toggle between these two positions  I am not sure if this is (x , y , z) or rotations
+        if self.current_position == [(-0.135, 0.15, -0.15), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.15)]:
+            commands = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.15), (-0.135, -0.15, -0.15), (0.135, -0.15, -0.2)]
+        else:
+            commands = [(-0.135, 0.15, -0.15), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.15)]
+
+        # return that position
+        self.current_position = commands
+        return commands 
+
+
+
     @staticmethod
     def distance_between_coords(a, b):
         difference = np.array(list(x - y for x, y in zip(a, b)))
@@ -535,23 +556,23 @@ if __name__ == "__main__":
     sim.load_gui_urdf(my_urdf)
 
     # get initial position from simulator
-    init_pos = []
-    fk = sim.compute_multi_fk([3, 7, 11, 15])
-    for leg in fk:
-        print(leg[0])
-        init_pos.append(leg[0])
+    # init_pos = []
+    # fk = sim.compute_multi_fk([3, 7, 11, 15])
+    # for leg in fk:
+    #     print(leg[0])
+    #     init_pos.append(leg[0])
 
 
-    #init_pos = [(-0.135, 0.244, -0.2),
-    #            (0.135, 0.11999999999999988, -0.2),
-    #            (-0.135, -0.24200000000000016, -0.2),
-    #           (0.135, -0.11800000000000005, -0.2)]
 
     exec = TrajectoryExecutor()
-    exec.current_position = init_pos
+    #exec.current_position = init_pos
+
+    exec.current_position = exec.stand_position
+    exec.change_movement_speed(0, 0.1, 0) #makes cycles exist
+    exec.change_movement_speed(0, 0, 0)
     # exec.change_movement_speed(0, 0.2, 0)
 
-    exec.change_movement_speed(0.2, 0.0, 0)
+    #exec.change_movement_speed(0.2, 0.0, 0)
 
     # print(len(exec.cycles[0]))
     # for x in range(0,150):
@@ -585,7 +606,8 @@ if __name__ == "__main__":
         y = 0
         X = 0
         a = 0
-        if X % 10 == 0:
+        t = False
+        if x % 10 == 0:     #   <---   JOSH why is this not lower case x ?      ------------------------------------------
             if keyboard.is_pressed("up"):
                 # exec.change_movement_speed(0, 0.3, 0, default_3d_legs)
                 y = 0.3
@@ -604,14 +626,18 @@ if __name__ == "__main__":
             if keyboard.is_pressed("e"):
                 # exec.change_movement_speed(0, 0, -1, default_3d_legs)
                 a = -1
+            if keyboard.is_pressed("t"):
+                t = True
 
             exec.change_movement_speed(X, y, a)
 
         # if x > 2000 and x % 10 == 0:
         #    exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
         #    pass
-
-        command = exec.get_next_command()
+        if t == True:
+            command = exec.get_marching_command()
+        else:
+            command = exec.get_next_command()
 
         # compute ik
         ik = sim.compute_multi_ik([3, 7, 11, 15], command)
@@ -620,7 +646,7 @@ if __name__ == "__main__":
         moving_joints = [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]
         sim.set_robot_pos([0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14], ik)
 
-        sim.center_camera()
+        #sim.center_camera()
 
         sim.step_gui_sim()
 
