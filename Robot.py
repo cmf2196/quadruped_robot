@@ -15,6 +15,8 @@ from TrajectoryExecutor import TrajectoryExecutor
 from ps4_controller import MyController
 from ps4_controller import MyEventDefinition
 
+from PygameController import PygameController
+
 
 
 class Robot:
@@ -40,11 +42,13 @@ class Robot:
 
         # initialize controller connection
 
-        self.controller = MyController(interface="/dev/input/js0",
-                                       connecting_using_ds4drv=False,
-                                       event_definition=MyEventDefinition)
-        self.controller.initialize_connection()
-
+        if platform.system() == "Linux":
+            self.controller = MyController(interface="/dev/input/js0",
+                                           connecting_using_ds4drv=False,
+                                           event_definition=MyEventDefinition)
+            self.controller.initialize_connection()
+        else:
+            self.controller = PygameController()
 
         # execute orient and stand up sequence
         # function???
@@ -77,7 +81,10 @@ class Robot:
         return x, y, a
 
     def get_controller_command(self):
-        return self.controller.get_state()
+        if type(self.controller).__name__ == "MyController":
+            return self.controller.get_state()
+        else:
+            return self.controller.multi_axis_to_velocity()
 
     def sleep_until_next_cycle(self, start_time, end_time, time_step):
         difference = end_time - start_time
@@ -91,7 +98,9 @@ class Robot:
         # Have controller start listening
         #        self.controller.listen(timeout=60)
         #        print('here')
+        x = 0
         while (1):
+            x += 1
             # record start time
             start_time = time.time()
 
@@ -105,9 +114,10 @@ class Robot:
             # update and check state
 
             # calculate/ look up new joint positions
-            self.trajectory_executor.change_movement_speed(velocity[0],
-                                                           velocity[1],
-                                                           velocity[2])
+            if x%1 == 0:
+                self.trajectory_executor.change_movement_speed(velocity[0],
+                                                               velocity[1],
+                                                               velocity[2])
 
             command = self.trajectory_executor.get_next_command()
 
