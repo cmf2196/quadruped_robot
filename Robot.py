@@ -7,6 +7,7 @@ Joshua Katz
 import time
 import os
 import keyboard
+import platform
 
 from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
@@ -109,9 +110,10 @@ class Robot:
             ik = self.simulator.compute_multi_ik(self.feet, command)
 
             # if simulating, move simulation
-            self.simulator.set_robot_pos(self.moving_joints, ik)
-            self.simulator.step_gui_sim()
-            self.simulator.center_camera()
+            if self.simulator.gui:
+                self.simulator.set_robot_pos(self.moving_joints, ik)
+                self.simulator.step_gui_sim()
+                self.simulator.center_camera()
 
             # sleep until next cycle
             end_time = time.time()
@@ -122,8 +124,18 @@ class Robot:
 if __name__ == "__main__":
     # select urdf
     current_dir = os.getcwd()
-    #urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
-    urdf = current_dir + "/Phantom/urdf/Phantom_connor_edits.urdf"
+    sep = os.path.sep
+    urdf = current_dir + sep + "Phantom" + sep + "urdf" + sep + "Phantom_connor_edits.urdf"
+
     # Create robot object and run its main loop
-    robot = Robot(urdf, False)
+
+    # if on linux, do not show gui
+    if platform.system() == "Linux":
+        gui = False
+    else:
+        gui = True
+
+    robot = Robot(urdf, gui)
+
+
     robot.main_loop()
