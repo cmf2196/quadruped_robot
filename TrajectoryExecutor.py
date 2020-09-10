@@ -38,6 +38,10 @@ class TrajectoryExecutor:
         # linear_mag = np.linalg.norm(np.array(x_vel, y_vel))
 
         # if linear_mag
+        # gp is percent time on ground
+        # phases preportion at which the leg starts in a cycle
+        # [FL Fr Bl BR]
+
 
         rotational = True
         if ang_vel == 0 or max(x_vel, y_vel) / ang_vel > 0.1:
@@ -520,30 +524,6 @@ class TrajectoryExecutor:
         return commands
 
 
-    def get_marching_command(self):
-
-        # This function will make the robot march in place. 
-        # it is to be used directly after the robot stands up.
-
-        # this should be encorperated into the larger get_command() Perhaps a new mode
-
-
-
-        commands = []
-
-        # Toggle between these two positions  I am not sure if this is (x , y , z) or rotations
-        if self.current_position == [(-0.135, 0.15, -0.17), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.16)]:
-            commands = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.17), (-0.135, -0.15, -0.16), (0.135, -0.15, -0.2)]
-        else:
-            commands = [(-0.135, 0.15, -0.17), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.16)]
-
-        # self.recent_command
-        distance = self.distance_between_coords(commands[0],
-                                                self.current_position[0])
-        print('the distance is ' ,distance)
-        # return that position
-        self.current_position = commands
-        return commands 
 
 
 
@@ -615,7 +595,7 @@ if __name__ == "__main__":
         y = 0
         X = 0
         a = 0
-        toggle = False
+
         if x % 10 == 0:     #   <---   JOSH why is this not lower case x ?      ------------------------------------------
             if keyboard.is_pressed("up"):
                 # exec.change_movement_speed(0, 0.3, 0, default_3d_legs)
@@ -635,19 +615,14 @@ if __name__ == "__main__":
             if keyboard.is_pressed("e"):
                 # exec.change_movement_speed(0, 0, -1, default_3d_legs)
                 a = -1
-            if keyboard.is_pressed("t"):
-                toggle = True
 
             exec.change_movement_speed(X, y, a)
 
         # if x > 2000 and x % 10 == 0:
         #    exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
         #    pass
-        if toggle == True:
-            command = exec.get_marching_command()
-            
-        else:
-            command = exec.get_next_command()
+
+        command = exec.get_next_command()
 
         # compute ik
         ik = sim.compute_multi_ik([3, 7, 11, 15], command)
