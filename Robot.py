@@ -1,4 +1,3 @@
-
 '''
 Joshua Katz
 9/8/20
@@ -12,8 +11,8 @@ import platform
 from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
-
 from ps4_controller import MyController
+from ps4_controller import MyEventDefinition
 
 
 class Robot:
@@ -38,15 +37,21 @@ class Robot:
         self.trajectory_executor = TrajectoryExecutor()
 
         # initialize controller connection
-        self.controller = MyController()
+        self.controller = MyController(interface="/dev/input/js0",
+                                       connecting_using_ds4drv=False,
+                                       event_definition=MyEventDefinition)
+        self.controller.initialize_connection()
 
         # execute orient and stand up sequence
         # function???
 
         # make velocity 0
-        self.trajectory_executor.current_position = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.2),
-                       (-0.135, -0.15, -0.2), (0.135, -0.15, -0.2)]
-        self.trajectory_executor.change_movement_speed(0, 0.1, 0) #makes cycles exist
+        self.trajectory_executor.current_position = [(-0.135, 0.15, -0.2),
+                                                     (0.135, 0.15, -0.2),
+                                                     (-0.135, -0.15, -0.2),
+                                                     (0.135, -0.15, -0.2)]
+        self.trajectory_executor.change_movement_speed(0, 0.1,
+                                                       0)  # makes cycles exist
         self.trajectory_executor.change_movement_speed(0, 0, 0)
 
     def get_keyboard_command(self):
@@ -67,10 +72,7 @@ class Robot:
 
         return x, y, a
 
-
-
     def get_controller_command(self):
-
         return self.controller.get_state()
 
     def sleep_until_next_cycle(self, start_time, end_time, time_step):
@@ -81,24 +83,23 @@ class Robot:
             print("Overtime!")
 
     def main_loop(self):
-        
+
         # Have controller start listening
-#        self.controller.listen(timeout=60)
-#        print('here')
+        #        self.controller.listen(timeout=60)
+        #        print('here')
         while (1):
             # record start time
             start_time = time.time()
 
             # check controller
-            velocity = self.get_keyboard_command()
-            #velocity = self.get_controller_command()
+            # velocity = self.get_keyboard_command()
+            velocity = self.get_controller_command()
 
             print(velocity)
             # check orientation
 
             # update and check state
 
-            
             # calculate/ look up new joint positions
             self.trajectory_executor.change_movement_speed(velocity[0],
                                                            velocity[1],
@@ -136,6 +137,5 @@ if __name__ == "__main__":
         gui = True
 
     robot = Robot(urdf, gui)
-
 
     robot.main_loop()
