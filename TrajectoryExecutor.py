@@ -538,7 +538,7 @@ if __name__ == "__main__":
     # Create and initiate simulator
     current_dir = os.getcwd()
     sep = os.path.sep
-    urdf = current_dir + sep + "Phantom" + sep + "urdf" + sep + "Phantom_connor_edits.urdf"
+    my_urdf = current_dir + sep + "Phantom" + sep + "urdf" + sep + "Phantom_connor_edits.urdf"
 
     sim = Simulator(True)
     sim.load_kinematics_urdf(my_urdf)
