@@ -16,7 +16,8 @@ from ps4_controller import MyEventDefinition
 
 from PygameController import PygameController
 
-from MotorController import MotorController
+if platform.system() == "Linux":
+    from MotorController import MotorController
 
 
 class Robot:
@@ -125,7 +126,6 @@ class Robot:
             # velocity = self.get_keyboard_command()
             velocity = self.get_controller_command()
 
-            print(velocity)
             # check orientation
 
             # update and check state
@@ -170,6 +170,8 @@ if __name__ == "__main__":
         gui = False
     else:
         gui = True
-
-    robot = Robot(urdf, gui, True)
+    if platform.system() == "Linux":
+        robot = Robot(urdf, gui, True)
+    else:
+        robot = Robot(urdf, gui, False)
     robot.main_loop()
