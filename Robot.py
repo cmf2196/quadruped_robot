@@ -65,8 +65,8 @@ class Robot:
         self.motors = motors
         if self.motors:
             self.motor_controller = MotorController(
-                ["11", "12", "13", "21", "22", "23", "31", "32", "33", "41", "42",
-                 "43"], self.frequency)
+                [11, 12, 13, 21, 22, 23, 31, 32, 33, 41, 42,
+                 43], self.frequency)
             lay = [(-0.135, 0.15, -0.03),
                    (0.135, 0.15, -0.03),
                    (-0.135, -0.15, -0.03),
@@ -77,7 +77,7 @@ class Robot:
             ik_stand = self.simulator.compute_multi_ik(self.feet, self.trajectory_executor.current_position)
             self.motor_controller.move_all_motors(
                 self.motor_controller.radians_to_degrees(ik_stand), 2000)
-            time.sleep(2)
+            time.sleep(3)
 
     def get_keyboard_command(self):
         x, y, a = (0, 0, 0)
@@ -171,5 +171,5 @@ if __name__ == "__main__":
     else:
         gui = True
 
-    robot = Robot(urdf, gui, False)
+    robot = Robot(urdf, gui, True)
     robot.main_loop()
