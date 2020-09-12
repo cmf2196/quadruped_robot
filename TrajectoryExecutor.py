@@ -24,8 +24,8 @@ class TrajectoryExecutor:
         self.ground_prop = 0.75
         self.default_pose = [(-0.135, 0.15), (0.135, 0.15), (-0.135, -0.15),
                              (0.135, -0.15)]
-        self.low = -0.2
-        self.high = -0.18
+        self.low = -0.18
+        self.high = -0.14
         self.current_position = None
         self.stand_position = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.2)]
         self.leg_trajectory_generator = LegTrajectoryGenerator(
@@ -48,7 +48,7 @@ class TrajectoryExecutor:
             rotational = False
 
         if not rotational:
-            self.ground_prop = 0.8  # subject to change
+            self.ground_prop = 0.9  # subject to change
             if abs(y_vel) > abs(x_vel):
                 if y_vel > 0:
                     if y_vel > 0.3:
@@ -64,7 +64,7 @@ class TrajectoryExecutor:
                     self.phases = [0, 0.25, 0.5, 0.75]
 
         else:
-            self.ground_prop = 0.80
+            self.ground_prop = 0.90
             if ang_vel > 0:
                 self.phases = [0, 0.25, 0.75, 0.5]
             else:

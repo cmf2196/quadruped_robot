@@ -125,7 +125,7 @@ class Robot:
             # check controller
             # velocity = self.get_keyboard_command()
             velocity = self.get_controller_command()
-            print(velocity)
+            print('the vel ' , velocity)
             # check orientation
 
             # update and check state
