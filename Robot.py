@@ -5,7 +5,6 @@ Joshua Katz
 
 import time
 import os
-import keyboard
 import platform
 
 from Simulator import Simulator
@@ -18,7 +17,8 @@ from PygameController import PygameController
 
 if platform.system() == "Linux":
     from MotorController import MotorController
-
+else:
+    import keyboard
 
 class Robot:
 
@@ -125,7 +125,7 @@ class Robot:
             # check controller
             # velocity = self.get_keyboard_command()
             velocity = self.get_controller_command()
-
+            print(velocity)
             # check orientation
 
             # update and check state
@@ -149,7 +149,7 @@ class Robot:
 
             if self.motors:
                 degs = self.motor_controller.radians_to_degrees(ik)
-                self.motor_controller.move_all_motors(degs, self.period)
+                self.motor_controller.move_all_motors(degs, 10)
 
             # sleep until next cycle
             end_time = time.time()
