@@ -24,8 +24,10 @@ class TrajectoryExecutor:
         self.ground_prop = 0.75
         self.default_pose = [(-0.135, 0.15), (0.135, 0.15), (-0.135, -0.15),
                              (0.135, -0.15)]
+        
         self.low = -0.2
         self.high = -0.15
+
         self.current_position = None
         self.stand_position = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.2)]
         self.leg_trajectory_generator = LegTrajectoryGenerator(
@@ -38,13 +40,17 @@ class TrajectoryExecutor:
         # linear_mag = np.linalg.norm(np.array(x_vel, y_vel))
 
         # if linear_mag
+        # gp is percent time on ground
+        # phases preportion at which the leg starts in a cycle
+        # [FL Fr Bl BR]
+
 
         rotational = True
         if ang_vel == 0 or max(x_vel, y_vel) / ang_vel > 0.1:
             rotational = False
 
         if not rotational:
-            self.ground_prop = 0.8  # subject to change
+            self.ground_prop = 0.9  # subject to change
             if abs(y_vel) > abs(x_vel):
                 if y_vel > 0:
                     if y_vel > 0.3:
@@ -60,7 +66,7 @@ class TrajectoryExecutor:
                     self.phases = [0, 0.25, 0.5, 0.75]
 
         else:
-            self.ground_prop = 0.80
+            self.ground_prop = 0.90
             if ang_vel > 0:
                 self.phases = [0, 0.25, 0.75, 0.5]
             else:
@@ -520,22 +526,6 @@ class TrajectoryExecutor:
         return commands
 
 
-    def get_marching_command(self):
-
-        # This function will make the robot march in place. 
-        # it is to be used directly after the robot stands up.
-
-        commands = []
-
-        # Toggle between these two positions  I am not sure if this is (x , y , z) or rotations
-        if self.current_position == [(-0.135, 0.15, -0.15), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.15)]:
-            commands = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.15), (-0.135, -0.15, -0.15), (0.135, -0.15, -0.2)]
-        else:
-            commands = [(-0.135, 0.15, -0.15), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.15)]
-
-        # return that position
-        self.current_position = commands
-        return commands 
 
 
 
@@ -549,8 +539,9 @@ class TrajectoryExecutor:
 if __name__ == "__main__":
     # Create and initiate simulator
     current_dir = os.getcwd()
-   #my_urdf = current_dir + "\\Phantom\\urdf\\Phantom_connor_edits.urdf"
-    my_urdf = current_dir + "/Phantom/urdf/Phantom_connor_edits.urdf"
+    sep = os.path.sep
+    my_urdf = current_dir + sep + "Phantom" + sep + "urdf" + sep + "Phantom_connor_edits.urdf"
+
     sim = Simulator(True)
     sim.load_kinematics_urdf(my_urdf)
     sim.load_gui_urdf(my_urdf)
@@ -606,7 +597,7 @@ if __name__ == "__main__":
         y = 0
         X = 0
         a = 0
-        t = False
+
         if x % 10 == 0:     #   <---   JOSH why is this not lower case x ?      ------------------------------------------
             if keyboard.is_pressed("up"):
                 # exec.change_movement_speed(0, 0.3, 0, default_3d_legs)
@@ -626,18 +617,14 @@ if __name__ == "__main__":
             if keyboard.is_pressed("e"):
                 # exec.change_movement_speed(0, 0, -1, default_3d_legs)
                 a = -1
-            if keyboard.is_pressed("t"):
-                t = True
 
             exec.change_movement_speed(X, y, a)
 
         # if x > 2000 and x % 10 == 0:
         #    exec.change_movement_speed(0, 0.2, 0, default_3d_legs)
         #    pass
-        if t == True:
-            command = exec.get_marching_command()
-        else:
-            command = exec.get_next_command()
+
+        command = exec.get_next_command()
 
         # compute ik
         ik = sim.compute_multi_ik([3, 7, 11, 15], command)

@@ -42,8 +42,6 @@ import time
 from pyPS4Controller_edit.controller2 import Controller, Event
 
 
-# Speed variables to be optimized
-
 
 class MyController(Controller):
 
@@ -60,9 +58,9 @@ class MyController(Controller):
         self.speed_percentages = [0.2, 0.6,
                                   1]  # walk, trot , run  note, rotation just used the second two!
 
-        # Thresholds
-        self.max_threshold = 20000  # equal or greater for med / high speed
-        self.min_threshold = 10000  # equal or greater for low speed
+        self.max_threshold = 20000     # equal or greater for med / high speed
+        self.min_threshold = 10000      # equal or greater for low speed
+
 
         self.R3 = False
 

@@ -5,7 +5,6 @@ Joshua Katz
 
 import time
 import os
-import keyboard
 import platform
 
 from Simulator import Simulator
@@ -16,8 +15,10 @@ from ps4_controller import MyEventDefinition
 
 from PygameController import PygameController
 
-from MotorController import MotorController
-
+if platform.system() == "Linux":
+    from MotorController import MotorController
+else:
+    import keyboard
 
 class Robot:
 
@@ -124,8 +125,7 @@ class Robot:
             # check controller
             # velocity = self.get_keyboard_command()
             velocity = self.get_controller_command()
-
-            print(velocity)
+            print('the vel ' , velocity)
             # check orientation
 
             # update and check state
@@ -171,5 +171,8 @@ if __name__ == "__main__":
     else:
         gui = True
 
-    greg = Robot(urdf, gui, False)
-    greg.main_loop()
+    if platform.system() == "Linux":
+        robot = Robot(urdf, gui, True)
+    else:
+        robot = Robot(urdf, gui, False)
+    robot.main_loop()

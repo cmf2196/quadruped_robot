@@ -1,33 +1,118 @@
 '''
 Author: Connor Finn
-Date:  August 31
-Description:
-	This class will initialize the imu sensor and have methods for reading its data
-	The BNO05vsensor, https://www.adafruit.com/product/2472 , can read the following data, 
-		- Absolute Orientation (Euler Vector, 100Hz) Three axis orientation data based on a 360° sphere
-		- Absolute Orientation (Quatenrion, 100Hz) Four point quaternion output for more accurate data manipulation
-		- Angular Velocity Vector (100Hz) Three axis of 'rotation speed' in rad/s
-		- Acceleration Vector (100Hz) Three axis of acceleration (gravity + linear motion) in m/s^2
-		- Magnetic Field Strength Vector (20Hz) Three axis of magnetic field sensing in micro Tesla (uT)
-		- Linear Acceleration Vector (100Hz) Three axis of linear acceleration data (acceleration minus gravity) in m/s^2
-		- Gravity Vector (100Hz) Three axis of gravitational acceleration (minus any movement) in m/s^2
-		- Temperature (1Hz) Ambient temperature in degrees celsius
+Date: 9/ 20/ 2020
+
+
+For our purposes it will only be feasible to calibrate the gyroscope
+The accelerometer and magnetometer required controlled motion in order
+to calibrate.
+
+This sensor does not 'play well' with UART; however, the Pi's capabilities 
+don't allow I2C connection due to something called clock stretching.To remedy
+this, we will catch the RuntimeError (UART read error: 7)
+
+
+
+after some movement / time, the calibration overall improves and good readings
+can be had for euler
+
+I havee converted the euler readings to radians. 
+
+Currently we miss 20% of readings due to RuntimeErrors . This should be ok as 
+long as we frequently call the sensor for readings.
+
+We can likely create an automated motion for the robot in order to calibrate
+the gyro. calibrating the accelerometer is not going to feasible.
+
+
 '''
 
-from Adafruit_BNO055 import BNO055
+
+
 import time
-
-class Imu():
-
-
-	def calibrate(self):
-		pass
+import adafruit_bno055
+import serial
+from math import radians
 
 
 
-	def read_orientation(self):
-		pass
+class IMU():
 
 
-	def read_accel(self):
-		pass
+  def __init__(self):
+    self.uart = serial.Serial('/dev/serial0', baudrate=9600, timeout=10)
+    self.sensor = adafruit_bno055.BNO055_UART(self.uart)
+
+
+
+  def get_calibration_status(self):
+    # get the calibration status
+    # it returns system , gyro , accellerometer , magnetometer
+
+
+    try:
+      return self.sensor.calibration_status
+    
+    except RuntimeError:
+      return 0
+
+
+  def get_data(self):
+    # This class will be used to actually call the data we want. it catches the RunTimeError
+    data = []
+    try:
+      data += [self.get_euler_angles()]
+      data += [self.get_angular_velocity()]
+      data += [self.get_linear_acceleration()]
+      return data
+    except RuntimeError:
+      return 0
+
+  def get_euler_angles(self):
+    # DEGREES 
+    #(about z , about x , about y)
+    return [radians(x) for x in self.sensor.euler]
+    #return self.sensor.euler
+  def get_temperature(self):
+    return self.sensor.temperature 
+
+  def get_angular_velocity(self):
+    return self.sensor.gyro
+
+  def get_quaternion(self):
+    return self.sensor.quaternion
+
+  def get_linear_acceleration(self):
+    # This is acceleration - gravity. ( we can call acceleration and gravity separately)
+    return self.sensor.linear_acceleration
+
+  def get_magnetic(self):
+    return self.sensor.magnetic
+
+
+if __name__ == "__main__":
+
+
+   imu = IMU()
+   data = []
+   runs = 50
+   missed = 0
+   for j in range(30):
+      print('calibration: ' , imu.get_calibration_status())
+      time.sleep(1)   
+
+   for i in range(runs):
+     new_data = imu.get_data()
+     if new_data != 0:            # if we get a reading
+       data = new_data
+
+     else:
+       missed += 1
+    
+   
+     print('data = ' ,data)
+     print('calibration = ' , imu.get_calibration_status())
+
+     time.sleep(.5)
+
+   print('percent readings missed: ' , missed / runs )
