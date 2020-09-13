@@ -369,6 +369,45 @@ class LegTrajectoryGenerator:
 
         return x, y, z
 
+    def compute_leg_raised_triangle_trajectory(self, start_coord, end_coord, init_height, peak_height, n_points):
+
+        # for n points, spend n/4 of time for each vertical lift, n/2 in
+        # connecting triangle
+
+        start_3d = (start_coord[0], start_coord[1], init_height)
+        end_3d = (end_coord[0], end_coord[1], init_height)
+
+        n_vert = math.floor(n_points/4)
+        n_triangle = n_points - n_vert*2 -2
+
+        vert_height = 0.5*(peak_height - init_height)+init_height
+        start_triangle = (start_coord[0], start_coord[1], vert_height)
+        end_triangle = (end_coord[0], end_coord[1], vert_height)
+
+
+
+        traj_1 = self.compute_leg_linear_trajectory(start_3d, start_triangle, n_vert)
+        traj_3 = self.compute_leg_linear_trajectory(end_triangle, end_3d, n_vert)
+        traj_2 = self.compute_leg_aerial_trajectory((start_triangle[0],start_triangle[1]),
+                                                    (end_triangle[0],end_triangle[1]),
+                                                    vert_height, peak_height, n_triangle)
+
+
+
+
+
+        lists = []
+        for i in range(0,3):
+            ell = list(traj_1[i]) + [start_triangle[i]] + list(traj_2[i]) + [end_triangle[i]] + list(traj_3[i])
+            lists.append(ell)
+
+        print(len(lists[0]))
+        print(n_points)
+        #lists = [traj_1[i] + [start_triangle[i]] + traj_1[i] + [end_triangle[i]] + traj_3[i] for i in range(0,3)]
+
+        return lists[0], lists[1], lists[2]
+
+
     def compute_leg_linear_trajectory(self, start_coord, end_coord, n_points):
 
         x = np.linspace(start_coord[0], end_coord[0], n_points + 2)[1:-1]
@@ -411,8 +450,12 @@ class LegTrajectoryGenerator:
         start = (ground_traj[0][0], ground_traj[1][0])
         end = (ground_traj[0][n_ground - 1], ground_traj[1][n_ground - 1])
 
-        aerial_traj = self.compute_leg_aerial_trajectory(
+        # CHANGE TO compute_leg_aerial trajectory FOR TRIANGLES
+        aerial_traj = self.compute_leg_raised_triangle_trajectory(
             end, start, init_height, max_height, n_air)
+
+        #aerial_traj = self.compute_leg_aerial_trajectory(
+        #    end, start, init_height, max_height, n_air)
 
         # synthesize final trajectory cycles
         x_cycle = np.append(ground_traj[0], aerial_traj[0])

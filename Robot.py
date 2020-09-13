@@ -149,7 +149,7 @@ class Robot:
 
             if self.motors:
                 degs = self.motor_controller.radians_to_degrees(ik)
-                self.motor_controller.move_all_motors(degs, self.period)
+                self.motor_controller.move_all_motors(degs, int(self.period*1000))
 
             # sleep until next cycle
             end_time = time.time()
@@ -171,5 +171,5 @@ if __name__ == "__main__":
     else:
         gui = True
 
-    robot = Robot(urdf, gui, True)
-    robot.main_loop()
+    greg = Robot(urdf, gui, False)
+    greg.main_loop()
