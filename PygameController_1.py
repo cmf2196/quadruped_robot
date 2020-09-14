@@ -114,10 +114,10 @@ class PS4Controller(PygameController):
 
 
         elif platform.system() == 'Linux':  
-            self.digital = {'x' : 0 , 'circle': 1 , 'square':2  , 'triangle': 3 , 'share': 4 , 'power': 5 , 'options': 6 , 'L3': 7 \
-              , 'R3': 8 , 'L1':  9 , 'R1': 10 , 'up_arrow': 11 , 'down_arrow': 12 , 'left_arrow': 13 , 'right_arrow' : 14 , 'touchpad': 15}
-            self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , 1 ] , 'right_joystick_horizontal': [2 , 1] \
-              , 'right_joystick_vertical': [3 , 1] , 'L2': [4 , 1] , 'R2': [5 , 1]}
+            self.digital = {'x' : 0 , 'circle': 1 , 'triangle':2  , 'square': 3 , 'L1': 4 , 'R1': 5 , 'share': 11 , 'options': 12 \
+              , 'power': 13 , 'L3':  14 , 'R3': 15 }
+            self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , -1 ] , 'L2': [2 , 1] , 'right_joystick_horizontal': [3 , 1] \
+              , 'right_joystick_vertical': [4 , -1]  , 'R2': [5 , 1]}
 
         # JOSH - Run pygame_config.py and figure out your button mapping
         elif platform.system() == 'Windows':  
