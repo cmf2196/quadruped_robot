@@ -149,7 +149,9 @@ class Robot:
 
             if self.motors:
                 degs = self.motor_controller.radians_to_degrees(ik)
-                self.motor_controller.move_all_motors(degs, 10)               # this is throwing an error rn
+
+                self.motor_controller.move_all_motors(degs, int(self.period*1000))
+
 
             # sleep until next cycle
             end_time = time.time()
@@ -170,6 +172,7 @@ if __name__ == "__main__":
         gui = False
     else:
         gui = True
+
     if platform.system() == "Linux":
         robot = Robot(urdf, gui, True)
     else:
