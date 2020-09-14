@@ -24,8 +24,8 @@ class TrajectoryExecutor:
         self.ground_prop = 0.75
         self.default_pose = [(-0.135, 0.15), (0.135, 0.15), (-0.135, -0.15),
                              (0.135, -0.15)]
-        self.low = -0.18
-        self.high = -0.14
+        self.low = -0.2
+        self.high = -0.17
         self.current_position = None
         self.stand_position = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.2)]
         self.leg_trajectory_generator = LegTrajectoryGenerator(

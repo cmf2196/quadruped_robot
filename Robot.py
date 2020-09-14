@@ -6,7 +6,6 @@ Joshua Katz
 import time
 import os
 import platform
-
 from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
@@ -101,6 +100,7 @@ class Robot:
     def get_controller_command(self):
         if type(self.controller).__name__ == "MyController":
             return self.controller.get_state()
+            print('state read')
         else:
             return self.controller.multi_axis_to_velocity()
 
@@ -149,7 +149,7 @@ class Robot:
 
             if self.motors:
                 degs = self.motor_controller.radians_to_degrees(ik)
-                self.motor_controller.move_all_motors(degs, 10)
+                self.motor_controller.move_all_motors(degs, 10)               # this is throwing an error rn
 
             # sleep until next cycle
             end_time = time.time()
