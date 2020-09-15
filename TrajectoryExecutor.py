@@ -13,6 +13,7 @@ class TrajectoryExecutor:
 
     def __init__(self):
 
+        self.mode = "walking"
         self.modes = ["idle", "idle", "idle", "idle"]
         self.cycles = []
         self.transitions = []
@@ -22,13 +23,16 @@ class TrajectoryExecutor:
         self.transition_index = 0
         self.phases = [0, 0.5, 0.75, 0.25]
         self.ground_prop = 0.75
-        self.default_pose = [(-0.135, 0.15), (0.135, 0.15), (-0.135, -0.15),
-                             (0.135, -0.15)]
+        # hip values are [(-0.135, 0.15), (0.135, 0.15), (-0.135, -0.15),
+        #                              (0.135, -0.15)]
+        self.default_pose = [(-0.135, 0.14), (0.135, 0.14), (-0.135, -0.16),
+                             (0.135, -0.16)]
         self.low = -0.2
         self.high = -0.15
 
         self.current_position = None
-        self.stand_position = [(-0.135, 0.15, -0.2), (0.135, 0.15, -0.2), (-0.135, -0.15, -0.2), (0.135, -0.15, -0.2)]
+        self.stand_position = [(-0.135, 0.14, -0.2), (0.135, 0.14, -0.2),
+                               (-0.135, -0.16, -0.2), (0.135, -0.16, -0.2)]
         self.leg_trajectory_generator = LegTrajectoryGenerator(
             self.default_pose)
         self.current_velocity = (0, 0, 0)
@@ -43,19 +47,26 @@ class TrajectoryExecutor:
         # phases preportion at which the leg starts in a cycle
         # [FL Fr Bl BR]
 
+        if self.mode == "marching":
+            self.ground_prop = 0.5
+            self.phases = [0, 0.5, 0.5, 0]
+            return self.phases, self.ground_prop
 
         rotational = True
         if ang_vel == 0 or max(x_vel, y_vel) / ang_vel > 0.1:
             rotational = False
 
         if not rotational:
-            self.ground_prop = 0.9  # subject to change
+            self.ground_prop = 0.75  # subject to change
             if abs(y_vel) > abs(x_vel):
                 if y_vel > 0:
                     if y_vel > 0.3:
                         self.phases = [0, 0.5, 0.5, 0]
                     else:
-                        self.phases = [0, 0.5, 0.25, 0.75]
+                        #self.phases = [0, 0.5, 0.25, 0.75]
+                        # modified gait
+                        self.phases = [0, 1 / 2, 1 / 6, 4 / 6]
+                        self.ground_prop = 5 / 6
                 else:
                     self.phases = [0, 0.5, 0.75, 0.25]
             else:
@@ -90,11 +101,26 @@ class TrajectoryExecutor:
 
     def change_movement_speed(self, x_vel, y_vel, ang_vel):
 
-         #get current robot position if possible
-        #if self.current_position is not None:
+        # if in "marching" mode, just switch to marching
+        if self.mode == "marching":
+            self.choose_gait(x_vel, y_vel, ang_vel)
+            self.cycles = []
+            for leg in self.default_pose:
+                traj = self.leg_trajectory_generator.compute_march_cycle(
+                    leg, self.low, self.high, self.ground_prop, 1)
+                self.cycles.append(list(zip(traj[0], traj[1], traj[2])))
+
+            # WITHOUT TRANSITIONS, THIS WILL RESULT IN DISCONTINUITY!
+            self.modes = ["cycle", "cycle", "cycle", "cycle"]
+            self.clock_max = len(self.cycles[0]) - 1
+            # self.clock_index = 0
+            return
+
+        # get current robot position if possible
+        # if self.current_position is not None:
         #    leg_positions = self.current_position
         #   # print("changed to current position")
-        #else:
+        # else:
         #    self.current_position = leg_positions
 
         if self.current_velocity[0] == x_vel \
@@ -126,8 +152,8 @@ class TrajectoryExecutor:
         # print(leg_positions)
 
         # decide heights of aerial trajectories
-        #self.low = -0.2
-        #self.high = -0.15
+        # self.low = -0.2
+        # self.high = -0.15
 
         # decide gait phases and ground proportion, stored in object
         self.choose_gait(x_vel, y_vel, ang_vel)
@@ -524,10 +550,6 @@ class TrajectoryExecutor:
 
         return commands
 
-
-
-
-
     @staticmethod
     def distance_between_coords(a, b):
         difference = np.array(list(x - y for x, y in zip(a, b)))
@@ -552,17 +574,15 @@ if __name__ == "__main__":
     #     print(leg[0])
     #     init_pos.append(leg[0])
 
-
-
     exec = TrajectoryExecutor()
-    #exec.current_position = init_pos
+    # exec.current_position = init_pos
 
     exec.current_position = exec.stand_position
-    exec.change_movement_speed(0, 0.1, 0) #makes cycles exist
+    exec.change_movement_speed(0, 0.1, 0)  # makes cycles exist
     exec.change_movement_speed(0, 0, 0)
     # exec.change_movement_speed(0, 0.2, 0)
 
-    #exec.change_movement_speed(0.2, 0.0, 0)
+    # exec.change_movement_speed(0.2, 0.0, 0)
 
     # print(len(exec.cycles[0]))
     # for x in range(0,150):
@@ -597,7 +617,7 @@ if __name__ == "__main__":
         X = 0
         a = 0
 
-        if x % 10 == 0:     #   <---   JOSH why is this not lower case x ?      ------------------------------------------
+        if x % 10 == 0:  # <---   JOSH why is this not lower case x ?      ------------------------------------------
             if keyboard.is_pressed("up"):
                 # exec.change_movement_speed(0, 0.3, 0, default_3d_legs)
                 y = 0.3
@@ -632,10 +652,9 @@ if __name__ == "__main__":
         moving_joints = [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]
         sim.set_robot_pos([0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14], ik)
 
-        #sim.center_camera()
+        # sim.center_camera()
 
         sim.step_gui_sim()
-
 
         end_time = time.time() - start_time
         if end_time < 0.01:
@@ -644,4 +663,3 @@ if __name__ == "__main__":
 
             print("CLOCK SKIPPED!")
             print(end_time)
-
