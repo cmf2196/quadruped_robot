@@ -69,8 +69,6 @@ class PygameController:
         h_vals = range(self.num_hat)
         self.hat = [self.joystick.get_hat(h) for h in h_vals]
 
-
-   
     def check_min(self, val):
         # don't want to have 0.2 or less
 
@@ -79,7 +77,7 @@ class PygameController:
             return 0
         else:
             return val
-            
+
 
     def update_controller(self):
         # get current events
@@ -114,20 +112,19 @@ class PS4Controller(PygameController):
     def __init__(self):
         super(PS4Controller, self).__init__()
 
-        if platform.system() == 'Darwin':  
+        if platform.system() == 'Darwin':
             self.digital = {'x' : 0 , 'circle': 1 , 'square':2  , 'triangle': 3 , 'share': 4 , 'power': 5 , 'options': 6 , 'L3': 7 \
               , 'R3': 8 , 'L1':  9 , 'R1': 10 , 'up_arrow': 11 , 'down_arrow': 12 , 'left_arrow': 13 , 'right_arrow' : 14 , 'touchpad': 15}
-            # values are (id , dir) id is int, dir is -1 or 1 (do the values need to be flipped) 
+            # values are (id , dir) id is int, dir is -1 or 1 (do the values need to be flipped)
             # R2, L2 should be -1 when not used, 1 when used
             # for joysticks, left and down are -1 , up and right are 1
             self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , -1 ] , 'right_joystick_horizontal': [2 , 1] \
               , 'right_joystick_vertical': [3 , -1] , 'L2': [4 , 1] , 'R2': [5 , 1]}
 
             self.hat = {}
-            
 
 
-        elif platform.system() == 'Linux':  
+        elif platform.system() == 'Linux':
             self.digital = {'x' : 0 , 'circle': 1 , 'triangle':2  , 'square': 3 , 'L1': 4 , 'R1': 5 , 'share': 11 , 'options': 12 \
               , 'power': 13 , 'L3':  14 , 'R3': 15 }
             self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , 1 ] , 'L2': [2 , 1] , 'right_joystick_horizontal': [3 , 1] \
@@ -135,13 +132,15 @@ class PS4Controller(PygameController):
             self.hat = {}
 
         # JOSH - Run pygame_config.py and figure out your button mapping
-        elif platform.system() == 'Windows':  
-            self.digital = {'x' : 0 , 'circle': 1 , 'square':2  , 'triangle': 3 , 'share': 4 , 'power': 5 , 'options': 6 , 'L3': 7 \
-              , 'R3': 8 , 'L1':  9 , 'R1': 10 , 'up_arrow': 11 , 'down_arrow': 12 , 'left_arrow': 13 , 'right_arrow' : 14 , 'touchpad': 15}
-            self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , 1 ] , 'right_joystick_horizontal': [2 , 1] \
-              , 'right_joystick_vertical': [3 , 1] , 'L2': [4 , 1] , 'R2': [5 , 1]}
+        elif platform.system() == 'Windows':
+            self.digital = {'x' : 1 , 'circle': 2 , 'square':0  , 'triangle': 3 , 'share': 8 , 'power': 12 , 'options': 9 , 'L3': 10 \
+              , 'R3': 11 , 'L1':  4 , 'R1': 5 , 'touchpad': 13}
+            self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , -1 ] , 'right_joystick_horizontal': [2 , 1] \
+              , 'right_joystick_vertical': [3 , -1] , 'L2': [4 , 1] , 'R2': [5 , 1]}
 
-            self.hat = {}
+            self.hat = {'none' : (0,0), 'left': (-1,0), 'up': (0,1),'right': (1,0),
+                        'down': (0,-1),'up_left': (-1,1),'up_right': (1,1),
+                        'down_right': (1,-1),'down_left': (-1,-1),}
 
 
 if __name__ == '__main__':
