@@ -146,7 +146,7 @@ class LegTrajectoryGenerator:
         # Time from start of motion and time interval
         start_time = -max_time / 2
         final_time = max_time / 2  # seconds
-        time_interval = 1/self.frequency  # magnitude of time step
+        time_interval = 1 / self.frequency  # magnitude of time step
 
         center = self.compute_center_of_rotation(vel, ang_vel)
 
@@ -263,7 +263,8 @@ class LegTrajectoryGenerator:
 
         return [x_data_leg, y_data_leg]
 
-    def compute_leg_ground_trajectory_approx(self, init_leg_coord, approx_points,
+    def compute_leg_ground_trajectory_approx(self, init_leg_coord,
+                                             approx_points,
                                              transition=False):
 
         if self.current_body_trajectory is None:
@@ -284,7 +285,7 @@ class LegTrajectoryGenerator:
             time_data = self.current_body_trajectory[2]
 
         # choose number of points to approximate
-        approx_points = 3  # choosing 3 for now, could be dependent on v,w
+        # approx_points = 3  # choosing 3 for now, could be dependent on v,w
 
         # use total of points in body trajectory to determine indeces
         percents = np.linspace(0, 1, approx_points)
@@ -369,7 +370,9 @@ class LegTrajectoryGenerator:
 
         return x, y, z
 
-    def compute_leg_raised_triangle_trajectory(self, start_coord, end_coord, init_height, peak_height, n_points):
+    def compute_leg_raised_triangle_trajectory(self, start_coord, end_coord,
+                                               init_height, peak_height,
+                                               n_points):
 
         # for n points, spend n/4 of time for each vertical lift, n/2 in
         # connecting triangle
@@ -377,36 +380,33 @@ class LegTrajectoryGenerator:
         start_3d = (start_coord[0], start_coord[1], init_height)
         end_3d = (end_coord[0], end_coord[1], init_height)
 
-        n_vert = math.floor(n_points/4)
-        n_triangle = n_points - n_vert*2 -2
+        n_vert = math.floor(n_points / 4)
+        n_triangle = n_points - n_vert * 2 - 2
 
-        vert_height = 0.5*(peak_height - init_height)+init_height
+        vert_height = 0.5 * (peak_height - init_height) + init_height
         start_triangle = (start_coord[0], start_coord[1], vert_height)
         end_triangle = (end_coord[0], end_coord[1], vert_height)
 
-
-
-        traj_1 = self.compute_leg_linear_trajectory(start_3d, start_triangle, n_vert)
-        traj_3 = self.compute_leg_linear_trajectory(end_triangle, end_3d, n_vert)
-        traj_2 = self.compute_leg_aerial_trajectory((start_triangle[0],start_triangle[1]),
-                                                    (end_triangle[0],end_triangle[1]),
-                                                    vert_height, peak_height, n_triangle)
-
-
-
-
+        traj_1 = self.compute_leg_linear_trajectory(start_3d, start_triangle,
+                                                    n_vert)
+        traj_3 = self.compute_leg_linear_trajectory(end_triangle, end_3d,
+                                                    n_vert)
+        traj_2 = self.compute_leg_aerial_trajectory(
+            (start_triangle[0], start_triangle[1]),
+            (end_triangle[0], end_triangle[1]),
+            vert_height, peak_height, n_triangle)
 
         lists = []
-        for i in range(0,3):
-            ell = list(traj_1[i]) + [start_triangle[i]] + list(traj_2[i]) + [end_triangle[i]] + list(traj_3[i])
+        for i in range(0, 3):
+            ell = list(traj_1[i]) + [start_triangle[i]] + list(traj_2[i]) + [
+                end_triangle[i]] + list(traj_3[i])
             lists.append(ell)
 
         print(len(lists[0]))
         print(n_points)
-        #lists = [traj_1[i] + [start_triangle[i]] + traj_1[i] + [end_triangle[i]] + traj_3[i] for i in range(0,3)]
+        # lists = [traj_1[i] + [start_triangle[i]] + traj_1[i] + [end_triangle[i]] + traj_3[i] for i in range(0,3)]
 
         return lists[0], lists[1], lists[2]
-
 
     def compute_leg_linear_trajectory(self, start_coord, end_coord, n_points):
 
@@ -454,7 +454,7 @@ class LegTrajectoryGenerator:
         aerial_traj = self.compute_leg_raised_triangle_trajectory(
             end, start, init_height, max_height, n_air)
 
-        #aerial_traj = self.compute_leg_aerial_trajectory(
+        # aerial_traj = self.compute_leg_aerial_trajectory(
         #    end, start, init_height, max_height, n_air)
 
         # synthesize final trajectory cycles
@@ -463,6 +463,31 @@ class LegTrajectoryGenerator:
         z_cycle = np.append(np.full(n_ground, init_height), aerial_traj[2])
 
         return x_cycle, y_cycle, z_cycle
+
+    def compute_march_cycle(self, init_leg_coord, init_height,
+                            max_height, ground_prop, frequency):
+
+        # each leg starts on the ground for ground_prop time, moves straight up,
+        # and then moves straight down
+
+        total_time = 1 / frequency
+        velocity = 2 * (max_height - init_height) / (
+                    (1 - ground_prop) * total_time)
+        distance = velocity / self.frequency
+        n_air = int(2 * (max_height - init_height) / distance)
+        n_total = int(n_air / (1 - ground_prop))
+        n_ground = n_total - n_air
+
+        aerial = self.compute_leg_aerial_trajectory(init_leg_coord,
+                                                    init_leg_coord, init_height,
+                                                    max_height, n_air)
+
+        x = list(np.linspace(init_leg_coord[0], init_leg_coord[0], n_total))
+        y = list(np.linspace(init_leg_coord[1], init_leg_coord[1], n_total))
+        z_ground = np.linspace(init_height, init_height, n_ground)
+        z = list(z_ground) + list(aerial[2])
+
+        return x, y, z
 
 
 if __name__ == "__main__":
@@ -498,8 +523,11 @@ if __name__ == "__main__":
     plt.show()
 
     # aerialx, aerialy, aerialz = generator.compute_leg_aerial_trajectory([0, 0], [1, 1], 0, 0.02, 40)
-    aerialx, aerialy, aerialz = generator.compute_leg_cycle_trajectory(
-        leg_positions[0], 0, 0.05, 0.5, True)
+    aerialx, aerialy, aerialz = generator.compute_march_cycle(
+        leg_positions[0], 0, 0.05, 0.5, 1)
+    #aerialx, aerialy, aerialz = generator.compute_leg_cycle_trajectory(
+    #   leg_positions[0], 0, 0.05, 0.8, True)
+
     print("x: ", aerialx)
     print("y: ", aerialy)
     print("z: ", aerialz)
