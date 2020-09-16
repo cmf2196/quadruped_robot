@@ -55,10 +55,10 @@ class Robot:
         #     self.controller = PygameController()
 
         # make velocity 0, place in standing position virtually
-        self.trajectory_executor.current_position = [(-0.135, 0.15, -0.2),
-                                                     (0.135, 0.15, -0.2),
-                                                     (-0.135, -0.15, -0.2),
-                                                     (0.135, -0.15, -0.2)]
+        #self.trajectory_executor.current_position = [(-0.135, 0.15, -0.2),
+        #                                             (0.135, 0.15, -0.2),
+        #                                             (-0.135, -0.15, -0.2),
+        #                                             (0.135, -0.15, -0.2)]
         self.trajectory_executor.change_movement_speed(0, 0.1,
                                                        0)  # makes cycles exist
         self.trajectory_executor.change_movement_speed(0, 0, 0)
@@ -79,6 +79,12 @@ class Robot:
             self.motor_controller.move_all_motors(self.motor_controller.radians_to_degrees(ik_lay),2000)
             time.sleep(2)
             ik_stand = self.simulator.compute_multi_ik(self.feet, self.trajectory_executor.current_position)
+
+            # iterate to make stand position better (pybullet sucks at this...)
+            # This prevents a sudden change in position once cycles begin
+            for x in range(0, 10):
+                ik_stand = self.simulator.compute_multi_ik(self.feet,
+                                                           self.trajectory_executor.current_position)
             self.motor_controller.move_all_motors(
                 self.motor_controller.radians_to_degrees(ik_stand), 2000)
             time.sleep(3)
