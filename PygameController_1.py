@@ -69,8 +69,6 @@ class PygameController:
         h_vals = range(self.num_hat)
         self.hat = [self.joystick.get_hat(h) for h in h_vals]
 
-
-
     def check_min(self, val):
         # don't want to have 0.2 or less
 
@@ -124,7 +122,6 @@ class PS4Controller(PygameController):
               , 'right_joystick_vertical': [3 , -1] , 'L2': [4 , 1] , 'R2': [5 , 1]}
 
             self.hat = {}
-
 
 
         elif platform.system() == 'Linux':

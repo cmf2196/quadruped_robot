@@ -1,7 +1,6 @@
-# from PygameController_1 import PygameController , PS4Controller
-# import time
-# import pygame
-# import platform
+# Connor Finn
+# September 12, 2020
+
 
 from PygameController_1 import *
 
@@ -26,8 +25,11 @@ class robot_controller(PS4Controller):
 
         # What we need for our robot
         # [x_vel , y_vel , rot_vel ]
-        self.robot_controller_state = [0] * 3    # modify length with number of important buttons
+        self.robot_controller_state = [0] * 4    # modify length with number of important buttons
     
+        # set the max and min robot heights
+        self.max_height = - 0.2
+        self.min_height = - 0.1
 
 
     def get_velocities_continuous(self ):
@@ -51,12 +53,12 @@ class robot_controller(PS4Controller):
 
     def check_cutoffs(self , val):
        if abs(val) < self.middle and abs(val) != 0:
-          return self.walk_trot_percent
+          return self.walk_trot_percent * val / abs(val)
 
        elif abs(val) == 0:
           return 0
        else:
-          return 1
+          return val / abs(val)
 
     def get_velocities_discrete(self ):
         # get turbo value
@@ -76,17 +78,30 @@ class robot_controller(PS4Controller):
         # rot_vel
         self.robot_controller_state[2] = cuttoff_percents[2] * self.max_rotation_speed * self.analog['right_joystick_horizontal'][1]  * turbo_mult
     
-    def update_state(self):
-    	self.update_controller()
+    
+    def set_robot_height(self):
+        # Get the R2 pos (-1 , 1)
+        pos = self.analog_state[self.analog['R2'][0]] * self.analog['R2'][1]        
+   
+        # convert to robot height
+        self.robot_controller_state[3] = (self.max_height + self.min_height) / 2 - (self.max_height - self.min_height) * pos / 2 
 
-    def return_state(self , mode = 'continuous'):
+
+
+    def get_state(self , mode = 'continuous'):
         # mode is either 'continuous' , or 'discrete'
     	# refresh controller
         self.update_controller()
+
+        # update speeds
         if mode == 'continuous':
            self.get_velocities_continuous()
         elif mode == 'discrete':
            self.get_velocities_discrete()
+        
+        # set the robot's height
+        self.set_robot_height()
+        
         return self.robot_controller_state
 
 if __name__ == "__main__":
@@ -96,7 +111,7 @@ if __name__ == "__main__":
     try:
         while (1):
             print('analog_result ' ,controller.get_analog())
-            print('speeds ' , controller.return_state(mode = 'discrete'))
+            print('speeds ' , controller.get_state(mode = 'discrete'))
             print(" ")
 
             time.sleep(0.5)

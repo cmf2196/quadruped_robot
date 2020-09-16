@@ -28,7 +28,7 @@ class TrajectoryExecutor:
         self.default_pose = [(-0.135, 0.14), (0.135, 0.14), (-0.135, -0.16),
                              (0.135, -0.16)]
         self.low = -0.2
-        self.high = -0.15
+        self.high = self.low + 0.05
 
         self.current_position = None
         self.stand_position = [(-0.135, 0.14, -0.2), (0.135, 0.14, -0.2),

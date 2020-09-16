@@ -9,6 +9,8 @@ import platform
 from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
+
+from robot_controller import *
 from ps4_controller import MyController
 from ps4_controller import MyEventDefinition
 
@@ -42,13 +44,15 @@ class Robot:
 
         # initialize controller connection
 
-        if platform.system() == "Linux":
-            self.controller = MyController(interface="/dev/input/js0",
-                                           connecting_using_ds4drv=False,
-                                           event_definition=MyEventDefinition)
-            self.controller.initialize_connection()
-        else:
-            self.controller = PygameController()
+        self.controller = robot_controller()
+
+        # if platform.system() == "Linux":
+        #     self.controller = MyController(interface="/dev/input/js0",
+        #                                    connecting_using_ds4drv=False,
+        #                                    event_definition=MyEventDefinition)
+        #     self.controller.initialize_connection()
+        # else:
+        #     self.controller = PygameController()
 
         # make velocity 0, place in standing position virtually
         self.trajectory_executor.current_position = [(-0.135, 0.15, -0.2),
@@ -98,11 +102,13 @@ class Robot:
         return x, y, a
 
     def get_controller_command(self):
-        if type(self.controller).__name__ == "MyController":
-            return self.controller.get_state()
-            print('state read')
-        else:
-            return self.controller.multi_axis_to_velocity()
+        return self.controller.get_state(mode = 'discrete')
+
+        # if type(self.controller).__name__ == "MyController":
+        #     return self.controller.get_state()
+        #     print('state read')
+        # else:
+        #     return self.controller.multi_axis_to_velocity()
 
     def sleep_until_next_cycle(self, start_time, end_time, time_step):
         difference = end_time - start_time
@@ -124,7 +130,10 @@ class Robot:
 
             # check controller
             # velocity = self.get_keyboard_command()
-            velocity = self.get_controller_command()
+            state = self.get_controller_command()
+            print(state)
+            height = state[3]
+            velocity = state[:3] 
             print('the vel ' , velocity)
             # check orientation
 
@@ -132,9 +141,10 @@ class Robot:
 
             # calculate/ look up new joint positions
             if x % 1 == 0:
+                #self.trajectory_executor.low = height
                 self.trajectory_executor.change_movement_speed(velocity[0],
                                                                velocity[1],
-                                                               velocity[2])
+                                                               -1 * velocity[2])
 
             command = self.trajectory_executor.get_next_command()
 
