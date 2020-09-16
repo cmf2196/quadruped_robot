@@ -66,7 +66,7 @@ class PygameController:
 
 
     def update_hat(self):
-        h_vals = range(self.num_analog)
+        h_vals = range(self.num_hat)
         self.hat = [self.joystick.get_hat(h) for h in h_vals]
 
 
@@ -144,3 +144,9 @@ class PS4Controller(PygameController):
             self.hat = {}
 
 
+if __name__ == '__main__':
+    controller = PygameController()
+
+    while True:
+        print(controller.get_hat())
+        time.sleep(0.5)
