@@ -22,9 +22,11 @@ class PygameController:
         self.connect_to_controller()
         self.num_analog = self.joystick.get_numaxes()
         self.num_digital = self.joystick.get_numbuttons()
+        self.num_hat = self.joystick.get_numhats()
         # keep a running tab of the controller state
         self.digital_state = [0] * self.num_digital
         self.analog_state = [0] * self.num_analog
+        self.hat_state = [0] * self.num_hat
 
         # for analog control
         self.minimum = 0.2
@@ -63,6 +65,11 @@ class PygameController:
         self.analog_state = [self.check_min(s) for s in states]
 
 
+    def update_hat(self):
+        h_vals = range(self.num_analog)
+        self.hat = [self.joystick.get_hat(h) for h in h_vals]
+
+
    
     def check_min(self, val):
         # don't want to have 0.2 or less
@@ -80,6 +87,7 @@ class PygameController:
         # update buttons
         self.update_analog()
         self.update_digital()
+        self.update_hat()
 
 
     def get_analog(self):
@@ -89,6 +97,10 @@ class PygameController:
     def get_digital(self):
         self.update_controller()
         return self.digital_state
+
+    def get_hat(self):
+        self.update_controller()
+        return self.hat_state
 
     @staticmethod
     def refresh_controller():
@@ -110,6 +122,8 @@ class PS4Controller(PygameController):
             # for joysticks, left and down are -1 , up and right are 1
             self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , -1 ] , 'right_joystick_horizontal': [2 , 1] \
               , 'right_joystick_vertical': [3 , -1] , 'L2': [4 , 1] , 'R2': [5 , 1]}
+
+            self.hat = {}
             
 
 
@@ -118,6 +132,7 @@ class PS4Controller(PygameController):
               , 'power': 13 , 'L3':  14 , 'R3': 15 }
             self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , 1 ] , 'L2': [2 , 1] , 'right_joystick_horizontal': [3 , 1] \
               , 'right_joystick_vertical': [4 , 1]  , 'R2': [5 , 1]}
+            self.hat = {}
 
         # JOSH - Run pygame_config.py and figure out your button mapping
         elif platform.system() == 'Windows':  
@@ -125,5 +140,7 @@ class PS4Controller(PygameController):
               , 'R3': 8 , 'L1':  9 , 'R1': 10 , 'up_arrow': 11 , 'down_arrow': 12 , 'left_arrow': 13 , 'right_arrow' : 14 , 'touchpad': 15}
             self.analog = {'left_joystick_horizontal': [0 , 1] , 'left_joystick_vertical': [1 , 1 ] , 'right_joystick_horizontal': [2 , 1] \
               , 'right_joystick_vertical': [3 , 1] , 'L2': [4 , 1] , 'R2': [5 , 1]}
+
+            self.hat = {}
 
 
