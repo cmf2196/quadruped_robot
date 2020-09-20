@@ -10,6 +10,7 @@ from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 
 
+
 from robot_controller import *
 from ps4_controller import MyController
 from ps4_controller import MyEventDefinition
@@ -140,9 +141,7 @@ class Robot:
             # update and check state
 
             # calculate/ look up new joint positions
-            if x % 1 == 0:
-                #self.trajectory_executor.low = height
-                self.trajectory_executor.change_movement_speed(velocity[0],
+            self.trajectory_executor.change_movement_speed(velocity[0],
                                                                velocity[1],
                                                                -1 * velocity[2])
 

@@ -25,7 +25,7 @@ class robot_controller(PS4Controller):
 
         # What we need for our robot
         # [x_vel , y_vel , rot_vel ]
-        self.robot_controller_state = [0] * 4    # modify length with number of important buttons
+        self.robot_controller_state = [0] * 7     # modify length with number of important buttons
     
         # set the max and min robot heights
         self.max_height = - 0.2
@@ -86,6 +86,33 @@ class robot_controller(PS4Controller):
         # convert to robot height
         self.robot_controller_state[3] = (self.max_height + self.min_height) / 2 - (self.max_height - self.min_height) * pos / 2 
 
+    def set_height_toggle(self):
+        # Check to see if the R3 button is newly being pressed 
+        if self.digital_state[self.digital['R3']] == 1 and self.previous_digital_state[self.digital['R3']] == 0:
+            # change from True to False and vice versa
+            self.robot_controller_state[4] = 1
+
+        else:
+            self.robot_controller_state[4] = 0
+
+    def set_march_toggle(self):
+        # Check to see if the R3 button is newly being pressed 
+        if self.digital_state[self.digital['L3']] == 1 and self.previous_digital_state[self.digital['L3']] == 0:
+            # change from True to False and vice versa
+            self.robot_controller_state[5] = 1
+
+        else:
+            self.robot_controller_state[5] = 0
+
+    def set_dance_toggle(self):
+        # Check to see if the R3 button is newly being pressed 
+        if self.digital_state[self.digital['circle']] == 1 and self.previous_digital_state[self.digital['circle']] == 0:
+            # change from True to False and vice versa
+            self.robot_controller_state[6] = 1
+
+        else:
+            self.robot_controller_state[6] = 0
+
 
 
     def get_state(self , mode = 'continuous'):
@@ -101,6 +128,13 @@ class robot_controller(PS4Controller):
         
         # set the robot's height
         self.set_robot_height()
+
+        # set toggle for standing
+        self.set_height_toggle()
+        # set toggle for marching
+        self.set_march_toggle()
+        # set toggle for dance
+        self.set_dance_toggle()
         
         return self.robot_controller_state
 
@@ -110,7 +144,7 @@ if __name__ == "__main__":
   
     try:
         while (1):
-            print('analog_result ' ,controller.get_analog())
+            #print('analog_result ' ,controller.get_analog())
             print('speeds ' , controller.get_state(mode = 'discrete'))
             print(" ")
 

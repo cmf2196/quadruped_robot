@@ -28,6 +28,10 @@ class PygameController:
         self.analog_state = [0] * self.num_analog
         self.hat_state = [0] * self.num_hat
 
+        # i want the previous digital state as well so that we  can
+        # keep track of changes
+        self.previous_digital_state = None
+
         # for analog control
         self.minimum = 0.2
 
@@ -57,6 +61,7 @@ class PygameController:
 
     def update_digital(self):
         d_vals = range(self.num_digital)
+        self.previous_digital_state = self.digital_state
         self.digital_state = [self.joystick.get_button(v) for v in d_vals]
 
     def update_analog(self):
@@ -67,7 +72,7 @@ class PygameController:
 
     def update_hat(self):
         h_vals = range(self.num_hat)
-        self.hat = [self.joystick.get_hat(h) for h in h_vals]
+        self.hat_state = [self.joystick.get_hat(h) for h in h_vals]
 
 
    
