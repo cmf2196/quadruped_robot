@@ -16,7 +16,7 @@ class Dance(State):
 
 	def update(self, robot ,  controller_state):
 		if controller_state[6] == 1:
-			return self.exit('idle')
+			return self.exit('Stand')
 		else:
 			return
 

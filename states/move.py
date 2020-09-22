@@ -15,9 +15,11 @@ class Move(State):
 
 
 	def update(self, robot , controller_state):
-		if controller_state[7] == 1:
-			return self.exit('idle')
+		if [abs(a) for a in controller_state[:3]] == [0 , 0 , 0]:
+			return self.exit('Idle')
 
+		elif controller_state[7] == 1:
+			return self.exit('Stand')
 
 		# calculate/ look up new joint positions
 		robot.trajectory_executor.change_movement_speed(controller_state[0],

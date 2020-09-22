@@ -4,7 +4,6 @@ import time
 
 
 if __name__ == '__main__':
-    sm = StateMachine()
     controller = robot_controller()
     
     current_dir = os.getcwd()
@@ -24,6 +23,7 @@ if __name__ == '__main__':
     else:
         robot = Robot(urdf, gui, False)
     
+    sm = StateMachine(robot)
     x = 0
     while (1):
         x += 1
@@ -32,7 +32,7 @@ if __name__ == '__main__':
         # check controller
         # velocity = self.get_keyboard_command()
         controller_command = controller.get_state(mode = 'discrete')    
-        sm.process_step(robot , controller_command)
+        sm.process_step( controller_command)
         # sleep until next cycle
         end_time = time.time()
 

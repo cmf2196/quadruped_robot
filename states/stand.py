@@ -3,7 +3,7 @@
 
 from state import State
 
-class Idle(State):
+class Stand(State):
 
 	def __init__(self):
 		pass
@@ -28,9 +28,6 @@ class Idle(State):
 
 		elif controller_state[6] ==1:
 			return self.exit('Dance')
-
-		elif controller_state[7] == 1:
-			return self.exit('Stand')
 
 		else:
 			# calculate/ look up new joint positions

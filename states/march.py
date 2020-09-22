@@ -48,7 +48,7 @@ class March(State):
 
 		# check to see if we exit
 		if controller_state[5] == 1:
-			return self.exit('idle')
+			return self.exit('Idle')
 		elif [0 , 0 , 0] != controller_state[:3]:
-			return self.exit('move')
+			return self.exit('Move')
 
