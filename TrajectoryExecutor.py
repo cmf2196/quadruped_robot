@@ -108,8 +108,7 @@ class TrajectoryExecutor:
 
         return self.phases, self.ground_prop
 
-    def change_movement_speed(self, x_vel, y_vel, ang_vel):
-
+    def change_movement_speed(self, x_vel, y_vel, ang_vel, change_from_march = False ):
         # if in "marching" mode, just switch to marching
         if self.mode == "marching":
             self.choose_gait(x_vel, y_vel, ang_vel)
@@ -134,13 +133,13 @@ class TrajectoryExecutor:
 
         if self.current_velocity[0] == x_vel \
                 and self.current_velocity[1] == y_vel \
-                and self.current_velocity[2] == ang_vel:
-            # print("velocity has not changed")
+                and self.current_velocity[2] == ang_vel \
+                and change_from_march == False:
+            #print("velocity has not changed")
             return
 
         # if speed is 0, stop moving the legs
         if x_vel == 0 and y_vel == 0 and ang_vel == 0:
-
             # set modes based on findings
             self.modes = []  # set all legs to transition
 

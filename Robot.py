@@ -138,10 +138,8 @@ class Robot:
             # check controller
             # velocity = self.get_keyboard_command()
             state = self.get_controller_command()
-            print(state)
             height = state[3]
             velocity = state[:3] 
-            print('the vel ' , velocity)
             # check orientation
 
             # update and check state

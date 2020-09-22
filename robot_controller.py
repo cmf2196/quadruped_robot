@@ -25,7 +25,7 @@ class robot_controller(PS4Controller):
 
         # What we need for our robot
         # [x_vel , y_vel , rot_vel ]
-        self.robot_controller_state = [0] * 7     # modify length with number of important buttons
+        self.robot_controller_state = [0] * 8     # modify length with number of important buttons
     
         # set the max and min robot heights
         self.max_height = - 0.2
@@ -113,6 +113,15 @@ class robot_controller(PS4Controller):
         else:
             self.robot_controller_state[6] = 0
 
+    def set_move_end_toggle(self):
+        # Check to see if the R3 button is newly being pressed 
+        if self.digital_state[self.digital['x']] == 1 and self.previous_digital_state[self.digital['x']] == 0:
+            # change from True to False and vice versa
+            self.robot_controller_state[7] = 1
+
+        else:
+            self.robot_controller_state[7] = 0
+
 
 
     def get_state(self , mode = 'continuous'):
@@ -135,6 +144,10 @@ class robot_controller(PS4Controller):
         self.set_march_toggle()
         # set toggle for dance
         self.set_dance_toggle()
+
+        # set toggle for stoping walking
+        self.set_move_end_toggle()
+
         
         return self.robot_controller_state
 
