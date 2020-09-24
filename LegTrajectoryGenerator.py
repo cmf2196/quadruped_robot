@@ -416,6 +416,14 @@ class LegTrajectoryGenerator:
 
         return x, y, z
 
+    def compute_leg_linear_trajectory2(self, start_coord, end_coord, n_points):
+        # same as above I just want the last coordinate
+        x = np.linspace(start_coord[0], end_coord[0], n_points + 2)[1:]
+        y = np.linspace(start_coord[1], end_coord[1], n_points + 2)[1:]
+        z = np.linspace(start_coord[2], end_coord[2], n_points + 2)[1:]
+
+        return x, y, z
+
     def compute_leg_cycle_trajectory(self, init_leg_coord, init_height,
                                      max_height, ground_prop, approx=False):
         """
@@ -488,6 +496,7 @@ class LegTrajectoryGenerator:
         z = list(z_ground) + list(aerial[2])
 
         return x, y, z
+
 
 
 if __name__ == "__main__":

@@ -10,7 +10,6 @@ class Lay(State):
 
 
 	def exit(self , new_state):
-		print(' we got here !')
 		# new_state is a string (the name of the new state to be entered)
 		return new_state
 

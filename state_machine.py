@@ -8,6 +8,7 @@ from states.dance import Dance
 from states.march import March
 from states.lay import Lay 
 from states.stand import Stand
+import time
 
 
 
@@ -26,12 +27,12 @@ class StateMachine:
 		if self.current_state.__str__() == 'Stand' and state_name == 'Lay':
 			self.stand_to_lay()
 		
-		elif state_name == 'Stand' or self.current_state.__str__() =='Idle' and state_name in ['Dance' , 'March']:
-			self.to_stand()
+		elif self.current_state.__str__() == 'Lay' and state_name == 'Stand':
+			self.stand_up()
 
-		elif self.current_state.__str__() == 'idle' and state_name == 'Lay' :
-			self.to_stand()
-			self.stand_to_lay()
+		elif self.current_state.__str__() in ['Idle' , 'Dance' , 'March'] and state_name == 'Stand':
+			self.reset_feet()
+		
 
 		# update states
 		self.previous_state = self.current_state      # keep track of previous state
@@ -39,50 +40,63 @@ class StateMachine:
 		print('switching from ' , self.previous_state.__str__() , ' to ' , self.current_state.__str__())
 	
 
-	def to_stand(self):
-		print('go to standing position')
+	def stand_up(self):
+		print(" in stand_up function")
 		robot = self.robot
-		stand = robot.trajectory_executor.stand_position
+		robot.trajectory_executor.mode = "standing"
 
-		# iterate to make stand position better (pybullet sucks at this...)
-		# This prevents a sudden change in position once cycles begin
-		ik_stand = robot.simulator.compute_multi_ik(robot.feet, stand)
+		while robot.trajectory_executor.mode == "standing":
+			# calculate/ look up new joint positions
+			start_time = time.time()
+			robot.trajectory_executor.change_movement_speed(0, 0 , 0)
+			command = robot.trajectory_executor.get_next_command()
+			print(command)
+			# move motors
+			ik = robot.simulator.compute_multi_ik(robot.feet, command)
 
-		# iterate to make stand position better (pybullet sucks at this...)
-		# This prevents a sudden change in position once cycles begin
-		for x in range(0, 10):
-			ik_stand = robot.simulator.compute_multi_ik(robot.feet,
-                                                           stand)    
-		# if simulating, move simulation
-		if robot.simulator.gui:
-			robot.simulator.set_robot_pos(robot.moving_joints, ik_stand)
-			robot.simulator.step_gui_sim()
-			robot.simulator.center_camera()
-                
+			# if simulating, move simulation
+			if robot.simulator.gui:
+				robot.simulator.set_robot_pos(robot.moving_joints, ik)
+				robot.simulator.step_gui_sim()
+				robot.simulator.center_camera()
 
-		if robot.motors:
-			robot.motor_controller.move_all_motors(robot.motor_controller.radians_to_degrees(ik_stand),2000)
+			if robot.motors:
+				degs = robot.motor_controller.radians_to_degrees(ik)
+
+				robot.motor_controller.move_all_motors(degs, int(robot.period*1000))
+			end_time = time.time()
+			robot.sleep_until_next_cycle(start_time, end_time, robot.period)
+
+	def reset_feet(self):
+		robot = self.robot
+		return
 
 	def stand_to_lay(self):
 		print('go to laying position')
 		robot = self.robot
-		lay = [(-0.135, 0.15, -0.03),
-			(0.135, 0.15, -0.03),
-			(-0.135, -0.15, -0.03),
-			(0.135, -0.15, -0.03)]
-		ik_lay = robot.simulator.compute_multi_ik(robot.feet, lay)
+		robot.trajectory_executor.mode = "laying"
 
-		# if simulating, move simulation
-		if robot.simulator.gui:
-			robot.simulator.set_robot_pos(robot.moving_joints, ik_lay)
-			robot.simulator.step_gui_sim()
-			robot.simulator.center_camera()
-                
+		while robot.trajectory_executor.mode == "laying":
+			# calculate/ look up new joint positions
+			start_time = time.time()
+			robot.trajectory_executor.change_movement_speed(0, 0 , 0)
+			command = robot.trajectory_executor.get_next_command()
+			print('command')
+			# move motors
+			ik = robot.simulator.compute_multi_ik(robot.feet, command)
 
-		if robot.motors:
-			robot.motor_controller.move_all_motors(robot.motor_controller.radians_to_degrees(ik_lay),2000)
+			# if simulating, move simulation
+			if robot.simulator.gui:
+				robot.simulator.set_robot_pos(robot.moving_joints, ik)
+				robot.simulator.step_gui_sim()
+				robot.simulator.center_camera()
 
+			if robot.motors:
+				degs = robot.motor_controller.radians_to_degrees(ik)
 
+				robot.motor_controller.move_all_motors(degs, int(robot.period*1000))
+			end_time = time.time()
+			robot.sleep_until_next_cycle(start_time, end_time, robot.period)
 
 
 

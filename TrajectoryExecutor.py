@@ -18,11 +18,14 @@ class TrajectoryExecutor:
         self.cycles = []
         self.transitions = []
         self.trajectories = []
+        self.leg_single_trajectory = []
         self.clock_index = 0
         self.clock_max = 0
         self.transition_index = 0
+        self.move_index = 0
         self.phases = [0, 0.5, 0.75, 0.25]
         self.ground_prop = 0.75
+
         # hip values are [(-0.135, 0.15), (0.135, 0.15), (-0.135, -0.15),
         #                              (0.135, -0.15)]
 
@@ -33,12 +36,17 @@ class TrajectoryExecutor:
                              (0.135, -0.15+self.y_offset)]
         self.low = -0.2
         self.high = self.low + 0.05
+        self.lay_height = -0.03
 
 
         self.stand_position = [(-0.135, 0.15+self.y_offset, -0.2),
                                (0.135, 0.15+self.y_offset, -0.2),
                                (-0.135, -0.15+self.y_offset, -0.2),
                                (0.135, -0.15+self.y_offset, -0.2)]
+        self.laying_position  = [(-0.135, 0.15+self.y_offset, -0.03),
+                               (0.135, 0.15+self.y_offset, -0.03),
+                               (-0.135, -0.15+self.y_offset, -0.03),
+                               (0.135, -0.15+self.y_offset, -0.03)]
 
         self.current_position = self.stand_position
 
@@ -56,7 +64,13 @@ class TrajectoryExecutor:
         # phases preportion at which the leg starts in a cycle
         # [FL Fr Bl BR]
 
-        if self.mode == "marching":
+
+        if self.mode in ['standing' , 'laying']:
+            self.ground_prop = 1
+            self.phases = [0, 0 ,0 , 0]
+            return self.phases, self.ground_prop       
+
+        elif self.mode == "marching":
             self.ground_prop = 0.5
             self.phases = [0, 0.5, 0.5, 0]
             return self.phases, self.ground_prop
@@ -123,6 +137,58 @@ class TrajectoryExecutor:
             self.clock_max = len(self.cycles[0]) - 1
             # self.clock_index = 0
             return
+
+        # ____________________________ NEW CODE STARTS HERE ____________
+        # These functions follow the layout of the marching function:
+        # They need to be updated so that the trajectories are not calculated on every iteration
+        # They need to be modified so that they handle the current position as well
+
+        elif self.mode == "laying":
+            self.choose_gait(x_vel , y_vel , ang_vel)
+            self.leg_single_trajectory = []
+            
+            # Get amount of points used to lay down !!! THis only needs to be run one time !!!
+            lay_time = 1
+            num_points =  int(self.leg_trajectory_generator.frequency / lay_time)
+            l = 0
+            # iterate through the legs  
+            for leg in self.default_pose:
+                #  Get the trajectory points
+                traj = self.leg_trajectory_generator.compute_leg_linear_trajectory2(self.stand_position[l], self.laying_position[l], num_points + 1)
+                self.leg_single_trajectory.append(list(zip(traj[0], traj[1], traj[2])))
+                l += 1 
+
+            # WITHOUT TRANSITIONS, THIS WILL RESULT IN DISCONTINUITY!
+            self.modes = ["leg_single_trajectory", "leg_single_trajectory", "leg_single_trajectory", "leg_single_trajectory"]
+            self.clock_max = len(self.leg_single_trajectory[0]) - 1
+            # self.clock_index = 0
+            return
+        
+
+        elif self.mode == "standing":
+            print("made it to standing ")
+            self.choose_gait(x_vel , y_vel , ang_vel)
+            self.leg_single_trajectory = []
+
+            # Get amount of points used to lay down !!! THis only needs to be run one time !!!
+            lay_time = 1
+            num_points =  int(self.leg_trajectory_generator.frequency / lay_time)
+
+            l = 0
+            for leg in self.default_pose:
+                #  Get the trajectory points
+                traj = self.leg_trajectory_generator.compute_leg_linear_trajectory2(self.laying_position[l] ,self.stand_position[l], num_points + 1)
+                self.leg_single_trajectory.append(list(zip(traj[0], traj[1], traj[2])))
+                l += 1 
+
+            # WITHOUT TRANSITIONS, THIS WILL RESULT IN DISCONTINUITY!
+            self.modes = ["leg_single_trajectory", "leg_single_trajectory", "leg_single_trajectory", "leg_single_trajectory"]
+            self.clock_max = len(self.leg_single_trajectory[0]) - 1
+            # self.clock_index = 0
+            return
+        # ____________________________ NEW CODE ENDS HERE ____________
+
+
 
         # get current robot position if possible
         # if self.current_position is not None:
@@ -421,6 +487,7 @@ class TrajectoryExecutor:
         commands = []
 
         # use clock to compute cycle indexes (this can be more efficient, +1 etc)
+
         phase_idxs = []
         for phase in self.phases:
             phase_idxs.append(
@@ -445,7 +512,6 @@ class TrajectoryExecutor:
                         zip(aerial[0], aerial[1], aerial[2]))
                     self.transitions[i].append(end_coord)  # include final point
                     # print(self.transitions[i])
-
                 # pass on transition trajectory as normal
                 commands.append(self.transitions[i][self.transition_index])
 
@@ -458,6 +524,21 @@ class TrajectoryExecutor:
             elif self.modes[i] == "cycle":
                 commands.append(self.cycles[i][phase_idxs[i]])
 
+
+            # ______________________NEW CODE STARTS HERE _______________
+
+            # for laying down or standing up
+            elif self.modes[i] == "leg_single_trajectory":
+                commands.append(self.leg_single_trajectory[i][self.move_index])
+                if i == len(self.modes) - 1:
+                    self.move_index += 1
+
+                if self.move_index == len(self.leg_single_trajectory[0]):
+                    self.move_index = 0
+                    self.modes = ["idle", "idle", "idle", "idle"]
+                    self.mode = 'walking'
+
+            # _____________________ NEW CODE ENDS HERE ________________
             # if leg is in ground transition mode:
             elif self.modes[i] == "ground_transition":
 
