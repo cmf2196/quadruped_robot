@@ -76,7 +76,7 @@ class TrajectoryExecutor:
             return self.phases, self.ground_prop
 
         rotational = True
-        if ang_vel == 0 or max(x_vel, y_vel) / ang_vel > 0.1:
+        if ang_vel == 0 or abs(max(x_vel, y_vel) / ang_vel) > 0.1:
             rotational = False
 
         if not rotational:
