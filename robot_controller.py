@@ -16,7 +16,7 @@ class robot_controller(PS4Controller):
         self.max_forwards_speed = 0.5 / (1 + self.turbo ) 
         self.max_backwards_speed = 0.3 / (1 + self.turbo ) 
         self.max_sideways_speed = 0.5 / (1 + self.turbo ) 
-        self.max_rotation_speed = 0.3 / (1 + self.turbo ) 
+        self.max_rotation_speed = 1 / (1 + self.turbo )
 
 
         # variables for discrete only
