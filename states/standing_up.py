@@ -54,6 +54,7 @@ class Standing_Up(State):
     def update(self, robot, controller_state):
         # cancel the even, lay back down
         if controller_state[4] == 1:
+            self.clock = 0
             return self.exit('Laying_Down')
 
         # finished the process go to Stand

@@ -48,6 +48,7 @@ class Laying_Down(State):
 	def update(self, robot , controller_state):	
 		# cancels the process and starts standing back up
 		if controller_state[4] == 1:
+			self.clock = 0
 			return self.exit('Standing_Up')
 
 		# Reached the bottom, go to Lay state
