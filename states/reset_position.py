@@ -11,9 +11,8 @@ class Reset_Position(State):
         # comute the trajectory we want to follow
 
         # get start position
-        start_position = robot.trajectory_executor.stand_position
-        trajectories = robot.trajectory_executor.reset_to_position(start_position)
-        print(trajectories[0])
+        target_position = robot.trajectory_executor.stand_position
+        trajectories = robot.trajectory_executor.reset_to_position(target_position)
 
         # empty the trajectory list first
         robot.trajectory_executor.leg_single_trajectory = []

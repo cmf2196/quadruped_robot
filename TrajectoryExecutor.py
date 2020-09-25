@@ -386,8 +386,10 @@ class TrajectoryExecutor:
         # AND if there is enough time
 
         n_points = len(self.cycles[i]) - phase_idxs[i]
+
         distance = self.distance_between_coords(self.current_position[i],
-                                                self.cycles[0])
+                                                self.cycles[i][0])
+
         speed = distance / (n_points * 0.01)  # speed to get to goal
         if round(self.cycles[i][phase_idxs[i]][2]) > self.low and speed < 0.5:
             # n_points > round(0.1 * len(self.cycles[i])):
