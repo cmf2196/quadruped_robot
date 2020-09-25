@@ -21,7 +21,7 @@ class Stand(State):
 			return self.exit('Move')
 
 		elif controller_state[4] == 1:
-			return self.exit('Lay')
+			return self.exit('Laying_Down')
 
 		elif controller_state[5] == 1:
 			return self.exit('March')

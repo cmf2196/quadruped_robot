@@ -23,7 +23,7 @@ class State(object):
         # This will tell the state machine what state to transition into
         return 
 
-    def enter(self):
+    def enter(self , robot):
         # this will probably be usefule. not sure yet
         pass
 

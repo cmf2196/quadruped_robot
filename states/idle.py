@@ -20,9 +20,6 @@ class Idle(State):
 		if [0 , 0 , 0] != controller_state[:3]:
 			return self.exit('Move')
 
-		elif controller_state[4] == 1:
-			return self.exit('Lay')
-
 		elif controller_state[5] == 1:
 			return self.exit('March')
 

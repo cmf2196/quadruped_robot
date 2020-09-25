@@ -8,7 +8,7 @@ import os
 import platform
 from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
-
+from state_machine import *
 
 
 from robot_controller import *
@@ -46,6 +46,7 @@ class Robot:
         # initialize controller connection
 
         self.controller = robot_controller()
+        self.state_machine = StateMachine(self)
 
         # if platform.system() == "Linux":
         #     self.controller = MyController(interface="/dev/input/js0",
@@ -129,6 +130,7 @@ class Robot:
         # Have controller start listening
         #        self.controller.listen(timeout=60)
         #        print('here')
+
         x = 0
         while (1):
             x += 1
@@ -137,35 +139,9 @@ class Robot:
 
             # check controller
             # velocity = self.get_keyboard_command()
-            state = self.get_controller_command()
-            height = state[3]
-            velocity = state[:3] 
-            # check orientation
+            controller_command = self.get_controller_command()
 
-            # update and check state
-
-            # calculate/ look up new joint positions
-            self.trajectory_executor.change_movement_speed(velocity[0],
-                                                               velocity[1],
-                                                               -1 * velocity[2])
-
-            command = self.trajectory_executor.get_next_command()
-
-            # move motors
-            ik = self.simulator.compute_multi_ik(self.feet, command)
-
-            # if simulating, move simulation
-            if self.simulator.gui:
-                self.simulator.set_robot_pos(self.moving_joints, ik)
-                self.simulator.step_gui_sim()
-                self.simulator.center_camera()
-
-            if self.motors:
-                degs = self.motor_controller.radians_to_degrees(ik)
-
-                self.motor_controller.move_all_motors(degs, int(self.period*1000))
-
-
+            self.state_machine.process_step(controller_command)
             # sleep until next cycle
             end_time = time.time()
 
