@@ -27,7 +27,7 @@ class Idle(State):
 			return self.exit('Dance')
 
 		elif controller_state[7] == 1:
-			return self.exit('Stand')
+			return self.exit('Reset_Position')
 
 		else:
 			# calculate/ look up new joint positions

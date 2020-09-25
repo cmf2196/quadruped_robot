@@ -3,8 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="3855d399-21e2-4997-9478-e51646cf3f7a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Robot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrajectoryExecutor.py" beforeDir="false" afterPath="$PROJECT_DIR$/TrajectoryExecutor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/robot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/state_machine.py" beforeDir="false" afterPath="$PROJECT_DIR$/state_machine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/states/idle.py" beforeDir="false" afterPath="$PROJECT_DIR$/states/idle.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/states/reset_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/states/reset_position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/states/standing_up.py" beforeDir="false" afterPath="$PROJECT_DIR$/states/standing_up.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,11 +35,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Robot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="83" column="73" selection-start-line="83" selection-start-column="73" selection-end-line="83" selection-end-column="73" />
+            <state relative-caret-position="190">
+              <caret line="125" selection-start-line="125" selection-end-line="125" />
               <folding>
                 <element signature="e#28#39#0" expanded="true" />
               </folding>
@@ -44,12 +48,93 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/state_machine.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="42" selection-start-line="42" selection-end-line="42" />
+              <folding>
+                <element signature="e#37#65#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states/standing_up.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="30" column="19" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states/idle.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states/reset_position.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="850">
+              <caret line="50" column="36" lean-forward="true" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Simulator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="156">
+              <caret line="80" selection-start-line="80" selection-end-line="80" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states/stand.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_loop.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="327">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states/move.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TrajectoryExecutor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="39" column="67" lean-forward="true" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+            <state relative-caret-position="206">
+              <caret line="443" column="25" selection-start-line="443" selection-start-column="25" selection-end-line="443" selection-end-column="25" />
               <folding>
                 <element signature="e#25#36#0" expanded="true" />
+                <element signature="e#1913#4048#0" />
+                <element signature="e#4146#13853#0" />
+                <element signature="e#15522#16381#0" />
               </folding>
             </state>
           </provider>
@@ -66,13 +151,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>calc_fitness</find>
-      <find>randomize</find>
-      <find>.copy()</find>
-      <find>half</find>
-      <find>load_ge</find>
-      <find>pass</find>
-      <find>position</find>
       <find>10</find>
       <find>print(&quot;set</find>
       <find>coord</find>
@@ -80,7 +158,6 @@
       <find>self.current_velocity =</find>
       <find>self.modes</find>
       <find>aerial</find>
-      <find>transition_index = 0</find>
       <find>print</find>
       <find>p</find>
       <find>stabili</find>
@@ -96,6 +173,14 @@
       <find>elif</find>
       <find>get_speed</find>
       <find>on_L3_down</find>
+      <find>self.move</find>
+      <find>try:</find>
+      <find>= 0</find>
+      <find>transition_index = 0</find>
+      <find>=</find>
+      <find>= robot</find>
+      <find>update</find>
+      <find>return</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,15 +208,22 @@
         <option value="$PROJECT_DIR$/robot.py" />
         <option value="$PROJECT_DIR$/StateMachine.py" />
         <option value="$PROJECT_DIR$/Simulator.py" />
-        <option value="$PROJECT_DIR$/All_Motors_Test.py" />
         <option value="$PROJECT_DIR$/MotorController.py" />
         <option value="$PROJECT_DIR$/ps4_controller.py" />
         <option value="$PROJECT_DIR$/pygame_test.py" />
         <option value="$PROJECT_DIR$/PygameController.py" />
         <option value="$PROJECT_DIR$/LegTrajectoryGenerator.py" />
         <option value="$PROJECT_DIR$/PygameController_1.py" />
-        <option value="$PROJECT_DIR$/TrajectoryExecutor.py" />
         <option value="$PROJECT_DIR$/Robot.py" />
+        <option value="$PROJECT_DIR$/All_Motors_Test.py" />
+        <option value="$PROJECT_DIR$/state.py" />
+        <option value="$PROJECT_DIR$/test_state_machine.py" />
+        <option value="$PROJECT_DIR$/robot_controller.py" />
+        <option value="$PROJECT_DIR$/states/standing_up.py" />
+        <option value="$PROJECT_DIR$/states/idle.py" />
+        <option value="$PROJECT_DIR$/state_machine.py" />
+        <option value="$PROJECT_DIR$/states/reset_position.py" />
+        <option value="$PROJECT_DIR$/TrajectoryExecutor.py" />
       </list>
     </option>
   </component>
@@ -146,6 +238,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -156,13 +249,12 @@
             <path>
               <item name="quadruped_robot" type="b2602c69:ProjectViewProjectNode" />
               <item name="quadruped_robot" type="462c0819:PsiDirectoryNode" />
-              <item name="URDF" type="462c0819:PsiDirectoryNode" />
+              <item name="states" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -195,29 +287,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Robot">
-    <configuration name="LegTrajectoryGenerator" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="quadruped_robot" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LegTrajectoryGenerator.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.main_loop">
     <configuration name="Robot" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="quadruped_robot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -232,28 +302,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Robot.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Simulator" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="quadruped_robot" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Simulator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -284,6 +332,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main_loop" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="quadruped_robot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_loop.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="pygame_configure" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="quadruped_robot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -306,13 +376,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_state_machine" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="quadruped_robot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_state_machine.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Robot" />
-        <item itemvalue="Python.TrajectoryExecutor" />
-        <item itemvalue="Python.Simulator" />
+        <item itemvalue="Python.main_loop" />
         <item itemvalue="Python.pygame_configure" />
-        <item itemvalue="Python.LegTrajectoryGenerator" />
+        <item itemvalue="Python.Robot" />
+        <item itemvalue="Python.test_state_machine" />
+        <item itemvalue="Python.TrajectoryExecutor" />
       </list>
     </recent_temporary>
   </component>
@@ -346,6 +438,10 @@
       <workItem from="1600138078802" duration="9827000" />
       <workItem from="1600292562304" duration="690000" />
       <workItem from="1600293725212" duration="594000" />
+      <workItem from="1600672446740" duration="2873000" />
+      <workItem from="1600927837864" duration="5844000" />
+      <workItem from="1600976646404" duration="2514000" />
+      <workItem from="1600979541336" duration="15489000" />
     </task>
     <task id="LOCAL-00001" summary="Added URDF folder and updated Ghost.urdf file to most recent version. Also added line that reads the current directory and locates the urdf locally so the code runs on all systems.">
       <created>1587520465076</created>
@@ -505,7 +601,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="184105000" />
+    <option name="totallyTimeSpent" value="210825000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -520,8 +616,8 @@
     <frame x="1913" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49335864" visible="true" weight="0.16286863" />
-      <window_info id="Structure" order="1" sideWeight="0.5066414" side_tool="true" visible="true" weight="0.16286863" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.85388994" visible="true" weight="0.17091152" />
+      <window_info id="Structure" order="1" sideWeight="0.14611006" side_tool="true" visible="true" weight="0.17091152" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.3297587" />
       <window_info anchor="bottom" id="Messages" order="0" />
       <window_info anchor="bottom" id="Message" order="1" />
@@ -532,7 +628,7 @@
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32956153" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.046676096" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.042432815" />
       <window_info anchor="bottom" id="Database Changes" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32956153" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.32956153" />
@@ -617,91 +713,44 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Simulator.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="22" />
+          <url>file://$PROJECT_DIR$/states/reset_position.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/TrajectoryExecutor.py</url>
-          <line>421</line>
-          <option name="timeStamp" value="24" />
+          <url>file://$PROJECT_DIR$/states/reset_position.py</url>
+          <line>53</line>
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="robot.trajectory_executor" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/quadruped_robot$PygameController.coverage" NAME="PygameController Coverage Results" MODIFIED="1599712772670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$random_search.coverage" NAME="random_search Coverage Results" MODIFIED="1588534585467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$data_plotting.coverage" NAME="data_plotting Coverage Results" MODIFIED="1588568775404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$ps4_controller.coverage" NAME="ps4_controller Coverage Results" MODIFIED="1599707803074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/quadruped_robot$pygame_configure.coverage" NAME="pygame_configure Coverage Results" MODIFIED="1600293731743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/quadruped_robot$pygame_configure.coverage" NAME="pygame_configure Coverage Results" MODIFIED="1601004496434" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$beam_search.coverage" NAME="beam_search Coverage Results" MODIFIED="1588534290586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$LegTrajectoryGenerator.coverage" NAME="LegTrajectoryGenerator Coverage Results" MODIFIED="1600140919802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$MotorController.coverage" NAME="MotorController Coverage Results" MODIFIED="1599681494498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/quadruped_robot$main_loop.coverage" NAME="main_loop Coverage Results" MODIFIED="1601015505375" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$sim.coverage" NAME="sim Coverage Results" MODIFIED="1588235901317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$TrajectoryExecutor.coverage" NAME="TrajectoryExecutor Coverage Results" MODIFIED="1599971604585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$Simulator.coverage" NAME="Simulator Coverage Results" MODIFIED="1599625595935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/quadruped_robot$Robot.coverage" NAME="Robot Coverage Results" MODIFIED="1600299454390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/quadruped_robot$Robot.coverage" NAME="Robot Coverage Results" MODIFIED="1601003835631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$plot.coverage" NAME="plot Coverage Results" MODIFIED="1597890291126" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$All_Motors_Test.coverage" NAME="All_Motors_Test Coverage Results" MODIFIED="1599682594034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/quadruped_robot$test_state_machine.coverage" NAME="test_state_machine Coverage Results" MODIFIED="1600974047582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$hill_climber.coverage" NAME="hill_climber Coverage Results" MODIFIED="1588534079294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/quadruped_robot$pygame_test.coverage" NAME="pygame_test Coverage Results" MODIFIED="1599711710482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evolutionary_algorithms_2.py" />
-    <entry file="file://$PROJECT_DIR$/test_curve.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" selection-start-column="25" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/generations/ea_genome_gen_21" />
-    <entry file="file://$PROJECT_DIR$/Ghost.urdf" />
-    <entry file="file://$PROJECT_DIR$/URDF/Ghost/urdf/Ghost.urdf" />
-    <entry file="file://$PROJECT_DIR$/sim.py" />
-    <entry file="file://$PROJECT_DIR$/random_30k.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Pi/Phantom/urdf/Phantom.csv" />
-    <entry file="file://$PROJECT_DIR$/camera.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Phantom/urdf/Phantom.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stand.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-135" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/camera.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-254" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bno055_simpletest.py" />
-    <entry file="file://C:/Python 3.7/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="311" selection-start-line="311" selection-end-line="311" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Python 3.7/Lib/site-packages/pybullet_utils/bullet_client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/random_100k_curve.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -723,23 +772,10 @@
     <entry file="file://$PROJECT_DIR$/data_plotting.py" />
     <entry file="file://$PROJECT_DIR$/plot.py" />
     <entry file="file://$PROJECT_DIR$/data/random_30k.csv" />
-    <entry file="file://$PROJECT_DIR$/StateMachine.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/beam_learning_gen_999_pop_100.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/All_Motors_Test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
-          <folding>
-            <element signature="e#1#20#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -773,13 +809,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ps4_controller.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/inverse_kinematics_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -787,32 +816,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotorController.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="38" column="29" lean-forward="true" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/robot_connor.py" />
-    <entry file="file://$PROJECT_DIR$/Simulator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1870">
-          <caret line="114" column="37" lean-forward="true" selection-start-line="114" selection-start-column="37" selection-end-line="114" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python 3.7/Lib/site-packages/numpy/core/numeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
           <caret line="334" selection-start-line="334" selection-end-line="334" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PygameController_1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2431">
-          <caret line="150" column="23" lean-forward="true" selection-start-line="150" selection-start-column="23" selection-end-line="150" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -832,13 +840,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pygame_configure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python 3.7/Lib/inspect.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="445">
@@ -846,29 +847,202 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LegTrajectoryGenerator.py">
+    <entry file="file://$PROJECT_DIR$/Phantom/urdf/Phantom_connor_edits.urdf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="477" column="48" lean-forward="true" selection-start-line="477" selection-start-column="48" selection-end-line="477" selection-end-column="48" />
+        <state relative-caret-position="204">
+          <caret line="123" column="23" lean-forward="true" selection-start-line="123" selection-start-column="23" selection-end-line="123" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TrajectoryExecutor.py">
+    <entry file="file://$PROJECT_DIR$/ps4_controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="39" column="67" lean-forward="true" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+        <state relative-caret-position="935">
+          <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/camera.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="60" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/dance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/StateMachine.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_state_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
           <folding>
-            <element signature="e#25#36#0" expanded="true" />
+            <element signature="e#2#32#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/All_Motors_Test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="31" column="20" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
+          <folding>
+            <element signature="e#1#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pygame_configure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotorController.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="38" column="29" lean-forward="true" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PygameController_1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/robot_controller.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-266">
+          <caret line="131" selection-start-line="131" selection-end-line="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/state.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/lay.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/laying_down.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="76" column="28" lean-forward="true" selection-start-line="76" selection-start-column="28" selection-end-line="76" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LegTrajectoryGenerator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3868">
+          <caret line="368" column="44" lean-forward="true" selection-start-line="368" selection-start-column="44" selection-end-line="368" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Robot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="83" column="73" selection-start-line="83" selection-start-column="73" selection-end-line="83" selection-end-column="73" />
+        <state relative-caret-position="190">
+          <caret line="125" selection-start-line="125" selection-end-line="125" />
           <folding>
             <element signature="e#28#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/idle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/standing_up.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="30" column="19" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/state_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="e#37#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/move.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_loop.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/stand.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Simulator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/reset_position.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="50" column="36" lean-forward="true" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrajectoryExecutor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="443" column="25" selection-start-line="443" selection-start-column="25" selection-end-line="443" selection-end-column="25" />
+          <folding>
+            <element signature="e#25#36#0" expanded="true" />
+            <element signature="e#1913#4048#0" />
+            <element signature="e#4146#13853#0" />
+            <element signature="e#15522#16381#0" />
           </folding>
         </state>
       </provider>

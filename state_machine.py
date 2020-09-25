@@ -10,6 +10,7 @@ from states.lay import Lay
 from states.stand import Stand
 from states.standing_up import Standing_Up
 from states.laying_down import Laying_Down
+from states.reset_position import Reset_Position
 import time
 
 
@@ -18,9 +19,9 @@ import time
 class StateMachine:
 
 	def __init__(self , robot):
-		self.state_names = ['Idle' , 'Move' , 'March' , 'Lay' , 'Dance' , 'Stand' , 'Standing_Up' , 'Laying_Down']
-		self.states = {'Idle': Idle() , 'Move': Move() , 'March': March() , 'Lay': Lay() , 'Dance': Dance() , 'Stand': Stand()\
-		 , 'Laying_Down': Laying_Down() , 'Standing_Up': Standing_Up()}
+		self.state_names = ['Idle' , 'Move' , 'March' , 'Lay' , 'Dance' , 'Stand' , 'Standing_Up' , 'Laying_Down', 'Reset_Position']
+		self.states = {'Idle': Idle() , 'Move': Move() , 'March': March() , 'Lay': Lay() , 'Dance': Dance() , 'Stand': Stand()
+		 , 'Laying_Down': Laying_Down() , 'Standing_Up': Standing_Up(), 'Reset_Position': Reset_Position()}
 		self.current_state = self.states['Stand'] 
 		self.previous_state = None       # for now, just one state memory
 		self.robot = robot

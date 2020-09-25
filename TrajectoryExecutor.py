@@ -409,6 +409,96 @@ class TrajectoryExecutor:
         aerial_coords = list(zip(aerial[0], aerial[1], aerial[2]))
         return aerial_coords
 
+    def reset_to_position(self, positions):
+
+        """
+        Generates transition to get to a given position while standing
+
+        First the front left and back right leg will return to the default.
+        Then the front right and back left will do the same.
+        This will be done with aerial trajectories from the leg trajectory
+        generator.
+        They will be implemented as transitions in the state machine.
+
+        The given position is a list of 2D coordinates on the ground (or maybe
+        3D as well).
+        """
+
+        # If data is 2D, convert to 3D by assuming on ground
+        for i in range(0, len(self.modes)):
+            if len(positions[i]) == 2:
+                positions[i] = (positions[0], positions[1], self.low)
+
+        # Generate all 4 aerial trajectories to return to the start
+        aerials = []
+        for i in range(0,len(self.modes)):
+            # THIS WHOLE THING SHOULD BE IN LEG TRAJECTORY GENERATOR!
+
+            # Find current position of corresponding foot
+            current_pos = self.current_position[i]
+
+            # target position is in passed in positions
+            target_pos = positions[i]
+
+            # calculate number of points for transition
+            n_points = 25 # will compute this later depending on frequency
+
+            # With current and target, calculate transitions
+
+            # if in air, use linear trajectory
+            if current_pos[2] > self.low:
+                # passing in 3D, but last coord will be ignored anyway
+                aerial = self.leg_trajectory_generator.compute_leg_linear_trajectory(current_pos, target_pos, n_points-2)
+
+            else:
+                aerial = self.leg_trajectory_generator.compute_leg_raised_triangle_trajectory(current_pos, target_pos,
+                                               self.low, self.high, n_points-2)
+
+            aerial_coords = list(zip(aerial[0], aerial[1], aerial[2]))
+
+            # append start and end to finish trajectory (these are normally
+            # not included since cycles already have them)
+            aerial_coords = [current_pos]+aerial_coords+[target_pos]
+            aerials.append(aerial_coords)
+
+        # Now choose which legs will go first. If something is in the air, it
+        # needs to go first
+
+        # much like normal cycles, this transition will utilize the ground
+        # proportion and relative phases.
+
+        ground_prop = 0.5
+        phases = [0, 0.5, 0.5, 0]
+        # if front right or back left are in air, do them first instead
+        if self.current_position[1][2] > self.low or self.current_position[2][2] > self.low:
+            phases = [0.5, 0, 0, 0.5]
+
+        trajectories = []
+        # for each leg, use phase and ground prop to make the leg stay
+        for i in range(0, len(self.modes)):
+            # get total number of points from ground prop
+            # ex: aerial is 25 points, air prop is 1 - 0.75 = 0.25,
+            # so total is 100
+            n_points = int(len(aerials[i])/(1-ground_prop))
+
+            # time to stay put is phase times total time
+            # ex: if phases is 0.5, stay put for 0.5 of total time
+            n_start = int(phases[i]*n_points)
+
+            # remaining time is spent at target position
+            n_end = n_points-n_start-len(aerials[i])
+
+            # create list of start coordinate repeated n_start times
+            start = [self.current_position[i]]*n_start
+
+            # create list of end coordinate repeated n_end times
+            end = [positions[i]]*n_end
+
+            trajectories.append(start + aerials[i] + end)
+
+        return trajectories
+
+
     def max_range_trajectory(self, phase_idxs, i):
         print(str(i) + " is out of range")
 

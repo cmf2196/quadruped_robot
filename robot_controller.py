@@ -81,8 +81,10 @@ class robot_controller(PS4Controller):
     
     def set_robot_height(self):
         # Get the R2 pos (-1 , 1)
-        pos = self.analog_state[self.analog['R2'][0]] * self.analog['R2'][1]        
-   
+        try:
+            pos = self.analog_state[self.analog['R2'][0]] * self.analog['R2'][1]
+        except:
+            pos = -1
         # convert to robot height
         self.robot_controller_state[3] = (self.max_height + self.min_height) / 2 - (self.max_height - self.min_height) * pos / 2 
 
