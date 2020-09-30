@@ -42,19 +42,18 @@ class Laying_Down(State):
 
 	def exit(self , new_state):
 		# new_state is a string (the name of the new state to be entered)
+		self.clock = 0
 		return new_state
 
 
 	def update(self, robot , controller_state):	
 		# cancels the process and starts standing back up
 		if controller_state[4] == 1:
-			self.clock = 0
 			return self.exit('Standing_Up')
 
 		# Reached the bottom, go to Lay state
 		if self.clock == self.clock_max:
 			robot.trajectory_executor.modes = ["idle", "idle", "idle", "idle"]
-			self.clock = 0
 			return self.exit('Lay')
 		
 		# get the command 

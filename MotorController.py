@@ -11,7 +11,7 @@ import lx16a
 
 class MotorController:
 
-    def __init__(self, motor_ids, frequency):
+    def __init__(self, motor_ids, frequency , offsets = [0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,0 ]):
         self.initialize_connection()
 
         # create array of servo objects
@@ -19,7 +19,7 @@ class MotorController:
         self.servos = [LX16A(motor) for motor in motor_ids]
         self.frequency = frequency
         self.period = 1 / frequency
-
+        self.offsets = offsets 
     @staticmethod
     def initialize_connection():
         # initiate connection to motors according to os
@@ -44,7 +44,8 @@ class MotorController:
 
     # angles in degrees!
     def move_all_motors(self, angles, t):
-        data = [(angle, t) for angle in angles]
+        adjsuted_angles = [a + b for a, b in zip(angles, self.offsets)]
+        data = [(angle, t) for angle in adjusted_angles]
         self.servos[0].moveTimeWriteList(self.servos, data)
 
     # this converts the radian positions of the robot ik output to degrees in

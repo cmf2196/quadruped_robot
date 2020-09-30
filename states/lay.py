@@ -9,8 +9,13 @@ class Lay(State):
 		pass
 
 
+	
+	def enter(self , robot):
+		robot.motor_controller.turn_all_motors_off() 
+
+
 	def exit(self , new_state):
-		# new_state is a string (the name of the new state to be entered)
+		robot.motor_controller.turn_all_motors_on()
 		return new_state
 
 

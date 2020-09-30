@@ -69,10 +69,11 @@ class Robot:
         # For now, I will hard code a stand up sequence. This will
         # be replaced by FSM later...
         self.motors = motors
+        self.offsets = [0 , 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0]
         if self.motors:
             self.motor_controller = MotorController(
                 [11, 12, 13, 21, 22, 23, 31, 32, 33, 41, 42,
-                 43], self.frequency)
+                 43], self.frequency , self.offsets)
             lay = [(-0.135, 0.15, -0.03),
                    (0.135, 0.15, -0.03),
                    (-0.135, -0.15, -0.03),
