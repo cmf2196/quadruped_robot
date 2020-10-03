@@ -10,7 +10,6 @@ from Simulator import Simulator
 from TrajectoryExecutor import TrajectoryExecutor
 from state_machine import *
 
-
 from robot_controller import *
 from ps4_controller import MyController
 from ps4_controller import MyEventDefinition
@@ -19,6 +18,7 @@ from PygameController import PygameController
 
 if platform.system() == "Linux":
     from MotorController import MotorController
+    from imu import *
 else:
     import keyboard
 
@@ -68,6 +68,12 @@ class Robot:
         # execute orient and stand up sequence
         # For now, I will hard code a stand up sequence. This will
         # be replaced by FSM later...
+
+        # initialize the IMU sensor
+        if platform.system() == "Linux":
+            self.imu = IMU()
+
+
         self.motors = motors
         self.offsets = [0 , 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0]
         if self.motors:
@@ -141,6 +147,10 @@ class Robot:
             # check controller
             # velocity = self.get_keyboard_command()
             controller_command = self.get_controller_command()
+
+            if platform.system() == "Linux":
+                # update the imu sesnor
+                self.imu.update_state()
 
             self.state_machine.process_step(controller_command)
             # sleep until next cycle

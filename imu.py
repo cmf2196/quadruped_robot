@@ -40,10 +40,55 @@ class IMU():
 
 
   def __init__(self):
+    # initialize the uart connection to the imu 
     self.uart = serial.Serial('/dev/serial0', baudrate=9600, timeout=10)
+    # initialize the sensor 
     self.sensor = adafruit_bno055.BNO055_UART(self.uart)
+    '''
+    we will use the following state to determine whether the robot is fallen or not
+        + ['Stable' , 'Stable']     ~ The robot has not fallen over: Resume normal Activity
+        + ['Left' ,  ~ ]      ~ The robot fell to the left
+        + ['Right' , ~ ]      ~ The robot fell to the right
+        + [ ~ , 'Front']      ~ The robot fell forward
+        + [ ~ ,  'Back']       ~ The robot fell backward
+        
+        + the robot can have fallen front and to the side as well
+    '''
+    self.state = ['Stable' , 'Stable']     
 
 
+  def update_state(self):
+
+    # This function checks to see if the robot has tipped over in any direction
+    # it updates the imu state
+    
+    # Get the data in radians
+    try:
+      euler = self.get_euler_angles()
+      
+      # Check rotation about x axis
+      if euler[1] > 1:
+        self.state[0] = 'Right'
+      elif euler[1] < -1 :
+        self.state[0] = 'Left'
+      else:
+        self.state[0] = 'Stable'
+      
+      # Check rotation about y axis
+      if euler[2] > 1:
+        self.state[1] = 'Front'
+      elif euler[2] < -1 :
+        self.state[1] = 'Back'
+      else:
+        self.state[1] = 'Stable'
+
+    except RuntimeError
+      # if there is a RuntimeError, simply return the previous state
+      pass
+
+  def get_state(self):
+    
+    return self.state
 
   def get_calibration_status(self):
     # get the calibration status
@@ -88,6 +133,7 @@ class IMU():
 
   def get_magnetic(self):
     return self.sensor.magnetic
+
 
 
 if __name__ == "__main__":

@@ -1,7 +1,32 @@
-# Connor Finn
-# September 18, 2020
+'''
+Authors: Connor Finn, Josh Katz 
+Summer 2020
 
+Description:
 
+    This script dictates a finate state machine that will be used to control he robot's actions and 
+    transitions between different operating modes. Each state exists as a separate file in the states directory.
+    These states each have their own update step, as well as enter and exit functions which describe how the robot
+    will operate while within this state or while transitioning in or out of the state. The specific motions of the 
+    robot are determined in the TrajectoryExecutor and LegTrajetoryGenorator files. The os currently assumes 100 Hz
+
+    Transitions:
+        Transitions between states are envoked through a PS4 controller. The controller commands are indicated in 
+        robot_controller.py. It is possible to use a different controller, However, it will be necessary to update 
+        the settings in both the robot_controller and PygameController files.
+
+        Currently: 
+            + R3 Toggles between Laying and Standing
+            + x is used to reset the feet while standing
+            + x is also used to recover when in a fallen position
+            + L3 starts a march
+            + the Left Joystick indicates the direction and speed of motion 
+            + R1 is the turbo button
+            + The right Joystick indicates the turning direction and speed
+
+'''
+
+from states.state import state
 from states.idle import Idle
 from states.move import Move
 from states.dance import Dance
@@ -11,6 +36,8 @@ from states.stand import Stand
 from states.standing_up import Standing_Up
 from states.laying_down import Laying_Down
 from states.reset_position import Reset_Position
+from states.Recovering import Recovering
+from states.fallen import Fallen
 import time
 
 
@@ -18,34 +45,48 @@ class StateMachine:
 
     def __init__(self, robot):
         self.state_names = ['Idle', 'Move', 'March', 'Lay', 'Dance', 'Stand',
-                            'Standing_Up', 'Laying_Down', 'Reset_Position']
-        #self.states = {'Idle': Idle(), 'Move': Move(), 'March': March(),
-        #               'Lay': Lay(), 'Dance': Dance(), 'Stand': Stand()
-        #    , 'Laying_Down': Laying_Down(), 'Standing_Up': Standing_Up(),
-        #               'Reset_Position': Reset_Position()}
-
+                            'Standing_Up', 'Laying_Down', 'Reset_Position' , 'Fallen;' , 'Recovering']
+        # create a dictionary of State objects
         self.states = {}
         for name in self.state_names:
             target_class = eval(name)
             self.states[name] = target_class()
 
         self.current_state = self.states['Stand']
-        self.previous_state = None  # for now, just one state memory
+        self.previous_state = None 
         self.robot = robot
 
     def change_state(self, state_name):
-        # update states
-        self.previous_state = self.current_state  # keep track of previous state
-        self.current_state = self.states[state_name]  # update current state
-        print('switching from ', self.previous_state.__str__(), ' to ',
-              self.current_state.__str__())
+        # This function transitions the robot into a new state
+
+        # set the current state as the previous state
+        self.previous_state = self.current_state 
+        # update the current state to the indicated state        
+        self.current_state = self.states[state_name] 
+        # Run the enter function for the new state
         self.current_state.enter(self.robot)
 
     def process_step(self, controller_state):
-        # This will run the update step for the State
-        # if a state_name is returned, that will set off the change_state method
+        '''
+        1. Check if the robot is stable
+            ~ if it isn't transition to the fallen state
+        2. If it is stable, run the update step of the current state 
+        3. if the update step returns a new state, transition into that state
+        '''
+
         robot = self.robot
-        state_name = self.current_state.update(robot,
-                                               controller_state)  # the update step for each state will of course be different
-        if state_name != None:
-            self.change_state(state_name)
+
+        # check if the robot is stable
+        if robot.imu.state = ['Stable' , 'Stable']:
+            # run the update step
+            state_name = self.current_state.update(robot,
+                                                   controller_state) 
+            # change the state if a new name is returned
+            if state_name != None:
+                self.change_state(state_name)
+
+        # the robot has fallen over
+        else: 
+            self.change_state('Fallen')
+
+
