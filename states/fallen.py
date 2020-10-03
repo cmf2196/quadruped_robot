@@ -14,7 +14,7 @@ class Fallen(State):
 
     def update(self, robot, controller_state):
         # if x is pressed
-        elif controller_state[7] == 1:
+        if controller_state[7] == 1:
             return self.exit('Recovering')
 
         else:

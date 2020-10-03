@@ -26,7 +26,7 @@ Description:
 
 '''
 
-from states.state import state
+from states.state import State
 from states.idle import Idle
 from states.move import Move
 from states.dance import Dance
@@ -36,7 +36,7 @@ from states.stand import Stand
 from states.standing_up import Standing_Up
 from states.laying_down import Laying_Down
 from states.reset_position import Reset_Position
-from states.Recovering import Recovering
+from states.recovering import Recovering
 from states.fallen import Fallen
 import time
 
@@ -45,7 +45,7 @@ class StateMachine:
 
     def __init__(self, robot):
         self.state_names = ['Idle', 'Move', 'March', 'Lay', 'Dance', 'Stand',
-                            'Standing_Up', 'Laying_Down', 'Reset_Position' , 'Fallen;' , 'Recovering']
+                            'Standing_Up', 'Laying_Down', 'Reset_Position' , 'Fallen' , 'Recovering']
         # create a dictionary of State objects
         self.states = {}
         for name in self.state_names:
@@ -75,9 +75,10 @@ class StateMachine:
         '''
 
         robot = self.robot
-
+        print(robot.imu_state)
         # check if the robot is stable
-        if robot.imu.state = ['Stable' , 'Stable']:
+        if robot.imu_state == ['Stable' , 'Stable']:
+            print("in loop")
             # run the update step
             state_name = self.current_state.update(robot,
                                                    controller_state) 

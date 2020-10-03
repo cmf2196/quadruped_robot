@@ -87,7 +87,7 @@ class IMU():
       pass
 
   def get_state(self):
-    
+    self.update_state()
     return self.state
 
   def get_calibration_status(self):

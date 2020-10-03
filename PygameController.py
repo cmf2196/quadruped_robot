@@ -20,13 +20,16 @@ class PygameController:
         self.joystick = None
         pygame.init()
         self.connect_to_controller()
-        self.num_analog = self.joystick.get_numaxes()
-        self.num_digital = self.joystick.get_numbuttons()
-        self.num_hat = self.joystick.get_numhats()
-        # keep a running tab of the controller state
-        self.digital_state = [0] * self.num_digital
-        self.analog_state = [0] * self.num_analog
-        self.hat_state = [0] * self.num_hat
+        
+        if self.joystick != None:
+            self.num_analog = self.joystick.get_numaxes()
+            self.num_digital = self.joystick.get_numbuttons()
+            self.num_hat = self.joystick.get_numhats()
+
+            # keep a running tab of the controller state
+            self.digital_state = [0] * self.num_digital
+            self.analog_state = [0] * self.num_analog
+            self.hat_state = [0] * self.num_hat
 
         # i want the previous digital state as well so that we  can
         # keep track of changes
@@ -43,7 +46,7 @@ class PygameController:
         if joystick_count == 0:
             # No joysticks!
             print("Error, I didn't find any joysticks.")
-            exit()
+            self.joystick = None
 
         else:
             # Use joystick #0 and initialize it

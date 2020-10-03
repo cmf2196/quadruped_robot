@@ -64,6 +64,7 @@ class Robot:
         self.trajectory_executor.change_movement_speed(0, 0.1,
                                                        0)  # makes cycles exist
         self.trajectory_executor.change_movement_speed(0, 0, 0)
+        self.imu_state = ['Stable' , 'Stable']
 
         # execute orient and stand up sequence
         # For now, I will hard code a stand up sequence. This will
@@ -99,22 +100,39 @@ class Robot:
             time.sleep(3)
 
     def get_keyboard_command(self):
-        x, y, a = (0, 0, 0)
-
-        if keyboard.is_pressed("up"):
-            y = 0.3
+        command = [0] * 8
+        # move forward
+        if keyboard.is_pressed("up"):     
+            command[1] = 0.2
+        # move left
         if keyboard.is_pressed("left"):
-            x = -0.2
+            command[0] = -0.2
+        # move backwards
         if keyboard.is_pressed("down"):
-            y = -0.2
+            command[1] = -0.2
+        # move right
         if keyboard.is_pressed("right"):
-            x = 0.2
+            command[0] = -0.2
+        # turn right
         if keyboard.is_pressed("q"):
-            a = 1
+            command[2] = 1
+        # turn left
         if keyboard.is_pressed("e"):
-            a = -1
+            command[2] = -1
+        # stand toggle     
+        if keyboard.is_pressed("z"):
+            command[4] = 1
+        # march toggle
+        if keyboard.is_pressed("s"):
+            command[5] = 1
+        # dance toggle
+        if keyboard.is_pressed("c"):
+            command[6] = 1
+        # reset button
+        if keyboard.is_pressed("x"):
+            command[7] = 1
 
-        return x, y, a
+        return command
 
     def get_controller_command(self):
         return self.controller.get_state(mode = 'discrete')
@@ -145,12 +163,14 @@ class Robot:
             start_time = time.time()
 
             # check controller
-            # velocity = self.get_keyboard_command()
-            controller_command = self.get_controller_command()
+            if self.controller.joystick != None:
+                controller_command = self.get_controller_command()
+            else:
+                controller_command = self.get_keyboard_command()
 
             if platform.system() == "Linux":
                 # update the imu sesnor
-                self.imu.update_state()
+                self.imu_state = self.imu.get_state()
 
             self.state_machine.process_step(controller_command)
             # sleep until next cycle
