@@ -38,6 +38,8 @@ class Reset_Position(State):
         return new_state
 
     def update(self, robot, controller_state):
+        if robot.imu_state != ["stable", "stable"]:
+            return self.exit('Fallen')
 
         # finished the process go to Stand
         if self.clock == self.clock_max:

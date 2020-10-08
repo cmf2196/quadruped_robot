@@ -65,24 +65,24 @@ class IMU():
     # Get the data in radians
     try:
       euler = self.get_euler_angles()
-      
+
       # Check rotation about x axis
       if euler[1] > 1:
-        self.state[0] = 'Right'
-      elif euler[1] < -1 :
-        self.state[0] = 'Left'
+        self.state[0] = 'Back'
+      elif euler[1] < -1:
+        self.state[0] = 'Front'
       else:
         self.state[0] = 'Stable'
-      
+
       # Check rotation about y axis
       if euler[2] > 1:
-        self.state[1] = 'Front'
-      elif euler[2] < -1 :
-        self.state[1] = 'Back'
+        self.state[1] = 'Left'
+      elif euler[2] < -1:
+        self.state[1] = 'Right'
       else:
         self.state[1] = 'Stable'
 
-    except RuntimeError
+    except RuntimeError:
       # if there is a RuntimeError, simply return the previous state
       pass
 

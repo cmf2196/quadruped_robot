@@ -18,5 +18,7 @@ class Fallen(State):
             return self.exit('Recovering')
 
         else:
+            return self.exit('Recovering')
+
             return 
           

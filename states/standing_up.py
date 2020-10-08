@@ -53,6 +53,9 @@ class Standing_Up(State):
         return new_state
 
     def update(self, robot, controller_state):
+        if robot.imu_state != ["stable", "stable"]:
+            return self.exit('Fallen')
+
         # cancel the even, lay back down
         if controller_state[4] == 1:
             return self.exit('Laying_Down')
