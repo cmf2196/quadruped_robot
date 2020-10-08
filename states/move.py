@@ -15,6 +15,9 @@ class Move(State):
 
 
 	def update(self, robot , controller_state):
+		if robot.imu_state != ["stable", "stable"]:
+			return self.exit('Fallen')
+
 		if [abs(a) for a in controller_state[:3]] == [0 , 0 , 0]:
 			return self.exit('Idle')
 

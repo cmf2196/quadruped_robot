@@ -1,4 +1,6 @@
 from state import State
+import time
+
 
 
 class Recovering(State):
@@ -18,6 +20,7 @@ class Recovering(State):
 
     def update(self, robot, controller_state):
         # This needs to be updated
+        time.sleep(1)
         robot.motor_controller.recover_from_fall()
         self.exit('Lay')
 

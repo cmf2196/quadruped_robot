@@ -44,7 +44,7 @@ class MotorController:
 
     # angles in degrees!
     def move_all_motors(self, angles, t):
-        adjsuted_angles = [a + b for a, b in zip(angles, self.offsets)]
+        adjusted_angles = [a + b for a, b in zip(angles, self.offsets)]
         data = [(angle, t) for angle in adjusted_angles]
         self.servos[0].moveTimeWriteList(self.servos, data)
 
@@ -74,7 +74,7 @@ class MotorController:
                     lay_data.append(60)
             else:
                 # don't move type 1 motors yet
-                lay_data.append(servo.getPhysicalPos())
+                lay_data.append(servo.getVirtualPos())
 
         motor_controller.move_all_motors(lay_data, 1000)
         time.sleep(delay / 1000)
@@ -91,7 +91,7 @@ class MotorController:
                     lay_data.append(180)
             else:
                 # don't move type 2 or 3 here
-                lay_data.append(servo.getPhysicalPos())
+                lay_data.append(servo.getVirtualPos())
 
         motor_controller.move_all_motors(lay_data, 1000)
         time.sleep(delay / 1000)

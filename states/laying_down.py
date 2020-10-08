@@ -46,7 +46,10 @@ class Laying_Down(State):
 		return new_state
 
 
-	def update(self, robot , controller_state):	
+	def update(self, robot , controller_state):
+		if robot.imu_state != ["stable", "stable"]:
+			return self.exit('Fallen')
+
 		# cancels the process and starts standing back up
 		if controller_state[4] == 1:
 			return self.exit('Standing_Up')

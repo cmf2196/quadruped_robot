@@ -15,6 +15,9 @@ class Stand(State):
 
 
 	def update(self, robot ,  controller_state):
+		if robot.imu_state != ["stable", "stable"]:
+			return self.exit('Fallen')
+
 		# since this is idle, there is no updating going on
 		#  check to see if the robot is no longer in idle
 		if [0 , 0 , 0] != controller_state[:3]:
