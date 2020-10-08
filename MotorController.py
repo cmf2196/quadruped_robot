@@ -11,7 +11,7 @@ import lx16a
 
 class MotorController:
 
-    def __init__(self, motor_ids, frequency):
+    def __init__(self, motor_ids, frequency , offsets = [0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,0 ]):
         self.initialize_connection()
 
         # create array of servo objects
@@ -19,7 +19,7 @@ class MotorController:
         self.servos = [LX16A(motor) for motor in motor_ids]
         self.frequency = frequency
         self.period = 1 / frequency
-
+        self.offsets = offsets 
     @staticmethod
     def initialize_connection():
         # initiate connection to motors according to os
@@ -44,7 +44,8 @@ class MotorController:
 
     # angles in degrees!
     def move_all_motors(self, angles, t):
-        data = [(angle, t) for angle in angles]
+        adjsuted_angles = [a + b for a, b in zip(angles, self.offsets)]
+        data = [(angle, t) for angle in adjusted_angles]
         self.servos[0].moveTimeWriteList(self.servos, data)
 
     # this converts the radian positions of the robot ik output to degrees in
@@ -53,6 +54,74 @@ class MotorController:
     def radians_to_degrees(rads):
         degs = [rad / (2 * math.pi) * 360 + 120 for rad in rads]
         return degs
+
+    @staticmethod
+    def recover_from_fall():
+
+        # first, bring all x2 and x3 motors in
+        lay_data = []
+        for servo in motor_controller.servos:
+            id = str(servo.IDRead())
+            if id[1] == "2":
+                if int(id[0]) % 2 == 0:
+                    lay_data.append(60)
+                else:
+                    lay_data.append(180)
+            elif id[1] == "3":
+                if int(id[0]) % 2 == 0:
+                    lay_data.append(180)
+                else:
+                    lay_data.append(60)
+            else:
+                # don't move type 1 motors yet
+                lay_data.append(servo.getPhysicalPos())
+
+        motor_controller.move_all_motors(lay_data, 1000)
+        time.sleep(delay / 1000)
+
+        # now fold x1 motors in (might only do left or right based on fall)
+
+        lay_data = []
+        for servo in motor_controller.servos:
+            id = str(servo.IDRead())
+            if id[1] == "1":
+                if int(id[0]) % 2 == 0:
+                    lay_data.append(60)
+                else:
+                    lay_data.append(180)
+            else:
+                # don't move type 2 or 3 here
+                lay_data.append(servo.getPhysicalPos())
+
+        motor_controller.move_all_motors(lay_data, 1000)
+        time.sleep(delay / 1000)
+
+        # Robot should now be in a reasonable position to just transition to
+        # laying and go to lay state
+
+        # This is the quick and dirty way, could be optimized later
+
+        lay_data = []
+        for servo in motor_controller.servos:
+            id = str(servo.IDRead())
+            if id[1] == "2":
+                if int(id[0]) % 2 == 0:
+                    lay_data.append(60)
+                else:
+                    lay_data.append(180)
+            elif id[1] == "3":
+                if int(id[0]) % 2 == 0:
+                    lay_data.append(180)
+                else:
+                    lay_data.append(60)
+            else:
+                lay_data.append(120)
+
+        motor_controller.move_all_motors(lay_data, 1000)
+        time.sleep(delay / 1000)
+
+        # robot should be laying
+        return
 
 
 if __name__ == "__main__":
@@ -66,6 +135,9 @@ if __name__ == "__main__":
 
     motor_controller = MotorController(ids, 100)
     motor_controller.turn_all_motors_on()
+
+    # new addition to test fall recovery
+    motor_controller.recover_from_fall()
 
     delay = 2000
     stand_data = []
@@ -109,3 +181,4 @@ if __name__ == "__main__":
 
     motor_controller.move_all_motors(stand_data, delay)
     time.sleep(delay / 1000)
+

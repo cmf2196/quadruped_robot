@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3855d399-21e2-4997-9478-e51646cf3f7a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/states/fallen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MotorController.py" beforeDir="false" afterPath="$PROJECT_DIR$/MotorController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/states/lay.py" beforeDir="false" afterPath="$PROJECT_DIR$/states/lay.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,19 +31,49 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MotorController.py">
+        <entry file="file://$PROJECT_DIR$/Robot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1462">
-              <caret line="90" column="40" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="40" />
+            <state relative-caret-position="1652">
+              <caret line="145" column="34" lean-forward="true" selection-start-line="145" selection-start-column="34" selection-end-line="145" selection-end-column="34" />
+              <folding>
+                <element signature="e#28#39#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/states/fallen.py">
+        <entry file="file://$PROJECT_DIR$/MotorController.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+            <state relative-caret-position="734">
+              <caret line="140" column="16" lean-forward="true" selection-start-line="140" selection-start-column="16" selection-end-line="140" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states/standing_up.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="73" column="25" lean-forward="true" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Simulator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="112" column="35" lean-forward="true" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states/stand.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="29" column="37" lean-forward="true" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -53,47 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/states/lay.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/camera.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="71" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="71" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/states/state.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/state_machine.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="41" column="44" selection-start-line="41" selection-start-column="44" selection-end-line="41" selection-end-column="44" />
-              <folding>
-                <element signature="e#37#65#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/states/dance.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="22" />
+            <state relative-caret-position="357">
+              <caret line="21" column="13" lean-forward="true" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -102,7 +91,7 @@
         <entry file="file://$PROJECT_DIR$/states/reset_position.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="425">
-              <caret line="25" column="67" selection-start-line="25" selection-start-column="67" selection-end-line="25" selection-end-column="67" />
+              <caret line="25" column="67" lean-forward="true" selection-start-line="25" selection-start-column="67" selection-end-line="25" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -110,8 +99,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/states/march.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+            <state relative-caret-position="345">
+              <caret line="52" column="36" lean-forward="true" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TrajectoryExecutor.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="697">
+              <caret line="53" column="30" lean-forward="true" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
+              <folding>
+                <element signature="e#25#36#0" expanded="true" />
+                <element signature="e#4146#13853#0" />
+                <element signature="e#15522#16381#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -119,8 +122,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/states/laying_down.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="57" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
+            <state relative-caret-position="969">
+              <caret line="57" column="35" lean-forward="true" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -205,13 +208,11 @@
         <option value="$PROJECT_DIR$/robot_controller.py" />
         <option value="$PROJECT_DIR$/state_machine.py" />
         <option value="$PROJECT_DIR$/states/reset_position.py" />
+        <option value="$PROJECT_DIR$/TrajectoryExecutor.py" />
         <option value="$PROJECT_DIR$/states/standing_up.py" />
         <option value="$PROJECT_DIR$/states/laying_down.py" />
         <option value="$PROJECT_DIR$/Simulator.py" />
-        <option value="$PROJECT_DIR$/TrajectoryExecutor.py" />
         <option value="$PROJECT_DIR$/MotorController.py" />
-        <option value="$PROJECT_DIR$/states/fallen.py" />
-        <option value="$PROJECT_DIR$/states/lay.py" />
       </list>
     </option>
   </component>
@@ -233,6 +234,11 @@
             <path>
               <item name="quadruped_robot" type="b2602c69:ProjectViewProjectNode" />
               <item name="quadruped_robot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="quadruped_robot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="quadruped_robot" type="462c0819:PsiDirectoryNode" />
+              <item name="states" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -425,9 +431,6 @@
       <workItem from="1600927837864" duration="5844000" />
       <workItem from="1600976646404" duration="2514000" />
       <workItem from="1600979541336" duration="25606000" />
-      <workItem from="1601070163849" duration="1980000" />
-      <workItem from="1601497137904" duration="2021000" />
-      <workItem from="1602185349593" duration="40000" />
     </task>
     <task id="LOCAL-00001" summary="Added URDF folder and updated Ghost.urdf file to most recent version. Also added line that reads the current directory and locates the urdf locally so the code runs on all systems.">
       <created>1587520465076</created>
@@ -629,7 +632,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="224983000" />
+    <option name="totallyTimeSpent" value="220942000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -642,9 +645,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8486563" visible="true" weight="0.17895442" />
-      <window_info id="Structure" order="1" sideWeight="0.1513437" side_tool="true" visible="true" weight="0.17895442" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.85388994" visible="true" weight="0.17091152" />
+      <window_info id="Structure" order="1" sideWeight="0.14611006" side_tool="true" visible="true" weight="0.17091152" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.3297587" />
       <window_info anchor="bottom" id="Messages" order="0" />
       <window_info anchor="bottom" id="Message" order="1" />
@@ -664,7 +668,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="SciView" order="3" visible="true" weight="0.14812332" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.14812332" />
       <window_info anchor="right" id="Database" order="4" weight="0.028820375" />
     </layout>
   </component>
@@ -767,6 +771,12 @@
     <SUITE FILE_PATH="coverage/quadruped_robot$pygame_test.coverage" NAME="pygame_test Coverage Results" MODIFIED="1599711710482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/hill_climber_100k.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/random_100k.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/ea_2__100k_genome.csv" />
     <entry file="file://$PROJECT_DIR$/data/beam_genome_gen299_pop100.csv" />
     <entry file="file://$PROJECT_DIR$/hill_climber.py" />
@@ -868,6 +878,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/camera.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="60" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/dance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -944,6 +968,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/states/idle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/state_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="29" column="46" lean-forward="true" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="46" />
+          <folding>
+            <element signature="e#37#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LegTrajectoryGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="774">
@@ -951,124 +992,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Robot.py">
+    <entry file="file://$PROJECT_DIR$/states/march.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2261">
-          <caret line="145" column="34" selection-start-line="145" selection-start-column="34" selection-end-line="145" selection-end-column="34" />
-          <folding>
-            <element signature="e#28#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Simulator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="112" column="35" lean-forward="true" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/states/stand.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
+        <state relative-caret-position="345">
+          <caret line="52" column="36" lean-forward="true" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TrajectoryExecutor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="52" column="63" lean-forward="true" selection-start-line="52" selection-start-column="63" selection-end-line="52" selection-end-column="63" />
+        <state relative-caret-position="697">
+          <caret line="53" column="30" lean-forward="true" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
           <folding>
             <element signature="e#25#36#0" expanded="true" />
+            <element signature="e#4146#13853#0" />
+            <element signature="e#15522#16381#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/states/idle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" selection-start-line="41" selection-end-line="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/states/standing_up.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="73" column="25" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MotorController.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1462">
-          <caret line="90" column="40" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/states/lay.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+        <state relative-caret-position="357">
+          <caret line="21" column="13" lean-forward="true" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/camera.txt">
+    <entry file="file://$PROJECT_DIR$/states/stand.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="71" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/states/state.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/state_machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="41" column="44" selection-start-line="41" selection-start-column="44" selection-end-line="41" selection-end-column="44" />
-          <folding>
-            <element signature="e#37#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/states/dance.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="22" />
+        <state relative-caret-position="289">
+          <caret line="29" column="37" lean-forward="true" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/states/reset_position.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
-          <caret line="25" column="67" selection-start-line="25" selection-start-column="67" selection-end-line="25" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/states/march.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+          <caret line="25" column="67" lean-forward="true" selection-start-line="25" selection-start-column="67" selection-end-line="25" selection-end-column="67" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/states/laying_down.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="57" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
+        <state relative-caret-position="969">
+          <caret line="57" column="35" lean-forward="true" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/states/fallen.py">
+    <entry file="file://$PROJECT_DIR$/Simulator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+        <state relative-caret-position="242">
+          <caret line="112" column="35" lean-forward="true" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states/standing_up.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="73" column="25" lean-forward="true" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Robot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1652">
+          <caret line="145" column="34" lean-forward="true" selection-start-line="145" selection-start-column="34" selection-end-line="145" selection-end-column="34" />
+          <folding>
+            <element signature="e#28#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotorController.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="734">
+          <caret line="140" column="16" lean-forward="true" selection-start-line="140" selection-start-column="16" selection-end-line="140" selection-end-column="16" />
         </state>
       </provider>
     </entry>

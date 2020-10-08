@@ -8,17 +8,16 @@ class Lay(State):
 	def __init__(self):
 		pass
 
-	def enter(self, robot):
-		# turn off motors
-	    robot.motor_controller.turn_off_all_motors()
+
+	
+	def enter(self , robot):
+		if robot.motors:
+			robot.motor_controller.turn_all_motors_off() 
 
 
-	def exit(self , new_state):
-		# new_state is a string (the name of the new state to be entered)
-
-		# upon exit, turn motors back on
-
-
+	def exit(self , new_state , robot):
+		if robot.motors:
+			robot.motor_controller.turn_all_motors_on()
 		return new_state
 
 
@@ -26,8 +25,7 @@ class Lay(State):
 		# all we need to do here is wait to stand up
 		#print('now in lay')
 		if controller_state[4] == 1:
-			robot.motor_controller.turn_on_all_motors()
-			return self.exit('Standing_Up')
+			return self.exit('Standing_Up' , robot)
 		else:
 			return
 

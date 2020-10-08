@@ -49,17 +49,16 @@ class Standing_Up(State):
 
     def exit(self, new_state):
         # new_state is a string (the name of the new state to be entered)
+        self.clock = 0
         return new_state
 
     def update(self, robot, controller_state):
         # cancel the even, lay back down
         if controller_state[4] == 1:
-            self.clock = 0
             return self.exit('Laying_Down')
 
         # finished the process go to Stand
         if self.clock == self.clock_max:
-            self.clock = 0
             robot.trajectory_executor.modes = ["idle", "idle", "idle", "idle"]
             return self.exit('Stand')
 

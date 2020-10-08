@@ -2,7 +2,7 @@
 # September 12, 2020
 
 
-from PygameController_1 import *
+from PygameController import *
 
 
 class robot_controller(PS4Controller):
