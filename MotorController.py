@@ -55,12 +55,11 @@ class MotorController:
         degs = [rad / (2 * math.pi) * 360 + 120 for rad in rads]
         return degs
 
-    @staticmethod
-    def recover_from_fall():
+    def recover_from_fall(self):
 
         # first, bring all x2 and x3 motors in
         lay_data = []
-        for servo in motor_controller.servos:
+        for servo in self.servos:
             id = str(servo.IDRead())
             if id[1] == "2":
                 if int(id[0]) % 2 == 0:
@@ -76,13 +75,13 @@ class MotorController:
                 # don't move type 1 motors yet
                 lay_data.append(servo.getVirtualPos())
 
-        motor_controller.move_all_motors(lay_data, 1000)
+        self.move_all_motors(lay_data, 1000)
         time.sleep(delay / 1000)
 
         # now fold x1 motors in (might only do left or right based on fall)
 
         lay_data = []
-        for servo in motor_controller.servos:
+        for servo in self.servos:
             id = str(servo.IDRead())
             if id[1] == "1":
                 if int(id[0]) % 2 == 0:
@@ -93,7 +92,7 @@ class MotorController:
                 # don't move type 2 or 3 here
                 lay_data.append(servo.getVirtualPos())
 
-        motor_controller.move_all_motors(lay_data, 1000)
+        self.move_all_motors(lay_data, 1000)
         time.sleep(delay / 1000)
 
         # Robot should now be in a reasonable position to just transition to
@@ -102,7 +101,7 @@ class MotorController:
         # This is the quick and dirty way, could be optimized later
 
         lay_data = []
-        for servo in motor_controller.servos:
+        for servo in self.servos:
             id = str(servo.IDRead())
             if id[1] == "2":
                 if int(id[0]) % 2 == 0:
@@ -117,7 +116,7 @@ class MotorController:
             else:
                 lay_data.append(120)
 
-        motor_controller.move_all_motors(lay_data, 1000)
+        self.move_all_motors(lay_data, 1000)
         time.sleep(delay / 1000)
 
         # robot should be laying

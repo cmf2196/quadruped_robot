@@ -67,27 +67,14 @@ class StateMachine:
         self.current_state.enter(self.robot)
 
     def process_step(self, controller_state):
-        '''
-        1. Check if the robot is stable
-            ~ if it isn't transition to the fallen state
-        2. If it is stable, run the update step of the current state 
-        3. if the update step returns a new state, transition into that state
-        '''
-
         robot = self.robot
         print(robot.imu_state)
-        # check if the robot is stable
-        if robot.imu_state == ['Stable' , 'Stable']:
-            print("in loop")
-            # run the update step
-            state_name = self.current_state.update(robot,
-                                                   controller_state) 
-            # change the state if a new name is returned
-            if state_name != None:
-                self.change_state(state_name)
 
-        # the robot has fallen over
-        else: 
-            self.change_state('Fallen')
+        # run the update step
+        state_name = self.current_state.update(robot, controller_state)
+        # change the state if a new name is returned
+        if state_name != None:
+            self.change_state(state_name)
+
 
 

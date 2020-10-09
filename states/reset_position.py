@@ -38,7 +38,7 @@ class Reset_Position(State):
         return new_state
 
     def update(self, robot, controller_state):
-        if robot.imu_state != ["stable", "stable"]:
+        if robot.imu_state[0] != "Stable" or robot.imu_state[1] != "Stable":
             return self.exit('Fallen')
 
         # finished the process go to Stand

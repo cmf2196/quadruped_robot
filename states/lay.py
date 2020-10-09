@@ -22,7 +22,7 @@ class Lay(State):
 
 
 	def update(self, robot , controller_state):
-		if robot.imu_state != ["stable", "stable"]:
+		if robot.imu_state[0] != "Stable" or robot.imu_state[1] != "Stable":
 			return self.exit('Fallen')
 
 		# all we need to do here is wait to stand up
