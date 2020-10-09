@@ -86,7 +86,7 @@ class MotorController:
         for servo in self.servos:
             id = str(servo.IDRead())
             if id[1] == "1":
-                if int(id[0]) % 2 == 0:
+                if int(id[0]) == 1 or int(id[0]) == 4:
                     lay_data.append(60)
                 else:
                     lay_data.append(180)
