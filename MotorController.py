@@ -57,6 +57,8 @@ class MotorController:
 
     def recover_from_fall(self):
 
+        delay = 1000
+
         # first, bring all x2 and x3 motors in
         lay_data = []
         for servo in self.servos:
@@ -75,7 +77,7 @@ class MotorController:
                 # don't move type 1 motors yet
                 lay_data.append(servo.getVirtualPos())
 
-        self.move_all_motors(lay_data, 1000)
+        self.move_all_motors(lay_data, delay)
         time.sleep(delay / 1000)
 
         # now fold x1 motors in (might only do left or right based on fall)
@@ -92,7 +94,7 @@ class MotorController:
                 # don't move type 2 or 3 here
                 lay_data.append(servo.getVirtualPos())
 
-        self.move_all_motors(lay_data, 1000)
+        self.move_all_motors(lay_data, delay)
         time.sleep(delay / 1000)
 
         # Robot should now be in a reasonable position to just transition to
@@ -116,7 +118,7 @@ class MotorController:
             else:
                 lay_data.append(120)
 
-        self.move_all_motors(lay_data, 1000)
+        self.move_all_motors(lay_data, delay)
         time.sleep(delay / 1000)
 
         # robot should be laying
