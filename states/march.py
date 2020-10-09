@@ -15,7 +15,7 @@ class March(State):
 
 
 	def update(self, robot , controller_state):
-		if robot.imu_state != ["stable", "stable"]:
+		if robot.imu_state[0] != "Stable" or robot.imu_state[1] != "Stable":
 			return self.exit('Fallen')
 
 		# set mode to either walking or marching  (This could be optimized)
