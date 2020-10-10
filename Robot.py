@@ -21,6 +21,7 @@ if platform.system() == "Linux":
     from imu import *
 else:
     import keyboard
+    from keyboard_controller import Keyboard_Controller
 
 class Robot:
 
@@ -46,7 +47,14 @@ class Robot:
         # initialize controller connection
 
         self.controller = robot_controller()
+        if self.controller.joystick == None:
+            self.keyboard = Keyboard_Controller()
         self.state_machine = StateMachine(self)
+        
+
+
+        self.keyboard_previous = [0] * 8
+        self.keyboard_current = [0] * 8
 
         # if platform.system() == "Linux":
         #     self.controller = MyController(interface="/dev/input/js0",
@@ -100,39 +108,7 @@ class Robot:
             time.sleep(3)
 
     def get_keyboard_command(self):
-        command = [0] * 8
-        # move forward
-        if keyboard.is_pressed("up"):     
-            command[1] = 0.2
-        # move left
-        if keyboard.is_pressed("left"):
-            command[0] = -0.2
-        # move backwards
-        if keyboard.is_pressed("down"):
-            command[1] = -0.2
-        # move right
-        if keyboard.is_pressed("right"):
-            command[0] = -0.2
-        # turn right
-        if keyboard.is_pressed("q"):
-            command[2] = 1
-        # turn left
-        if keyboard.is_pressed("e"):
-            command[2] = -1
-        # stand toggle     
-        if keyboard.is_pressed("z"):
-            command[4] = 1
-        # march toggle
-        if keyboard.is_pressed("s"):
-            command[5] = 1
-        # dance toggle
-        if keyboard.is_pressed("c"):
-            command[6] = 1
-        # reset button
-        if keyboard.is_pressed("x"):
-            command[7] = 1
-
-        return command
+        return self.keyboard.get_command()
 
     def get_controller_command(self):
         return self.controller.get_state(mode = 'discrete')
