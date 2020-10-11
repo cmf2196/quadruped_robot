@@ -68,8 +68,6 @@ class StateMachine:
 
     def process_step(self, controller_state):
         robot = self.robot
-        print(robot.imu_state)
-
         # run the update step
         state_name = self.current_state.update(robot, controller_state)
         # change the state if a new name is returned

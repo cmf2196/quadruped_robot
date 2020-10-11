@@ -145,8 +145,9 @@ class Robot:
                 controller_command = self.get_keyboard_command()
 
             if platform.system() == "Linux":
-                # update the imu sesnor
-                self.imu_state = self.imu.get_state()
+                # update the imu sesnor but every 10 so it isnt so jittery
+                if x%10 ==0: 
+                    self.imu_state = self.imu.get_state()
 
             self.state_machine.process_step(controller_command)
             # sleep until next cycle

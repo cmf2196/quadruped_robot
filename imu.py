@@ -65,7 +65,6 @@ class IMU():
     # Get the data in radians
     try:
       euler = self.get_euler_angles()
-
       # Check rotation about x axis
       if euler[1] > 1:
         self.state[0] = 'Back'
