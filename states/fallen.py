@@ -18,6 +18,5 @@ class Fallen(State):
             return self.exit('Recovering')
 
         else:
-            # always transition to recovering from falling immediately for now
-            return self.exit('Recovering')
+            pass
           

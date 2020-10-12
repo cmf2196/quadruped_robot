@@ -13,9 +13,10 @@ class Recovering(State):
         pass
 
 
-    def exit(self, new_state):
+    def exit(self, robot , new_state):
         # new_state is a string (the name of the new state to be entered)
         self.clock = 0
+        robot.imu_state = ['fallen' , 'fallen']
         return new_state
 
     def update(self, robot, controller_state):
