@@ -16,7 +16,7 @@ class Recovering(State):
     def exit(self, robot , new_state):
         # new_state is a string (the name of the new state to be entered)
         self.clock = 0
-        robot.imu_state = ['fallen' , 'fallen']
+        robot.imu_state = ['Stable' , 'Stable']
         return new_state
 
     def update(self, robot, controller_state):
@@ -24,5 +24,5 @@ class Recovering(State):
         if robot.motors:
             time.sleep(1)
             robot.motor_controller.recover_from_fall()
-        self.exit('Lay')
+        self.exit(robot , 'Lay')
 
