@@ -24,5 +24,5 @@ class Recovering(State):
         if robot.motors:
             time.sleep(1)
             robot.motor_controller.recover_from_fall()
-        self.exit(robot , 'Lay')
+        return self.exit(robot , 'Lay')
 

@@ -36,17 +36,17 @@ class TrajectoryExecutor:
                              (0.135, -0.15+self.y_offset)]
         self.low = -0.2
         self.high = self.low + 0.05
-        self.lay_height = -0.03
+        self.lay_height = -0.06
 
 
         self.stand_position = [(-0.135, 0.15+self.y_offset, -0.2),
                                (0.135, 0.15+self.y_offset, -0.2),
                                (-0.135, -0.15+self.y_offset, -0.2),
                                (0.135, -0.15+self.y_offset, -0.2)]
-        self.laying_position  = [(-0.135, 0.15+self.y_offset, -0.03),
-                               (0.135, 0.15+self.y_offset, -0.03),
-                               (-0.135, -0.15+self.y_offset, -0.03),
-                               (0.135, -0.15+self.y_offset, -0.03)]
+        self.laying_position  = [(-0.135, 0.15+self.y_offset, self.lay_height),
+                               (0.135, 0.15+self.y_offset, self.lay_height),
+                               (-0.135, -0.15+self.y_offset, self.lay_height),
+                               (0.135, -0.15+self.y_offset, self.lay_height)]
 
         self.current_position = self.stand_position
 
